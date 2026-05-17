@@ -2,11 +2,11 @@
 /**
  * Plugin Name: Site Optimizer by BePlus
  * Plugin URI:  https://beplusthemes.com/plugins/site-optimizer-by-beplus/
- * Description: BePlus Optimizer accelerates WordPress sites through smart caching, asset minification, lazy loading, and cleanup of unnecessary bloat. All optimizations apply exclusively to front-end visitors — your admin experience is never impacted.
+ * Description: Lightweight WordPress optimizer: smart caching, JS/CSS minification, lazy loading, and cleanup. Front-end only — admin is never affected.
  * Version:     1.0.0
  * Author:      BePlus
  * Author URI:  https://beplusthemes.com/
- * License:     GPL v2 or later
+ * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: site-optimizer-by-beplus
  * Domain Path: /languages

@@ -109,7 +109,7 @@ class SOB_Minify {
 		// Reset per-request flag.
 		self::$page_cache_disabled = null;
 
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 			$css_on = $opts['minify_css_files'] ? 'ON' : 'OFF';
 			$js_on  = $opts['minify_js_files']  ? 'ON' : 'OFF';
 			error_log( "[SOB] Minify::init() -- CSS:{$css_on} JS:{$js_on} CACHE_DIR:" . SOB_CACHE_DIR ); // phpcs:ignore
@@ -142,7 +142,7 @@ class SOB_Minify {
 
 		// Skip already-minified files.
 		if ( false !== strpos( $src, '.min.css' ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] CSS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
@@ -150,7 +150,7 @@ class SOB_Minify {
 
 		$file_path = self::url_to_path( $src );
 		if ( ! $file_path ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] CSS skip (url_to_path failed): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src; // External or unresolvable URL.
@@ -159,7 +159,7 @@ class SOB_Minify {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$content = @file_get_contents( $file_path );
 		if ( false === $content || '' === trim( $content ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] CSS skip (unreadable): {$handle} -> {$file_path}" ); // phpcs:ignore
 			}
 			return $src;
@@ -174,7 +174,7 @@ class SOB_Minify {
 
 		if ( ! file_exists( $cache_file ) ) {
 			if ( ! self::ensure_cache_dir() ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 					error_log( "[SOB] CSS skip (cache dir not writable): " . SOB_CACHE_DIR ); // phpcs:ignore
 				}
 				return $src; // Can't write -- fall back to original.
@@ -183,22 +183,22 @@ class SOB_Minify {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 			$written = @file_put_contents( $cache_file, $minified );
 			if ( false === $written ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 					error_log( "[SOB] CSS WRITE FAILED: {$cache_file}" ); // phpcs:ignore
 				}
 				return $src;
 			}
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] CSS cached: {$handle} -> {$cache_file} ({$written} bytes)" ); // phpcs:ignore
 			}
 		} else {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] CSS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
 			}
 		}
 
 		// Preserve the original ?ver= query string for WordPress's own cache-busting.
-		$query = parse_url( $src, PHP_URL_QUERY );
+		$query = wp_parse_url( $src, PHP_URL_QUERY );
 		return $query ? $cache_url . '?' . $query : $cache_url;
 	}
 
@@ -216,7 +216,7 @@ class SOB_Minify {
 
 		// Skip already-minified files.
 		if ( false !== strpos( $src, '.min.js' ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] JS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
@@ -230,7 +230,7 @@ class SOB_Minify {
 
 		$file_path = self::url_to_path( $src );
 		if ( ! $file_path ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] JS skip (url_to_path failed): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
@@ -239,7 +239,7 @@ class SOB_Minify {
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$content = @file_get_contents( $file_path );
 		if ( false === $content || '' === trim( $content ) ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] JS skip (unreadable): {$handle} -> {$file_path}" ); // phpcs:ignore
 			}
 			return $src;
@@ -252,7 +252,7 @@ class SOB_Minify {
 
 		if ( ! file_exists( $cache_file ) ) {
 			if ( ! self::ensure_cache_dir() ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 					error_log( "[SOB] JS skip (cache dir not writable): " . SOB_CACHE_DIR ); // phpcs:ignore
 				}
 				return $src;
@@ -261,21 +261,21 @@ class SOB_Minify {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 			$written = @file_put_contents( $cache_file, $minified );
 			if ( false === $written ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 					error_log( "[SOB] JS WRITE FAILED: {$cache_file}" ); // phpcs:ignore
 				}
 				return $src;
 			}
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] JS cached: {$handle} -> {$cache_file} ({$written} bytes)" ); // phpcs:ignore
 			}
 		} else {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] JS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
 			}
 		}
 
-		$query = parse_url( $src, PHP_URL_QUERY );
+		$query = wp_parse_url( $src, PHP_URL_QUERY );
 		return $query ? $cache_url . '?' . $query : $cache_url;
 	}
 

@@ -319,7 +319,7 @@ class SOB_CSS {
 		$theme_stylesheet_url = get_bloginfo( 'stylesheet_url' );
 		if ( ! empty( $theme_stylesheet_url ) ) {
 			// Use just the path portion so it matches regardless of scheme/host.
-			$parsed = parse_url( $theme_stylesheet_url, PHP_URL_PATH );
+			$parsed = wp_parse_url( $theme_stylesheet_url, PHP_URL_PATH );
 			if ( $parsed ) {
 				$exclude[] = $parsed;
 			}
