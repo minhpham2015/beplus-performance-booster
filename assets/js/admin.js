@@ -52,6 +52,21 @@
 		});
 	});
 
+	// Switch tabs when a Status-tab recommendation link is clicked (href="#sob-tab-foo").
+	document.addEventListener('click', function (e) {
+		var a = e.target.closest && e.target.closest('a.sob-rec-link');
+		if (!a) { return; }
+		var href = a.getAttribute('href') || '';
+		var hashIdx = href.indexOf('#sob-tab-');
+		if (hashIdx === -1) { return; }
+		var tabId = href.substring(hashIdx + '#sob-tab-'.length);
+		if (document.getElementById('sob-tab-' + tabId)) {
+			e.preventDefault();
+			activate(tabId);
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+	});
+
 	// Restore the last-active tab from sessionStorage, defaulting to the
 	// first tab (Dashboard) when nothing is stored or the stored value no
 	// longer refers to an existing panel.
@@ -140,52 +155,6 @@
 				clearBtn.classList.add('sob-clear-btn--empty');
 			}
 		}
-	}
-
-	// -------------------------------------------------------------------------
-	// "Copy System Info" button — Status tab
-	// -------------------------------------------------------------------------
-
-	var copyBtn = document.getElementById('sob-copy-sysinfo');
-	if (copyBtn) {
-		var origLabel = copyBtn.innerHTML;
-
-		copyBtn.addEventListener('click', function () {
-			var sysInfo = document.getElementById('sob-sysinfo-text');
-			if (!sysInfo) { return; }
-
-			var text = sysInfo.textContent;
-
-			function showCopied(success) {
-				copyBtn.textContent = success ? '✅ Copied!' : '❌ Failed';
-				if (success) { copyBtn.classList.add('sob-copied'); }
-				setTimeout(function () {
-					copyBtn.innerHTML = origLabel;
-					copyBtn.classList.remove('sob-copied');
-				}, 2000);
-			}
-
-			if (navigator.clipboard && navigator.clipboard.writeText) {
-				navigator.clipboard.writeText(text)
-					.then(function () { showCopied(true); })
-					.catch(function () { showCopied(false); });
-			} else {
-				// Fallback for older browsers.
-				var ta = document.createElement('textarea');
-				ta.value = text;
-				ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
-				document.body.appendChild(ta);
-				ta.focus();
-				ta.select();
-				try {
-					document.execCommand('copy');
-					showCopied(true);
-				} catch (e) {
-					showCopied(false);
-				}
-				document.body.removeChild(ta);
-			}
-		});
 	}
 
 })();

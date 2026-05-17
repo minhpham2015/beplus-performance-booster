@@ -114,11 +114,17 @@ function sob_default_options() {
 		'font_preload'           => '',  // Font URLs to preload (newline-separated)
 
 		// --- Cache Exclusions ---
-		'cache_exclude_pages'    => '',  // URL patterns to exclude from CSS/JS caching (newline-separated)
+		// Default: exclude WooCommerce-style transactional pages where minified
+		// CSS/JS could break cart/checkout/account UX. Users can edit this list
+		// in Settings → Cache Exclusions.
+		'cache_exclude_pages'    => "/checkout/\n/my-account/\n/cart/",
 		'cache_for_logged_in'    => 0,   // Serve cached CSS/JS to logged-in users (default: off)
 
 		// --- Master Cache Switch ---
-		'cache_enabled'          => 1,   // Master on/off for all CSS/JS minification and caching
+		// Default: OFF on first install. The user explicitly enables it from
+		// the Dashboard toggle after they have reviewed the settings so we
+		// never run optimisations on a site without explicit consent.
+		'cache_enabled'          => 0,
 	);
 }
 
@@ -193,6 +199,14 @@ require_once SOB_PLUGIN_DIR . 'includes/class-sob-minify.php';
 register_activation_hook(
 	__FILE__,
 	function () {
+		// Seed the option row with the safe defaults on first activation so the
+		// master cache toggle is explicitly OFF and exclusion paths are present
+		// in the DB (rather than only living in sob_default_options()).
+		$existing = get_option( SOB_OPTIONS_KEY, null );
+		if ( null === $existing ) {
+			add_option( SOB_OPTIONS_KEY, sob_default_options() );
+		}
+
 		$opts = sob_get_options();
 		if ( $opts['cache_headers'] ) {
 			SOB_Htaccess::add_rules();

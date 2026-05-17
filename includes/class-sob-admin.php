@@ -1082,18 +1082,11 @@ class SOB_Admin {
 	}
 
 	/**
-	 * Render the "AI Optimizer" tab — coming soon placeholder.
-	 */
-	/**
 	 * Render the "Status" tab — live server-side system checks, read-only.
 	 *
-	 * Six panels arranged in a two-column CSS grid:
-	 *  1. PHP Environment          2. WordPress Environment
-	 *  3. Cache Directory          4. Active Plugins
-	 *  5. Server Environment       6. BePlus Optimizer Settings
-	 *
-	 * Includes a "Copy System Info" button that serialises all check data to
-	 * plain text and writes it to the clipboard — useful for support tickets.
+	 * Layout:
+	 *  - Top: Recommendations panel (warnings + suggestions for fixes/improvements).
+	 *  - Below: Six panels in a two-column CSS grid for raw environment data.
 	 */
 	private static function render_section_status() {
 
@@ -1154,11 +1147,9 @@ class SOB_Admin {
 			echo '</div>';
 		};
 
-		// ---- Plain-text export (for "Copy System Info") -------------------------
-		$copy_lines = array( '=== BePlus Optimizer — System Info ===' );
-
 		// =========================================================================
-		// Gather all data up-front so we can build both HTML and copy text in one pass
+		// Gather all data up-front so we can render both check rows and the
+		// recommendations panel from a single source of truth.
 		// =========================================================================
 
 		// ---- PHP ----
@@ -1195,15 +1186,6 @@ class SOB_Admin {
 			? $badge( 'ok', 'OK' )
 			: $badge( 'warn', 'Warning' );
 
-		$copy_lines[] = '';
-		$copy_lines[] = '--- PHP Environment ---';
-		$copy_lines[] = 'PHP Version: ' . $php_ver;
-		$copy_lines[] = 'Memory Limit: ' . $mem;
-		$copy_lines[] = 'Max Execution Time: ' . $max_ex . 's';
-		$copy_lines[] = 'Post Max Size: ' . $post_max;
-		$copy_lines[] = 'Upload Max Filesize: ' . $upload_max;
-		$copy_lines[] = 'Zlib: ' . ( $has_zlib ? 'Yes' : 'No' );
-		$copy_lines[] = 'Mbstring: ' . ( $has_mb ? 'Yes' : 'No' );
 
 		// ---- WordPress ----
 		$wp_ver     = get_bloginfo( 'version' );
@@ -1222,20 +1204,6 @@ class SOB_Admin {
 			? $badge( 'ok', 'OK' )
 			: $badge( 'warn', 'Low' );
 
-		$copy_lines[] = '';
-		$copy_lines[] = '--- WordPress Environment ---';
-		$copy_lines[] = 'WP Version: ' . $wp_ver;
-		$copy_lines[] = 'Active Theme: ' . $theme_name;
-		if ( $parent ) {
-			$copy_lines[] = 'Parent Theme: ' . $parent->get( 'Name' ) . ' v' . $parent->get( 'Version' );
-		}
-		$copy_lines[] = 'Multisite: ' . ( $is_multi ? 'Yes' : 'No' );
-		$copy_lines[] = 'WP_DEBUG: ' . ( $wp_debug ? 'On' : 'Off' );
-		$copy_lines[] = 'SCRIPT_DEBUG: ' . ( $sc_debug ? 'On' : 'Off' );
-		$copy_lines[] = 'WP Memory Limit: ' . $wp_mem;
-		$copy_lines[] = 'WP Max Memory Limit: ' . $wp_max_mem;
-		$copy_lines[] = 'WP Cron: ' . ( $cron_dis ? 'Disabled (external cron)' : 'Enabled' );
-
 		// ---- Cache directory ----
 		$cache_dir    = SOB_CACHE_DIR;
 		$dir_exists   = is_dir( $cache_dir );
@@ -1248,17 +1216,6 @@ class SOB_Admin {
 		$cache_size   = $cache_stats['size'] > 0 ? SOB_Minify::human_filesize( $cache_stats['size'] ) : '0 B';
 		$cache_count  = (int) $cache_stats['count'];
 
-		$copy_lines[] = '';
-		$copy_lines[] = '--- Cache Directory ---';
-		$copy_lines[] = 'Path: ' . $cache_dir;
-		$copy_lines[] = 'Exists: ' . ( $dir_exists ? 'Yes' : 'No (will be created on first use)' );
-		$copy_lines[] = 'Writable: ' . ( $dir_writable ? 'Yes' : 'No' );
-		$copy_lines[] = '.htaccess Path: ' . $ht_path;
-		$copy_lines[] = '.htaccess Exists: ' . ( $ht_exists ? 'Yes' : 'No' );
-		$copy_lines[] = '.htaccess Writable: ' . ( $ht_writable ? 'Yes' : 'No' );
-		$copy_lines[] = 'wp-content Writable: ' . ( $wc_writable ? 'Yes' : 'No' );
-		$copy_lines[] = 'Cached Files: ' . $cache_count;
-		$copy_lines[] = 'Cache Size: ' . $cache_size;
 
 		// ---- Active plugins ----
 		if ( ! function_exists( 'get_plugins' ) ) {
@@ -1302,14 +1259,6 @@ class SOB_Admin {
 			}
 		}
 
-		$copy_lines[] = '';
-		$copy_lines[] = '--- Active Plugins ---';
-		foreach ( $active_plugins as $slug => $data ) {
-			$flag         = isset( $known_conflicts[ $slug ] ) ? '[!] ' : '';
-			$conflict_note = isset( $known_conflicts[ $slug ] ) ? ' — ' . $known_conflicts[ $slug ]['note'] : '';
-			$copy_lines[] = $flag . $data['Name'] . ' v' . $data['Version'] . $conflict_note;
-		}
-
 		// ---- Server environment ----
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$server_soft    = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : 'N/A';
@@ -1320,41 +1269,13 @@ class SOB_Admin {
 		$has_curl       = function_exists( 'curl_version' );
 		$openssl_ver    = defined( 'OPENSSL_VERSION_TEXT' ) ? OPENSSL_VERSION_TEXT : 'N/A';
 
-		$copy_lines[] = '';
-		$copy_lines[] = '--- Server Environment ---';
-		$copy_lines[] = 'Server Software: ' . $server_soft;
-		$copy_lines[] = 'Server OS: ' . $server_os;
-		$copy_lines[] = 'Document Root: ' . $doc_root;
-		$copy_lines[] = 'HTTPS: ' . ( is_ssl() ? 'Yes' : 'No' );
-		$copy_lines[] = 'Home URL: ' . home_url();
-		$copy_lines[] = 'Site URL: ' . site_url();
-		$copy_lines[] = 'WordPress Root (ABSPATH): ' . ABSPATH;
-		$copy_lines[] = 'wp-content Directory: ' . WP_CONTENT_DIR;
-		$copy_lines[] = 'Max Input Vars: ' . $max_input_vars;
-		$copy_lines[] = 'cURL: ' . ( $has_curl ? 'Yes' : 'No' );
-		$copy_lines[] = 'OpenSSL: ' . $openssl_ver;
 
 		// ---- Plugin info ----
 		$opts      = sob_get_options();
 		$cache_url = SOB_Minify::cache_url();
 
-		$copy_lines[] = '';
-		$copy_lines[] = '--- BePlus Optimizer ---';
-		$copy_lines[] = 'Plugin Version: ' . SOB_VERSION;
-		$copy_lines[] = 'Plugin Directory: ' . SOB_PLUGIN_DIR;
-		$copy_lines[] = 'Cache Directory: ' . SOB_CACHE_DIR;
-		$copy_lines[] = 'Cache URL: ' . $cache_url;
-		$copy_lines[] = 'Options Key: ' . SOB_OPTIONS_KEY;
-		$copy_lines[] = 'Master Cache: ' . ( ! empty( $opts['cache_enabled'] ) ? 'On' : 'Off' );
-		$copy_lines[] = 'CSS Minification: ' . ( ! empty( $opts['minify_css_files'] ) ? 'On' : 'Off' );
-		$copy_lines[] = 'JS Minification: ' . ( ! empty( $opts['minify_js_files'] ) ? 'On' : 'Off' );
-		$copy_lines[] = 'Lazy Load: ' . ( ! empty( $opts['lazy_load'] ) ? 'On' : 'Off' );
-		$copy_lines[] = 'JS Defer: ' . ( ! empty( $opts['js_defer'] ) ? 'On' : 'Off' );
 
-		$copy_lines[] = '';
-		$copy_lines[] = '=== End of System Info ===';
 
-		$copy_text = implode( "\n", $copy_lines );
 
 		// =========================================================================
 		// Output HTML
@@ -1368,13 +1289,12 @@ class SOB_Admin {
 
 		<div class="sob-status-tab-header">
 			<h2><?php esc_html_e( 'System Status', 'site-optimizer-by-beplus' ); ?></h2>
-			<button type="button" class="button sob-copy-btn" id="sob-copy-sysinfo">
-				📋 <?php esc_html_e( 'Copy System Info', 'site-optimizer-by-beplus' ); ?>
-			</button>
 		</div>
 
-		<?php /* Hidden element — JS reads this for clipboard copy. */ ?>
-		<pre id="sob-sysinfo-text" style="display:none" aria-hidden="true"><?php echo esc_html( $copy_text ); ?></pre>
+		<?php
+		// ---- Recommendations panel (warnings + suggestions) ----------------------
+		self::render_status_recommendations( $opts, $dir_writable, $dir_exists, $ht_writable, $ht_exists, $wc_writable, $php_ver, $wp_ver, $wp_debug, $is_multi, $has_zlib, $mem_bytes, $flagged_plugins );
+		?>
 
 		<div class="sob-status-grid">
 
@@ -1536,6 +1456,314 @@ class SOB_Admin {
 			</div>
 
 		</div><!-- .sob-status-grid -->
+		<?php
+	}
+
+	/**
+	 * Render the Recommendations panel shown at the top of the Status tab.
+	 *
+	 * Builds a list of:
+	 *  - ❌ Errors   — block correct operation (e.g. cache dir not writable).
+	 *  - ⚠️ Warnings — sub-optimal config (e.g. WP_DEBUG on, old PHP, multisite).
+	 *  - 💡 Suggestions — recommended features not yet enabled (lazy load, defer JS…).
+	 *  - ✅ Good     — shown only when everything looks healthy.
+	 *
+	 * Each item has a one-line "what" + "why/how" message and, when relevant,
+	 * a link that jumps to the right tab so the user can act immediately.
+	 *
+	 * @param array $opts            Current option values.
+	 * @param bool  $dir_writable    Whether the cache directory (or its parent) is writable.
+	 * @param bool  $dir_exists      Whether the cache directory exists.
+	 * @param bool  $ht_writable     Whether the .htaccess file (or its parent) is writable.
+	 * @param bool  $ht_exists       Whether the .htaccess file exists.
+	 * @param bool  $wc_writable     Whether wp-content is writable.
+	 * @param string $php_ver        Current PHP version string.
+	 * @param string $wp_ver         Current WordPress version string.
+	 * @param bool  $wp_debug        Whether WP_DEBUG is on.
+	 * @param bool  $is_multi        Whether this is a multisite install.
+	 * @param bool  $has_zlib        Whether the Zlib PHP extension is loaded.
+	 * @param int   $mem_bytes       PHP memory limit in bytes (-1 = unlimited).
+	 * @param array $flagged_plugins Detected potentially-conflicting active plugins.
+	 */
+	private static function render_status_recommendations(
+		$opts,
+		$dir_writable,
+		$dir_exists,
+		$ht_writable,
+		$ht_exists,
+		$wc_writable,
+		$php_ver,
+		$wp_ver,
+		$wp_debug,
+		$is_multi,
+		$has_zlib,
+		$mem_bytes,
+		$flagged_plugins
+	) {
+		$settings_url = admin_url( 'options-general.php?page=site-optimizer-by-beplus' );
+		$tab_link = static function ( $tab, $label ) use ( $settings_url ) {
+			return '<a href="' . esc_url( $settings_url . '#sob-tab-' . $tab ) . '" class="sob-rec-link">' . esc_html( $label ) . ' →</a>';
+		};
+
+		$errors      = array();
+		$warnings    = array();
+		$suggestions = array();
+
+		// =====================================================================
+		// Errors — things that break or block the plugin
+		// =====================================================================
+
+		if ( ! $wc_writable ) {
+			$errors[] = array(
+				'title'  => __( 'wp-content is not writable', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'The plugin cannot create the cache directory inside wp-content. Set wp-content permissions to 755 (or contact your host).', 'site-optimizer-by-beplus' ),
+			);
+		}
+
+		if ( ! $dir_writable ) {
+			$errors[] = array(
+				'title'  => __( 'Cache directory is not writable', 'site-optimizer-by-beplus' ),
+				'detail' => sprintf(
+					/* translators: %s: cache directory path */
+					__( 'Minified CSS/JS files cannot be written to %s. The plugin will silently fall back to the original (un-minified) files. Set the directory to 755.', 'site-optimizer-by-beplus' ),
+					'<code>' . esc_html( SOB_CACHE_DIR ) . '</code>'
+				),
+			);
+		}
+
+		if ( ! empty( $opts['cache_headers'] ) && ! $ht_writable ) {
+			$errors[] = array(
+				'title'  => __( 'Browser caching is on but .htaccess is not writable', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'The browser cache rules cannot be injected into .htaccess. Make the .htaccess file writable (644) and re-save the Cache Exclusions tab.', 'site-optimizer-by-beplus' ),
+				'action' => $tab_link( 'exclusions', __( 'Open Cache Exclusions', 'site-optimizer-by-beplus' ) ),
+			);
+		}
+
+		// =====================================================================
+		// Warnings — sub-optimal but not breaking
+		// =====================================================================
+
+		if ( empty( $opts['cache_enabled'] ) ) {
+			$warnings[] = array(
+				'title'  => __( 'Master cache is OFF', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'All CSS/JS minification, caching, lazy loading, and cleanup features are currently disabled. Turn on the master toggle on the Dashboard to start optimising.', 'site-optimizer-by-beplus' ),
+				'action' => $tab_link( 'dashboard', __( 'Open Dashboard', 'site-optimizer-by-beplus' ) ),
+			);
+		}
+
+		if ( version_compare( $php_ver, '7.4', '<' ) ) {
+			$warnings[] = array(
+				'title'  => sprintf(
+					/* translators: %s: detected PHP version */
+					__( 'PHP %s is outdated', 'site-optimizer-by-beplus' ),
+					esc_html( $php_ver )
+				),
+				'detail' => __( 'WordPress recommends PHP 7.4 or newer (8.1+ for best performance). Ask your host to upgrade.', 'site-optimizer-by-beplus' ),
+			);
+		}
+
+		if ( -1 !== $mem_bytes && $mem_bytes < 128 * 1024 * 1024 ) {
+			$warnings[] = array(
+				'title'  => __( 'PHP memory_limit is low', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'Minifying many large CSS/JS files can hit the PHP memory limit. Set memory_limit to at least 128M in php.ini or wp-config.php.', 'site-optimizer-by-beplus' ),
+			);
+		}
+
+		if ( $wp_debug ) {
+			$warnings[] = array(
+				'title'  => __( 'WP_DEBUG is on', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'WP_DEBUG should be OFF on production sites. Set WP_DEBUG to false in wp-config.php to avoid surfacing PHP notices to visitors.', 'site-optimizer-by-beplus' ),
+			);
+		}
+
+		if ( $is_multi ) {
+			$warnings[] = array(
+				'title'  => __( 'WordPress Multisite detected', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'This plugin is not designed for Multisite. The cache directory and .htaccess block are shared across all sub-sites. Install it on individual sub-sites instead of network-activating.', 'site-optimizer-by-beplus' ),
+			);
+		}
+
+		if ( ! $has_zlib ) {
+			$warnings[] = array(
+				'title'  => __( 'Zlib extension missing', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'PHP Zlib is not loaded, so gzip compression cannot be applied at the PHP level. Ask your host to enable the zlib extension.', 'site-optimizer-by-beplus' ),
+			);
+		}
+
+		if ( ! empty( $flagged_plugins ) ) {
+			$names = array();
+			foreach ( $flagged_plugins as $data ) {
+				$names[] = $data['Name'];
+			}
+			$warnings[] = array(
+				'title'  => __( 'Another caching/minification plugin is active', 'site-optimizer-by-beplus' ),
+				'detail' => sprintf(
+					/* translators: %s: comma-separated list of plugin names */
+					__( 'Running two optimisation plugins can produce double-minified or broken assets. Detected: %s. Deactivate one of them to be safe.', 'site-optimizer-by-beplus' ),
+					'<em>' . esc_html( implode( ', ', $names ) ) . '</em>'
+				),
+			);
+		}
+
+		// =====================================================================
+		// Suggestions — recommended features not yet enabled
+		// =====================================================================
+
+		// Only suggest enabling features when the master cache is ON; otherwise the
+		// "Master cache is OFF" warning above is the priority action.
+		if ( ! empty( $opts['cache_enabled'] ) ) {
+
+			if ( empty( $opts['lazy_load'] ) ) {
+				$suggestions[] = array(
+					'title'  => __( 'Enable lazy loading', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'Add loading="lazy" to off-screen images so they only load when scrolled into view — large Core Web Vitals win on image-heavy pages.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+
+			if ( empty( $opts['minify_css_files'] ) && $dir_writable ) {
+				$suggestions[] = array(
+					'title'  => __( 'Minify CSS files', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'Strip comments and whitespace from every enqueued CSS file and serve the cached version. Typically cuts CSS payload 10–30%.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+
+			if ( empty( $opts['minify_js_files'] ) && $dir_writable ) {
+				$suggestions[] = array(
+					'title'  => __( 'Minify JS files', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'Strip comments and whitespace from every enqueued JS file. Saves bytes and improves time-to-interactive.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+
+			if ( empty( $opts['js_defer'] ) ) {
+				$suggestions[] = array(
+					'title'  => __( 'Defer non-critical JS', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'Add the defer attribute to scripts so they fetch in parallel and execute after HTML parsing — major boost to First Contentful Paint.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+
+			if ( empty( $opts['remove_emoji'] ) ) {
+				$suggestions[] = array(
+					'title'  => __( 'Remove emoji scripts', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'WordPress loads a JS+CSS pair to polyfill emoji on old browsers that no longer exist. Removing it shaves ~10KB and one HTTP request from every page.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+
+			if ( empty( $opts['cache_headers'] ) && $ht_writable ) {
+				$suggestions[] = array(
+					'title'  => __( 'Enable browser cache headers', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'Inject 1-year cache headers and gzip/brotli rules into .htaccess so returning visitors load static assets from their local cache.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'exclusions', __( 'Open Cache Exclusions tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+
+			if ( empty( $opts['html_minify'] ) ) {
+				$suggestions[] = array(
+					'title'  => __( 'Minify HTML output', 'site-optimizer-by-beplus' ),
+					'detail' => __( 'Collapse whitespace between HTML tags in the rendered page. Small per-request win that adds up across the whole site.', 'site-optimizer-by-beplus' ),
+					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus' ) ),
+				);
+			}
+		}
+
+		$total = count( $errors ) + count( $warnings ) + count( $suggestions );
+
+		// ---- Render -------------------------------------------------------------
+		?>
+		<div class="sob-card sob-recommend-card">
+			<div class="sob-card-header">
+				<h2>
+					<?php esc_html_e( 'Recommendations', 'site-optimizer-by-beplus' ); ?>
+					<?php if ( $total > 0 ) : ?>
+						<span class="sob-rec-count"><?php echo esc_html( (string) $total ); ?></span>
+					<?php endif; ?>
+				</h2>
+				<p>
+					<?php esc_html_e( 'Targeted fixes and improvements to keep caching healthy and your site fast.', 'site-optimizer-by-beplus' ); ?>
+				</p>
+			</div>
+			<div class="sob-card-body">
+
+				<?php if ( 0 === $total ) : ?>
+					<div class="sob-rec-item sob-rec-item--ok">
+						<span class="sob-rec-icon" aria-hidden="true">✅</span>
+						<div class="sob-rec-text">
+							<strong><?php esc_html_e( 'Everything looks good', 'site-optimizer-by-beplus' ); ?></strong>
+							<p><?php esc_html_e( 'No errors, warnings, or pending recommendations were detected on this site.', 'site-optimizer-by-beplus' ); ?></p>
+						</div>
+					</div>
+				<?php else : ?>
+
+					<?php foreach ( $errors as $item ) : ?>
+					<div class="sob-rec-item sob-rec-item--error">
+						<span class="sob-rec-icon" aria-hidden="true">⛔</span>
+						<div class="sob-rec-text">
+							<strong><?php echo esc_html( $item['title'] ); ?></strong>
+							<p>
+								<?php
+								// $detail may contain pre-escaped HTML (e.g. <code>, <em>) built above.
+								echo wp_kses(
+									$item['detail'],
+									array(
+										'code' => array(),
+										'em'   => array(),
+										'strong' => array(),
+									)
+								);
+								?>
+							</p>
+							<?php if ( ! empty( $item['action'] ) ) : ?>
+								<?php echo wp_kses( $item['action'], array( 'a' => array( 'href' => array(), 'class' => array() ) ) ); ?>
+							<?php endif; ?>
+						</div>
+					</div>
+					<?php endforeach; ?>
+
+					<?php foreach ( $warnings as $item ) : ?>
+					<div class="sob-rec-item sob-rec-item--warn">
+						<span class="sob-rec-icon" aria-hidden="true">⚠️</span>
+						<div class="sob-rec-text">
+							<strong><?php echo esc_html( $item['title'] ); ?></strong>
+							<p>
+								<?php
+								echo wp_kses(
+									$item['detail'],
+									array(
+										'code'   => array(),
+										'em'     => array(),
+										'strong' => array(),
+									)
+								);
+								?>
+							</p>
+							<?php if ( ! empty( $item['action'] ) ) : ?>
+								<?php echo wp_kses( $item['action'], array( 'a' => array( 'href' => array(), 'class' => array() ) ) ); ?>
+							<?php endif; ?>
+						</div>
+					</div>
+					<?php endforeach; ?>
+
+					<?php foreach ( $suggestions as $item ) : ?>
+					<div class="sob-rec-item sob-rec-item--tip">
+						<span class="sob-rec-icon" aria-hidden="true">💡</span>
+						<div class="sob-rec-text">
+							<strong><?php echo esc_html( $item['title'] ); ?></strong>
+							<p><?php echo esc_html( $item['detail'] ); ?></p>
+							<?php if ( ! empty( $item['action'] ) ) : ?>
+								<?php echo wp_kses( $item['action'], array( 'a' => array( 'href' => array(), 'class' => array() ) ) ); ?>
+							<?php endif; ?>
+						</div>
+					</div>
+					<?php endforeach; ?>
+
+				<?php endif; ?>
+
+			</div>
+		</div>
 		<?php
 	}
 
@@ -2130,3 +2358,9 @@ gzip_min_length 1024;'
 		}
 	}
 }
+
+// Hard-stop the PHP parser at end-of-class so any stray whitespace/binary
+// padding appended by some editors (which would otherwise trigger a
+// "unexpected character 0x00" parse error) is treated as inert file data.
+__HALT_COMPILER();
+                                                                                                                                                                   
