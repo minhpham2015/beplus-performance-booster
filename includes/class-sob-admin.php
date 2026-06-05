@@ -85,7 +85,7 @@ class SOB_Admin {
 
 		// CQ-3: Tab-switching logic lives in an external file so it can be
 		// cached by the browser and linted/tested independently.
-		if ( 'settings_page_site-optimizer-by-beplus' === $hook_suffix ) {
+		if ( 'settings_page_site-optimizer-by-beplus-master' === $hook_suffix ) {
 			wp_enqueue_script(
 				'sob-admin-js',
 				SOB_PLUGIN_URL . 'assets/js/admin.js',
@@ -100,9 +100,9 @@ class SOB_Admin {
 				array(
 					'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
 					'toggleNonce'    => wp_create_nonce( 'sob_toggle_cache' ),
-					'labelEnabled'   => __( 'Enabled', 'site-optimizer-by-beplus' ),
-					'labelDisabled'  => __( 'Disabled', 'site-optimizer-by-beplus' ),
-					'noticeDisabled' => __( 'All performance optimizations are currently disabled. Your site is running without any caching, minification, lazy loading, or cleanup features.', 'site-optimizer-by-beplus' ),
+					'labelEnabled'   => __( 'Enabled', 'site-optimizer-by-beplus-master' ),
+					'labelDisabled'  => __( 'Disabled', 'site-optimizer-by-beplus-master' ),
+					'noticeDisabled' => __( 'All performance optimizations are currently disabled. Your site is running without any caching, minification, lazy loading, or cleanup features.', 'site-optimizer-by-beplus-master' ),
 				)
 			);
 		}
@@ -135,10 +135,10 @@ class SOB_Admin {
 	 */
 	public static function add_settings_page() {
 		add_options_page(
-			__( 'BePlus Optimizer', 'site-optimizer-by-beplus' ),
-			__( 'BePlus Optimizer', 'site-optimizer-by-beplus' ),
+			__( 'BePlus Optimizer', 'site-optimizer-by-beplus-master' ),
+			__( 'BePlus Optimizer', 'site-optimizer-by-beplus-master' ),
 			'manage_options',
-			'site-optimizer-by-beplus',
+			'site-optimizer-by-beplus-master',
 			array( __CLASS__, 'render_settings_page' )
 		);
 	}
@@ -281,18 +281,18 @@ class SOB_Admin {
 
 		// Tab definitions: id => label.
 		$tabs = array(
-			'dashboard'    => '📊 ' . __( 'Dashboard', 'site-optimizer-by-beplus' ),
-			'cache_files'  => '⚡ ' . __( 'Cache Files', 'site-optimizer-by-beplus' ),
-			'fonts'        => '🔤 ' . __( 'Fonts', 'site-optimizer-by-beplus' ),
-			'cleanup'      => '🧹 ' . __( 'Cleanup', 'site-optimizer-by-beplus' ),
-			'exclusions'   => '🚫 ' . __( 'Cache Exclusions', 'site-optimizer-by-beplus' ),
-			'status'       => '🔍 ' . __( 'Status', 'site-optimizer-by-beplus' ),
-			'ai_optimizer' => '🤖 ' . __( 'AI Optimizer', 'site-optimizer-by-beplus' ),
+			'dashboard'    => '📊 ' . __( 'Dashboard', 'site-optimizer-by-beplus-master' ),
+			'cache_files'  => '⚡ ' . __( 'Cache Files', 'site-optimizer-by-beplus-master' ),
+			'fonts'        => '🔤 ' . __( 'Fonts', 'site-optimizer-by-beplus-master' ),
+			'cleanup'      => '🧹 ' . __( 'Cleanup', 'site-optimizer-by-beplus-master' ),
+			'exclusions'   => '🚫 ' . __( 'Cache Exclusions', 'site-optimizer-by-beplus-master' ),
+			'status'       => '🔍 ' . __( 'Status', 'site-optimizer-by-beplus-master' ),
+			'ai_optimizer' => '🤖 ' . __( 'AI Optimizer', 'site-optimizer-by-beplus-master' ),
 		);
 		?>
 		<div class="wrap sob-settings-wrap">
-			<h1><?php esc_html_e( 'BePlus Optimizer', 'site-optimizer-by-beplus' ); ?></h1>
-			<p class="sob-tagline"><?php esc_html_e( 'BePlus Optimizer is a lightweight performance plugin that accelerates your WordPress site through smart caching, asset minification, lazy loading, and cleanup of unnecessary bloat. Optimizations apply exclusively to front-end visitors — your admin experience is never impacted.', 'site-optimizer-by-beplus' ); ?></p>
+			<h1><?php esc_html_e( 'BePlus Optimizer', 'site-optimizer-by-beplus-master' ); ?></h1>
+			<p class="sob-tagline"><?php esc_html_e( 'BePlus Optimizer is a lightweight performance plugin that accelerates your WordPress site through smart caching, asset minification, lazy loading, and cleanup of unnecessary bloat. Optimizations apply exclusively to front-end visitors — your admin experience is never impacted.', 'site-optimizer-by-beplus-master' ); ?></p>
 
 			<!-- Tab navigation -->
 			<div class="sob-tabs-nav" role="tablist">
@@ -334,7 +334,7 @@ class SOB_Admin {
 				</div>
 
 				<div class="sob-save-bar" id="sob-save-bar">
-					<?php submit_button( __( 'Save Settings', 'site-optimizer-by-beplus' ), 'primary', 'submit', false ); ?>
+					<?php submit_button( __( 'Save Settings', 'site-optimizer-by-beplus-master' ), 'primary', 'submit', false ); ?>
 				</div>
 			</form>
 
@@ -367,17 +367,17 @@ class SOB_Admin {
 	 */
 	private static function render_section_dashboard( $opts, $clear_cache_url, $cache_dir_writable = true ) {
 		$stats       = SOB_Minify::get_cache_stats();
-		$settings_url = admin_url( 'options-general.php?page=site-optimizer-by-beplus' );
+		$settings_url = admin_url( 'options-general.php?page=site-optimizer-by-beplus-master' );
 		$htaccess_writable = SOB_Htaccess::is_writable();
 
 		// Recommended features for the quick-enable table.
 		$recommended = array(
-			'lazy_load'        => __( 'Lazy Load Images',          'site-optimizer-by-beplus' ),
-			'minify_css_files' => __( 'Minify CSS Files',          'site-optimizer-by-beplus' ),
-			'minify_js_files'  => __( 'Minify JS Files',           'site-optimizer-by-beplus' ),
-			'js_defer'         => __( 'Defer Non-Critical JS',     'site-optimizer-by-beplus' ),
-			'remove_emoji'     => __( 'Remove Emoji Scripts',      'site-optimizer-by-beplus' ),
-			'cache_headers'    => __( 'Browser Cache (.htaccess)', 'site-optimizer-by-beplus' ),
+			'lazy_load'        => __( 'Lazy Load Images',          'site-optimizer-by-beplus-master' ),
+			'minify_css_files' => __( 'Minify CSS Files',          'site-optimizer-by-beplus-master' ),
+			'minify_js_files'  => __( 'Minify JS Files',           'site-optimizer-by-beplus-master' ),
+			'js_defer'         => __( 'Defer Non-Critical JS',     'site-optimizer-by-beplus-master' ),
+			'remove_emoji'     => __( 'Remove Emoji Scripts',      'site-optimizer-by-beplus-master' ),
+			'cache_headers'    => __( 'Browser Cache (.htaccess)', 'site-optimizer-by-beplus-master' ),
 		);
 		?>
 
@@ -388,7 +388,7 @@ class SOB_Admin {
 				<span class="sob-stat-icon dashicons dashicons-media-default"></span>
 				<div class="sob-stat-body">
 					<span class="sob-stat-value"><?php echo esc_html( $stats['count'] ); ?></span>
-					<span class="sob-stat-label"><?php esc_html_e( 'Cached Files', 'site-optimizer-by-beplus' ); ?></span>
+					<span class="sob-stat-label"><?php esc_html_e( 'Cached Files', 'site-optimizer-by-beplus-master' ); ?></span>
 				</div>
 			</div>
 
@@ -398,7 +398,7 @@ class SOB_Admin {
 					<span class="sob-stat-value">
 						<?php echo $stats['size'] > 0 ? esc_html( SOB_Minify::human_filesize( $stats['size'] ) ) : '—'; ?>
 					</span>
-					<span class="sob-stat-label"><?php esc_html_e( 'Total Size', 'site-optimizer-by-beplus' ); ?></span>
+					<span class="sob-stat-label"><?php esc_html_e( 'Total Size', 'site-optimizer-by-beplus-master' ); ?></span>
 				</div>
 			</div>
 
@@ -408,7 +408,7 @@ class SOB_Admin {
 					<span class="sob-stat-value sob-stat-value--sm">
 						<?php echo $stats['newest'] ? esc_html( wp_date( get_option( 'date_format' ), $stats['newest'] ) ) : '—'; ?>
 					</span>
-					<span class="sob-stat-label"><?php esc_html_e( 'Last Cached', 'site-optimizer-by-beplus' ); ?></span>
+					<span class="sob-stat-label"><?php esc_html_e( 'Last Cached', 'site-optimizer-by-beplus-master' ); ?></span>
 				</div>
 			</div>
 
@@ -416,9 +416,9 @@ class SOB_Admin {
 				<span class="sob-stat-icon dashicons <?php echo esc_attr( $stats['writable'] ? 'dashicons-yes-alt' : 'dashicons-warning' ); ?>"></span>
 				<div class="sob-stat-body">
 					<span class="sob-stat-value sob-stat-value--sm">
-						<?php echo $stats['writable'] ? esc_html__( 'Writable', 'site-optimizer-by-beplus' ) : esc_html__( 'Not writable', 'site-optimizer-by-beplus' ); ?>
+						<?php echo $stats['writable'] ? esc_html__( 'Writable', 'site-optimizer-by-beplus-master' ) : esc_html__( 'Not writable', 'site-optimizer-by-beplus-master' ); ?>
 					</span>
-					<span class="sob-stat-label"><?php esc_html_e( 'Cache Directory', 'site-optimizer-by-beplus' ); ?></span>
+					<span class="sob-stat-label"><?php esc_html_e( 'Cache Directory', 'site-optimizer-by-beplus-master' ); ?></span>
 				</div>
 			</div>
 
@@ -427,9 +427,9 @@ class SOB_Admin {
 		<?php if ( ! $stats['writable'] ) : ?>
 		<div class="notice notice-warning sob-notice-warning inline" style="margin-top:12px;">
 			<p>
-				<?php esc_html_e( 'Cache directory is not writable:', 'site-optimizer-by-beplus' ); ?>
+				<?php esc_html_e( 'Cache directory is not writable:', 'site-optimizer-by-beplus-master' ); ?>
 				<code><?php echo esc_html( $stats['dir'] ); ?></code><br>
-				<?php esc_html_e( 'Please check directory permissions (755 recommended).', 'site-optimizer-by-beplus' ); ?>
+				<?php esc_html_e( 'Please check directory permissions (755 recommended).', 'site-optimizer-by-beplus-master' ); ?>
 			</p>
 		</div>
 		<?php endif; ?>
@@ -440,7 +440,7 @@ class SOB_Admin {
 			<!-- Cache Actions card -->
 			<div class="sob-card sob-actions-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'Cache Actions', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'Cache Actions', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body">
 
@@ -448,25 +448,25 @@ class SOB_Admin {
 					<?php $cache_on = ! empty( $opts['cache_enabled'] ); ?>
 					<div class="sob-toggle-section" id="sob-toggle-section">
 						<div class="sob-toggle-wrap">
-							<label class="sob-toggle" for="sob-cache-enabled-toggle" aria-label="<?php esc_attr_e( 'Cache Optimizations', 'site-optimizer-by-beplus' ); ?>">
+							<label class="sob-toggle" for="sob-cache-enabled-toggle" aria-label="<?php esc_attr_e( 'Cache Optimizations', 'site-optimizer-by-beplus-master' ); ?>">
 								<input type="checkbox"
 									id="sob-cache-enabled-toggle"
 									<?php checked( $cache_on ); ?>>
 								<span class="sob-toggle-slider"></span>
 							</label>
 							<div class="sob-toggle-labels">
-								<span class="sob-toggle-title"><?php esc_html_e( 'Cache Optimizations', 'site-optimizer-by-beplus' ); ?></span>
+								<span class="sob-toggle-title"><?php esc_html_e( 'Cache Optimizations', 'site-optimizer-by-beplus-master' ); ?></span>
 								<span class="sob-toggle-status <?php echo $cache_on ? 'sob-toggle-status--on' : 'sob-toggle-status--off'; ?>" id="sob-toggle-status">
-									<?php echo $cache_on ? esc_html__( 'Enabled', 'site-optimizer-by-beplus' ) : esc_html__( 'Disabled', 'site-optimizer-by-beplus' ); ?>
+									<?php echo $cache_on ? esc_html__( 'Enabled', 'site-optimizer-by-beplus-master' ) : esc_html__( 'Disabled', 'site-optimizer-by-beplus-master' ); ?>
 								</span>
 							</div>
 						</div>
-						<p class="sob-toggle-desc"><?php esc_html_e( 'Enable or disable all CSS/JS minification and caching globally.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="sob-toggle-desc"><?php esc_html_e( 'Enable or disable all CSS/JS minification and caching globally.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 
 					<?php if ( ! $cache_on ) : ?>
 					<div class="notice notice-warning inline sob-cache-disabled-notice" id="sob-cache-disabled-notice">
-						<p>&#9888; <?php esc_html_e( 'All performance optimizations are currently disabled. Your site is running without any caching, minification, lazy loading, or cleanup features.', 'site-optimizer-by-beplus' ); ?></p>
+						<p>&#9888; <?php esc_html_e( 'All performance optimizations are currently disabled. Your site is running without any caching, minification, lazy loading, or cleanup features.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<?php else : ?>
 					<div class="notice notice-warning inline sob-cache-disabled-notice" id="sob-cache-disabled-notice" style="display:none;"></div>
@@ -477,7 +477,7 @@ class SOB_Admin {
 						   id="sob-clear-cache-btn"
 						   class="button <?php echo esc_attr( ! $cache_on || 0 === $stats['count'] ? 'sob-clear-btn sob-clear-btn--empty' : 'sob-clear-btn' ); ?>"
 						   <?php echo ! $cache_on ? 'aria-disabled="true" tabindex="-1"' : ''; ?>>
-							<?php esc_html_e( 'Clear CSS/JS Cache', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Clear CSS/JS Cache', 'site-optimizer-by-beplus-master' ); ?>
 						</a>
 					</div>
 
@@ -486,19 +486,19 @@ class SOB_Admin {
 							<?php
 							printf(
 								/* translators: 1: count, 2: singular/plural, 3: size */
-								esc_html__( '%1$s %2$s · %3$s', 'site-optimizer-by-beplus' ),
+								esc_html__( '%1$s %2$s · %3$s', 'site-optimizer-by-beplus-master' ),
 								esc_html( $stats['count'] ),
-								esc_html( _n( 'file', 'files', $stats['count'], 'site-optimizer-by-beplus' ) ),
+								esc_html( _n( 'file', 'files', $stats['count'], 'site-optimizer-by-beplus-master' ) ),
 								esc_html( SOB_Minify::human_filesize( $stats['size'] ) )
 							);
 							?>
 						<?php else : ?>
-							<?php esc_html_e( 'Cache is empty', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Cache is empty', 'site-optimizer-by-beplus-master' ); ?>
 						<?php endif; ?>
 					</p>
 					<a href="<?php echo esc_url( $settings_url ); ?>" class="sob-refresh-link">
 						<span class="dashicons dashicons-update"></span>
-						<?php esc_html_e( 'Refresh Stats', 'site-optimizer-by-beplus' ); ?>
+						<?php esc_html_e( 'Refresh Stats', 'site-optimizer-by-beplus-master' ); ?>
 					</a>
 				</div>
 			</div>
@@ -506,15 +506,15 @@ class SOB_Admin {
 			<!-- Recommended Settings card -->
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'Recommended Settings', 'site-optimizer-by-beplus' ); ?></h2>
-					<p><?php esc_html_e( 'Quick-enable the most impactful performance features.', 'site-optimizer-by-beplus' ); ?></p>
+					<h2><?php esc_html_e( 'Recommended Settings', 'site-optimizer-by-beplus-master' ); ?></h2>
+					<p><?php esc_html_e( 'Quick-enable the most impactful performance features.', 'site-optimizer-by-beplus-master' ); ?></p>
 				</div>
 				<div class="sob-card-body sob-card-body--flush">
 					<table class="sob-rec-table">
 						<thead>
 							<tr>
-								<th><?php esc_html_e( 'Feature', 'site-optimizer-by-beplus' ); ?></th>
-								<th><?php esc_html_e( 'Status', 'site-optimizer-by-beplus' ); ?></th>
+								<th><?php esc_html_e( 'Feature', 'site-optimizer-by-beplus-master' ); ?></th>
+								<th><?php esc_html_e( 'Status', 'site-optimizer-by-beplus-master' ); ?></th>
 								<th></th>
 							</tr>
 						</thead>
@@ -527,23 +527,23 @@ class SOB_Admin {
 								<td><?php echo esc_html( $label ); ?></td>
 								<td>
 									<?php if ( $is_on ) : ?>
-										<span class="sob-status-badge active"><?php esc_html_e( 'Active', 'site-optimizer-by-beplus' ); ?></span>
+										<span class="sob-status-badge active"><?php esc_html_e( 'Active', 'site-optimizer-by-beplus-master' ); ?></span>
 									<?php else : ?>
-										<span class="sob-status-badge inactive"><?php esc_html_e( 'Inactive', 'site-optimizer-by-beplus' ); ?></span>
+										<span class="sob-status-badge inactive"><?php esc_html_e( 'Inactive', 'site-optimizer-by-beplus-master' ); ?></span>
 									<?php endif; ?>
 								</td>
 								<td>
 									<?php if ( $is_on ) : ?>
 										<span class="sob-status-check dashicons dashicons-yes"></span>
 									<?php elseif ( $locked ) : ?>
-										<span class="description" style="font-size:11px;"><?php esc_html_e( 'N/A', 'site-optimizer-by-beplus' ); ?></span>
+										<span class="description" style="font-size:11px;"><?php esc_html_e( 'N/A', 'site-optimizer-by-beplus-master' ); ?></span>
 									<?php else : ?>
 										<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 											<input type="hidden" name="action" value="sob_quick_enable">
 											<input type="hidden" name="sob_option" value="<?php echo esc_attr( $key ); ?>">
 											<?php wp_nonce_field( 'sob_quick_enable_' . $key, 'sob_quick_enable_nonce' ); ?>
 											<button type="submit" class="button button-secondary sob-quick-enable-btn">
-												<?php esc_html_e( 'Enable', 'site-optimizer-by-beplus' ); ?>
+												<?php esc_html_e( 'Enable', 'site-optimizer-by-beplus-master' ); ?>
 											</button>
 										</form>
 									<?php endif; ?>
@@ -560,22 +560,22 @@ class SOB_Admin {
 		<!-- ── Row 3: Plugin Info strip ───────────────────────────────────── -->
 		<div class="sob-info-strip">
 			<div class="sob-info-strip-left">
-				<strong><?php esc_html_e( 'BePlus Optimizer', 'site-optimizer-by-beplus' ); ?></strong>
+				<strong><?php esc_html_e( 'BePlus Optimizer', 'site-optimizer-by-beplus-master' ); ?></strong>
 				<span class="sob-info-version">v<?php echo esc_html( SOB_VERSION ); ?></span>
 				<span class="sob-info-sep">·</span>
-				<span><?php esc_html_e( 'A complete performance toolkit for WordPress — cache, minify, lazy load, and clean up your site with ease.', 'site-optimizer-by-beplus' ); ?></span>
+				<span><?php esc_html_e( 'A complete performance toolkit for WordPress — cache, minify, lazy load, and clean up your site with ease.', 'site-optimizer-by-beplus-master' ); ?></span>
 			</div>
 			<div class="sob-info-strip-links">
 				<a href="https://beplusthemes.com/plugins/site-optimizer-by-beplus/" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'Documentation', 'site-optimizer-by-beplus' ); ?>
+					<?php esc_html_e( 'Documentation', 'site-optimizer-by-beplus-master' ); ?>
 				</a>
 				<span class="sob-info-sep">·</span>
 				<a href="https://beplusthemes.com/support/" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'Support', 'site-optimizer-by-beplus' ); ?>
+					<?php esc_html_e( 'Support', 'site-optimizer-by-beplus-master' ); ?>
 				</a>
 				<span class="sob-info-sep">·</span>
 				<a href="https://wordpress.org/plugins/site-optimizer-by-beplus/#reviews" target="_blank" rel="noopener noreferrer">
-					★★★★★ <?php esc_html_e( 'Rate this plugin', 'site-optimizer-by-beplus' ); ?>
+					★★★★★ <?php esc_html_e( 'Rate this plugin', 'site-optimizer-by-beplus-master' ); ?>
 				</a>
 			</div>
 		</div>
@@ -594,15 +594,15 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'JavaScript', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Control how JavaScript files are loaded and processed to reduce render-blocking and improve page speed.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'JavaScript', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Control how JavaScript files are loaded and processed to reduce render-blocking and improve page speed.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<!-- Minify JS Files -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_minify_js_files"><?php esc_html_e( 'Minify JS Files', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_minify_js_files"><?php esc_html_e( 'Minify JS Files', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
@@ -610,10 +610,10 @@ class SOB_Admin {
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[minify_js_files]" value="1"
 								<?php checked( $opts['minify_js_files'], 1 ); ?>
 								<?php disabled( ! $cache_dir_writable, true ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Minify all enqueued JS files (strip comments, trim whitespace) and serve cached versions. Already-minified *.min.js and external CDN scripts are skipped automatically.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Minify all enqueued JS files (strip comments, trim whitespace) and serve cached versions. Already-minified *.min.js and external CDN scripts are skipped automatically.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 						<?php if ( ! $cache_dir_writable ) : ?>
-						<p class="sob-warn"><?php esc_html_e( 'Cache directory is not writable — minification disabled.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="sob-warn"><?php esc_html_e( 'Cache directory is not writable — minification disabled.', 'site-optimizer-by-beplus-master' ); ?></p>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -621,14 +621,14 @@ class SOB_Admin {
 				<!-- Defer Non-Critical JS -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_js_defer"><?php esc_html_e( 'Defer Non-Critical JS', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_js_defer"><?php esc_html_e( 'Defer Non-Critical JS', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_js_defer"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[js_defer]" value="1"
 								<?php checked( $opts['js_defer'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Add the defer attribute to non-excluded script tags so they are fetched in parallel and executed after HTML parsing. jQuery and jquery-migrate are always protected.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Add the defer attribute to non-excluded script tags so they are fetched in parallel and executed after HTML parsing. jQuery and jquery-migrate are always protected.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -636,14 +636,14 @@ class SOB_Admin {
 				<!-- Delay JS Execution -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_js_delay"><?php esc_html_e( 'Delay JS Execution', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_js_delay"><?php esc_html_e( 'Delay JS Execution', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_js_delay"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[js_delay]" value="1"
 								<?php checked( $opts['js_delay'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Delay all non-excluded scripts until the first user interaction (mousemove, click, scroll, keydown, touch). Falls back automatically after 5 seconds.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Delay all non-excluded scripts until the first user interaction (mousemove, click, scroll, keydown, touch). Falls back automatically after 5 seconds.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -651,16 +651,16 @@ class SOB_Admin {
 				<!-- Exclude JS Files -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_js_exclude"><?php esc_html_e( 'Exclude JS Files', 'site-optimizer-by-beplus' ); ?></label>
-						<p class="sob-row-desc"><?php esc_html_e( 'One URL keyword per line.', 'site-optimizer-by-beplus' ); ?></p>
+						<label for="sob_js_exclude"><?php esc_html_e( 'Exclude JS Files', 'site-optimizer-by-beplus-master' ); ?></label>
+						<p class="sob-row-desc"><?php esc_html_e( 'One URL keyword per line.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<div class="sob-form-row-field">
 						<textarea id="sob_js_exclude"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[js_exclude]"
 							rows="4" class="large-text code"><?php echo esc_textarea( $opts['js_exclude'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'Scripts whose src contains any of these strings are excluded from delay, defer, and minify.', 'site-optimizer-by-beplus' ); ?><br>
-							<?php esc_html_e( 'Example: jquery, woocommerce, my-critical-script', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Scripts whose src contains any of these strings are excluded from delay, defer, and minify.', 'site-optimizer-by-beplus-master' ); ?><br>
+							<?php esc_html_e( 'Example: jquery, woocommerce, my-critical-script', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -668,8 +668,8 @@ class SOB_Admin {
 				<!-- Remove JS Handles -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_remove_js_handles"><?php esc_html_e( 'Remove JS Handles', 'site-optimizer-by-beplus' ); ?></label>
-						<p class="sob-row-desc"><?php esc_html_e( 'One WordPress script handle per line.', 'site-optimizer-by-beplus' ); ?></p>
+						<label for="sob_remove_js_handles"><?php esc_html_e( 'Remove JS Handles', 'site-optimizer-by-beplus-master' ); ?></label>
+						<p class="sob-row-desc"><?php esc_html_e( 'One WordPress script handle per line.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<div class="sob-form-row-field">
 						<textarea id="sob_remove_js_handles"
@@ -677,8 +677,8 @@ class SOB_Admin {
 							rows="5" class="large-text code"
 							placeholder="jquery-migrate"><?php echo esc_textarea( $opts['remove_js_handles'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'Completely dequeue specific JavaScript files by handle. Use this to remove scripts that are loaded by WordPress or plugins but are not needed on your site.', 'site-optimizer-by-beplus' ); ?><br>
-							<?php esc_html_e( 'Example: jquery-migrate, wp-embed, my-plugin-script', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Completely dequeue specific JavaScript files by handle. Use this to remove scripts that are loaded by WordPress or plugins but are not needed on your site.', 'site-optimizer-by-beplus-master' ); ?><br>
+							<?php esc_html_e( 'Example: jquery-migrate, wp-embed, my-plugin-script', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -691,15 +691,15 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'CSS', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Minify and optimize your stylesheets to reduce file size, eliminate render-blocking requests, and improve load times.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'CSS', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Minify and optimize your stylesheets to reduce file size, eliminate render-blocking requests, and improve load times.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<!-- Minify CSS Files -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_minify_css_files"><?php esc_html_e( 'Minify CSS Files', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_minify_css_files"><?php esc_html_e( 'Minify CSS Files', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
@@ -707,10 +707,10 @@ class SOB_Admin {
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[minify_css_files]" value="1"
 								<?php checked( $opts['minify_css_files'], 1 ); ?>
 								<?php disabled( ! $cache_dir_writable, true ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Minify all enqueued CSS files (strip comments, collapse whitespace) and serve cached versions. Already-minified *.min.css and external CDN stylesheets are skipped.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Minify all enqueued CSS files (strip comments, collapse whitespace) and serve cached versions. Already-minified *.min.css and external CDN stylesheets are skipped.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 						<?php if ( ! $cache_dir_writable ) : ?>
-						<p class="sob-warn"><?php esc_html_e( 'Cache directory is not writable — minification disabled.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="sob-warn"><?php esc_html_e( 'Cache directory is not writable — minification disabled.', 'site-optimizer-by-beplus-master' ); ?></p>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -718,14 +718,14 @@ class SOB_Admin {
 				<!-- Minify Inline CSS -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_css_minify"><?php esc_html_e( 'Minify Inline CSS', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_css_minify"><?php esc_html_e( 'Minify Inline CSS', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_css_minify"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[css_minify]" value="1"
 								<?php checked( $opts['css_minify'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Strip whitespace and comments from inline &lt;style&gt; blocks in &lt;head&gt;. License comments (/*! … */) are preserved.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Strip whitespace and comments from inline &lt;style&gt; blocks in &lt;head&gt;. License comments (/*! … */) are preserved.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -733,47 +733,47 @@ class SOB_Admin {
 				<!-- Non-Render-Blocking CSS -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_css_non_blocking"><?php esc_html_e( 'Non-Render-Blocking CSS', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_css_non_blocking"><?php esc_html_e( 'Non-Render-Blocking CSS', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_css_non_blocking"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[css_non_blocking]" value="1"
 								<?php checked( $opts['css_non_blocking'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Convert stylesheet links to preload + onload swap so they do not block rendering. A &lt;noscript&gt; fallback is included.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Convert stylesheet links to preload + onload swap so they do not block rendering. A &lt;noscript&gt; fallback is included.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
-						<p class="description"><?php esc_html_e( 'Tip: Exclude your theme\'s main stylesheet if you see a flash of unstyled content (FOUC).', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Tip: Exclude your theme\'s main stylesheet if you see a flash of unstyled content (FOUC).', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 				</div>
 
 				<!-- Inline All CSS -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_css_inline_all"><?php esc_html_e( 'Inline All CSS', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_css_inline_all"><?php esc_html_e( 'Inline All CSS', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_css_inline_all"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[css_inline_all]" value="1"
 								<?php checked( $opts['css_inline_all'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Read every local enqueued stylesheet and output its (minified) content as an inline &lt;style&gt; block. Eliminates render-blocking HTTP requests. External CDN stylesheets are kept as links.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Read every local enqueued stylesheet and output its (minified) content as an inline &lt;style&gt; block. Eliminates render-blocking HTTP requests. External CDN stylesheets are kept as links.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
-						<p class="description"><?php esc_html_e( 'Tip: Use "Exclude CSS Files" to keep large stylesheets as external links.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Tip: Use "Exclude CSS Files" to keep large stylesheets as external links.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 				</div>
 
 				<!-- Exclude CSS Files -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_css_exclude"><?php esc_html_e( 'Exclude CSS Files', 'site-optimizer-by-beplus' ); ?></label>
-						<p class="sob-row-desc"><?php esc_html_e( 'One URL keyword per line.', 'site-optimizer-by-beplus' ); ?></p>
+						<label for="sob_css_exclude"><?php esc_html_e( 'Exclude CSS Files', 'site-optimizer-by-beplus-master' ); ?></label>
+						<p class="sob-row-desc"><?php esc_html_e( 'One URL keyword per line.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<div class="sob-form-row-field">
 						<textarea id="sob_css_exclude"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[css_exclude]"
 							rows="4" class="large-text code"><?php echo esc_textarea( $opts['css_exclude'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'Stylesheets whose href contains any of these strings are excluded from Non-Blocking, Inline All, and Minify CSS Files.', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Stylesheets whose href contains any of these strings are excluded from Non-Blocking, Inline All, and Minify CSS Files.', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -781,16 +781,16 @@ class SOB_Admin {
 				<!-- Remove CSS Handles -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_css_remove_handles"><?php esc_html_e( 'Remove CSS Handles', 'site-optimizer-by-beplus' ); ?></label>
-						<p class="sob-row-desc"><?php esc_html_e( 'One WordPress style handle per line.', 'site-optimizer-by-beplus' ); ?></p>
+						<label for="sob_css_remove_handles"><?php esc_html_e( 'Remove CSS Handles', 'site-optimizer-by-beplus-master' ); ?></label>
+						<p class="sob-row-desc"><?php esc_html_e( 'One WordPress style handle per line.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<div class="sob-form-row-field">
 						<textarea id="sob_css_remove_handles"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[css_remove_handles]"
 							rows="4" class="large-text code"><?php echo esc_textarea( $opts['css_remove_handles'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'These stylesheets will be completely dequeued on every front-end page.', 'site-optimizer-by-beplus' ); ?><br>
-							<?php esc_html_e( 'Example: wp-block-library, dashicons, woocommerce-layout', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'These stylesheets will be completely dequeued on every front-end page.', 'site-optimizer-by-beplus-master' ); ?><br>
+							<?php esc_html_e( 'Example: wp-block-library, dashicons, woocommerce-layout', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -803,22 +803,22 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'Media', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Defer off-screen images and control lazy loading behavior to speed up initial page rendering and protect your Core Web Vitals score.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'Media', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Defer off-screen images and control lazy loading behavior to speed up initial page rendering and protect your Core Web Vitals score.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<!-- Enable Lazy Loading -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_lazy_load"><?php esc_html_e( 'Enable Lazy Loading', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_lazy_load"><?php esc_html_e( 'Enable Lazy Loading', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_lazy_load"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[lazy_load]" value="1"
 								<?php checked( $opts['lazy_load'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Add loading="lazy" to &lt;img&gt; tags in post content, thumbnails, widgets, Gutenberg blocks, and &lt;picture&gt; elements. Includes an IntersectionObserver JS fallback for older browsers.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Add loading="lazy" to &lt;img&gt; tags in post content, thumbnails, widgets, Gutenberg blocks, and &lt;picture&gt; elements. Includes an IntersectionObserver JS fallback for older browsers.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -826,7 +826,7 @@ class SOB_Admin {
 				<!-- Skip First N Images -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_lazy_skip_first_n"><?php esc_html_e( 'Skip First N Images', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_lazy_skip_first_n"><?php esc_html_e( 'Skip First N Images', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<input type="number" id="sob_lazy_skip_first_n"
@@ -834,7 +834,7 @@ class SOB_Admin {
 							value="<?php echo esc_attr( $opts['lazy_skip_first_n'] ); ?>"
 							min="0" max="20" step="1" class="small-text">
 						<p class="description">
-							<?php esc_html_e( 'Images 1 through N are loaded eagerly. Default: 1 — protects the hero/LCP image from being lazy-loaded and hurting Core Web Vitals.', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Images 1 through N are loaded eagerly. Default: 1 — protects the hero/LCP image from being lazy-loaded and hurting Core Web Vitals.', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -842,45 +842,45 @@ class SOB_Admin {
 				<!-- Exclude by CSS Class -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_lazy_exclude_class"><?php esc_html_e( 'Exclude by CSS Class', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_lazy_exclude_class"><?php esc_html_e( 'Exclude by CSS Class', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<input type="text" id="sob_lazy_exclude_class"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[lazy_exclude_class]"
 							value="<?php echo esc_attr( $opts['lazy_exclude_class'] ); ?>"
 							class="large-text"
-							placeholder="<?php esc_attr_e( 'e.g. hero-image, no-lazy, skip-lazy', 'site-optimizer-by-beplus' ); ?>">
-						<p class="description"><?php esc_html_e( 'Comma-separated CSS class names. Images with any of these classes are loaded normally.', 'site-optimizer-by-beplus' ); ?></p>
+							placeholder="<?php esc_attr_e( 'e.g. hero-image, no-lazy, skip-lazy', 'site-optimizer-by-beplus-master' ); ?>">
+						<p class="description"><?php esc_html_e( 'Comma-separated CSS class names. Images with any of these classes are loaded normally.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 				</div>
 
 				<!-- Exclude by Element ID -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_lazy_exclude_id"><?php esc_html_e( 'Exclude by Element ID', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_lazy_exclude_id"><?php esc_html_e( 'Exclude by Element ID', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<input type="text" id="sob_lazy_exclude_id"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[lazy_exclude_id]"
 							value="<?php echo esc_attr( $opts['lazy_exclude_id'] ); ?>"
 							class="large-text"
-							placeholder="<?php esc_attr_e( 'e.g. hero-banner, site-logo', 'site-optimizer-by-beplus' ); ?>">
-						<p class="description"><?php esc_html_e( 'Comma-separated element IDs. Images with these IDs are loaded normally.', 'site-optimizer-by-beplus' ); ?></p>
+							placeholder="<?php esc_attr_e( 'e.g. hero-banner, site-logo', 'site-optimizer-by-beplus-master' ); ?>">
+						<p class="description"><?php esc_html_e( 'Comma-separated element IDs. Images with these IDs are loaded normally.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 				</div>
 
 				<!-- Exclude by Filename -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_lazy_exclude_filename"><?php esc_html_e( 'Exclude by Filename', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_lazy_exclude_filename"><?php esc_html_e( 'Exclude by Filename', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<input type="text" id="sob_lazy_exclude_filename"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[lazy_exclude_filename]"
 							value="<?php echo esc_attr( $opts['lazy_exclude_filename'] ); ?>"
 							class="large-text"
-							placeholder="<?php esc_attr_e( 'e.g. logo, hero, banner', 'site-optimizer-by-beplus' ); ?>">
-						<p class="description"><?php esc_html_e( 'Comma-separated partial filename strings. Images whose src URL contains any of these strings are loaded normally.', 'site-optimizer-by-beplus' ); ?></p>
+							placeholder="<?php esc_attr_e( 'e.g. logo, hero, banner', 'site-optimizer-by-beplus-master' ); ?>">
+						<p class="description"><?php esc_html_e( 'Comma-separated partial filename strings. Images whose src URL contains any of these strings are loaded normally.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 				</div>
 
@@ -898,23 +898,23 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'Font Preload', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Manage how web fonts are loaded to eliminate render-blocking requests, reduce layout shift, and prevent a flash of invisible text (FOIT).', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'Font Preload', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Manage how web fonts are loaded to eliminate render-blocking requests, reduce layout shift, and prevent a flash of invisible text (FOIT).', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_font_preload"><?php esc_html_e( 'Font URLs to Preload', 'site-optimizer-by-beplus' ); ?></label>
-						<p class="sob-row-desc"><?php esc_html_e( 'One font URL per line.', 'site-optimizer-by-beplus' ); ?></p>
+						<label for="sob_font_preload"><?php esc_html_e( 'Font URLs to Preload', 'site-optimizer-by-beplus-master' ); ?></label>
+						<p class="sob-row-desc"><?php esc_html_e( 'One font URL per line.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<div class="sob-form-row-field">
 						<textarea id="sob_font_preload"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[font_preload]"
 							rows="6" class="large-text code"><?php echo esc_textarea( $opts['font_preload'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'Each URL will be output as a &lt;link rel="preload" as="font" crossorigin="anonymous"&gt; tag near the top of &lt;head&gt;.', 'site-optimizer-by-beplus' ); ?><br>
-							<?php esc_html_e( 'Supports woff2, woff, ttf, otf, eot. Example:', 'site-optimizer-by-beplus' ); ?><br>
+							<?php esc_html_e( 'Each URL will be output as a &lt;link rel="preload" as="font" crossorigin="anonymous"&gt; tag near the top of &lt;head&gt;.', 'site-optimizer-by-beplus-master' ); ?><br>
+							<?php esc_html_e( 'Supports woff2, woff, ttf, otf, eot. Example:', 'site-optimizer-by-beplus-master' ); ?><br>
 							<code>/wp-content/themes/my-theme/fonts/myfont.woff2</code>
 						</p>
 					</div>
@@ -936,22 +936,22 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'Remove Unused Assets', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Remove unnecessary WordPress features and unused assets that add overhead without benefit — fewer requests, faster pages.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'Remove Unused Assets', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Remove unnecessary WordPress features and unused assets that add overhead without benefit — fewer requests, faster pages.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<!-- Remove Emoji Scripts -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_remove_emoji"><?php esc_html_e( 'Remove Emoji Scripts', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_remove_emoji"><?php esc_html_e( 'Remove Emoji Scripts', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_remove_emoji"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[remove_emoji]" value="1"
 								<?php checked( $opts['remove_emoji'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Remove the WordPress emoji detection script, inline style, and DNS prefetch. Safe if you use real Unicode emoji in your content.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Remove the WordPress emoji detection script, inline style, and DNS prefetch. Safe if you use real Unicode emoji in your content.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -959,14 +959,14 @@ class SOB_Admin {
 				<!-- Remove oEmbed -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_remove_embed"><?php esc_html_e( 'Remove oEmbed / wp-embed', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_remove_embed"><?php esc_html_e( 'Remove oEmbed / wp-embed', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_remove_embed"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[remove_embed]" value="1"
 								<?php checked( $opts['remove_embed'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Remove the wp-embed script and oEmbed discovery links. Disable only if you embed WordPress posts inside other sites.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Remove the wp-embed script and oEmbed discovery links. Disable only if you embed WordPress posts inside other sites.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -974,14 +974,14 @@ class SOB_Admin {
 				<!-- Remove Block / Gutenberg CSS -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_remove_block_css"><?php esc_html_e( 'Remove Block / Gutenberg CSS', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_remove_block_css"><?php esc_html_e( 'Remove Block / Gutenberg CSS', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_remove_block_css"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[remove_block_css]" value="1"
 								<?php checked( $opts['remove_block_css'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Dequeue wp-block-library, wp-block-library-theme, and global-styles on the front-end. Disable if your theme or content relies on Gutenberg block styles.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Dequeue wp-block-library, wp-block-library-theme, and global-styles on the front-end. Disable if your theme or content relies on Gutenberg block styles.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -989,17 +989,17 @@ class SOB_Admin {
 				<!-- Disable WooCommerce Assets -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_remove_woo_scripts"><?php esc_html_e( 'Disable WooCommerce Assets on Non-Shop Pages', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_remove_woo_scripts"><?php esc_html_e( 'Disable WooCommerce Assets on Non-Shop Pages', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_remove_woo_scripts"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[remove_woo_scripts]" value="1"
 								<?php checked( $opts['remove_woo_scripts'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Dequeue WooCommerce scripts and styles on pages unrelated to the shop, cart, checkout, or account. Requires WooCommerce to be active.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Dequeue WooCommerce scripts and styles on pages unrelated to the shop, cart, checkout, or account. Requires WooCommerce to be active.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 						<p class="description">
-							<?php esc_html_e( 'Note: wc-cart-fragments is always preserved regardless of this setting. It maintains live cart counts across all pages via AJAX — removing it breaks the mini-cart widget in most themes.', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Note: wc-cart-fragments is always preserved regardless of this setting. It maintains live cart counts across all pages via AJAX — removing it breaks the mini-cart widget in most themes.', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -1012,26 +1012,26 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'HTML Optimization', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Compress your HTML output and strip developer comments to reduce the page size delivered to every visitor.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'HTML Optimization', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Compress your HTML output and strip developer comments to reduce the page size delivered to every visitor.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<!-- Minify HTML Output -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_html_minify"><?php esc_html_e( 'Minify HTML Output', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_html_minify"><?php esc_html_e( 'Minify HTML Output', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_html_minify"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[html_minify]" value="1"
 								<?php checked( $opts['html_minify'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Collapse redundant whitespace between HTML tags in the full page output. Reduces page size without altering visible content.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Collapse redundant whitespace between HTML tags in the full page output. Reduces page size without altering visible content.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
-						<p class="description"><?php esc_html_e( 'Content inside &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt;, and &lt;style&gt; tags is always preserved exactly as-is.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Content inside &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt;, and &lt;style&gt; tags is always preserved exactly as-is.', 'site-optimizer-by-beplus-master' ); ?></p>
 						<div class="notice notice-warning sob-notice-warning inline">
-							<p><strong><?php esc_html_e( 'Compatibility note:', 'site-optimizer-by-beplus' ); ?></strong> <?php esc_html_e( 'Collapsing whitespace between tags can affect inline elements — a space between adjacent &lt;a&gt;, &lt;span&gt;, or &lt;img&gt; tags may disappear, potentially shifting layout. Test thoroughly on your theme before enabling in production.', 'site-optimizer-by-beplus' ); ?></p>
+							<p><strong><?php esc_html_e( 'Compatibility note:', 'site-optimizer-by-beplus-master' ); ?></strong> <?php esc_html_e( 'Collapsing whitespace between tags can affect inline elements — a space between adjacent &lt;a&gt;, &lt;span&gt;, or &lt;img&gt; tags may disappear, potentially shifting layout. Test thoroughly on your theme before enabling in production.', 'site-optimizer-by-beplus-master' ); ?></p>
 						</div>
 					</div>
 				</div>
@@ -1039,14 +1039,14 @@ class SOB_Admin {
 				<!-- Remove HTML Comments -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_html_remove_comments"><?php esc_html_e( 'Remove HTML Comments', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_html_remove_comments"><?php esc_html_e( 'Remove HTML Comments', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_html_remove_comments"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[html_remove_comments]" value="1"
 								<?php checked( $opts['html_remove_comments'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Strip HTML comments (e.g. theme generator tags, plugin banners, conditional IE comments) from page output.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Strip HTML comments (e.g. theme generator tags, plugin banners, conditional IE comments) from page output.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -1054,14 +1054,14 @@ class SOB_Admin {
 				<!-- Remove Inline JS Comments -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_html_remove_js_comments"><?php esc_html_e( 'Remove Inline JS Comments', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_html_remove_js_comments"><?php esc_html_e( 'Remove Inline JS Comments', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_html_remove_js_comments"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[html_remove_js_comments]" value="1"
 								<?php checked( $opts['html_remove_js_comments'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Remove // single-line and /* block */ comments from inline &lt;script&gt; blocks in the HTML output.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Remove // single-line and /* block */ comments from inline &lt;script&gt; blocks in the HTML output.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -1069,14 +1069,14 @@ class SOB_Admin {
 				<!-- Remove Inline CSS Comments -->
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_html_remove_css_comments"><?php esc_html_e( 'Remove Inline CSS Comments', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_html_remove_css_comments"><?php esc_html_e( 'Remove Inline CSS Comments', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_html_remove_css_comments"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[html_remove_css_comments]" value="1"
 								<?php checked( $opts['html_remove_css_comments'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Remove block comments from inline &lt;style&gt; blocks in the HTML output.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Remove block comments from inline &lt;style&gt; blocks in the HTML output.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 					</div>
 				</div>
@@ -1293,7 +1293,7 @@ class SOB_Admin {
 		?>
 
 		<div class="sob-status-tab-header">
-			<h2><?php esc_html_e( 'System Status', 'site-optimizer-by-beplus' ); ?></h2>
+			<h2><?php esc_html_e( 'System Status', 'site-optimizer-by-beplus-master' ); ?></h2>
 		</div>
 
 		<?php
@@ -1306,7 +1306,7 @@ class SOB_Admin {
 			<?php // ---- Panel 1: PHP Environment -------------------------------- ?>
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'PHP Environment', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'PHP Environment', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body sob-status-table">
 					<?php
@@ -1324,7 +1324,7 @@ class SOB_Admin {
 			<?php // ---- Panel 2: WordPress Environment -------------------------- ?>
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'WordPress Environment', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'WordPress Environment', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body sob-status-table">
 					<?php
@@ -1346,7 +1346,7 @@ class SOB_Admin {
 			<?php // ---- Panel 3: Cache Directory -------------------------------- ?>
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'Cache Directory & Permissions', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'Cache Directory & Permissions', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body sob-status-table">
 					<?php
@@ -1366,11 +1366,11 @@ class SOB_Admin {
 			<?php // ---- Panel 4: Active Plugins --------------------------------- ?>
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'Active Plugins', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'Active Plugins', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body">
 					<?php if ( empty( $active_plugins ) ) : ?>
-						<p class="description"><?php esc_html_e( 'No active plugins found.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="description"><?php esc_html_e( 'No active plugins found.', 'site-optimizer-by-beplus-master' ); ?></p>
 					<?php else : ?>
 
 						<?php if ( ! empty( $flagged_plugins ) ) : ?>
@@ -1397,7 +1397,7 @@ class SOB_Admin {
 							<summary>
 								<?php
 								/* translators: %d: number of non-flagged active plugins. */
-								printf( esc_html__( 'Show all %d plugins', 'site-optimizer-by-beplus' ), count( $other_plugins ) );
+								printf( esc_html__( 'Show all %d plugins', 'site-optimizer-by-beplus-master' ), count( $other_plugins ) );
 								?>
 							</summary>
 							<div class="sob-plugins-all">
@@ -1420,7 +1420,7 @@ class SOB_Admin {
 			<?php // ---- Panel 5: Server Environment ----------------------------- ?>
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'Server Environment', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'Server Environment', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body sob-status-table">
 					<?php
@@ -1442,7 +1442,7 @@ class SOB_Admin {
 			<?php // ---- Panel 6: BePlus Optimizer Settings --------------------- ?>
 			<div class="sob-card">
 				<div class="sob-card-header">
-					<h2><?php esc_html_e( 'BePlus Optimizer Settings', 'site-optimizer-by-beplus' ); ?></h2>
+					<h2><?php esc_html_e( 'BePlus Optimizer Settings', 'site-optimizer-by-beplus-master' ); ?></h2>
 				</div>
 				<div class="sob-card-body sob-status-table">
 					<?php
@@ -1505,7 +1505,7 @@ class SOB_Admin {
 		$mem_bytes,
 		$flagged_plugins
 	) {
-		$settings_url = admin_url( 'options-general.php?page=site-optimizer-by-beplus' );
+		$settings_url = admin_url( 'options-general.php?page=site-optimizer-by-beplus-master' );
 		$tab_link = static function ( $tab, $label ) use ( $settings_url ) {
 			return '<a href="' . esc_url( $settings_url . '#sob-tab-' . $tab ) . '" class="sob-rec-link">' . esc_html( $label ) . ' →</a>';
 		};
@@ -1520,17 +1520,17 @@ class SOB_Admin {
 
 		if ( ! $wc_writable ) {
 			$errors[] = array(
-				'title'  => __( 'wp-content is not writable', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'The plugin cannot create the cache directory inside wp-content. Set wp-content permissions to 755 (or contact your host).', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'wp-content is not writable', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'The plugin cannot create the cache directory inside wp-content. Set wp-content permissions to 755 (or contact your host).', 'site-optimizer-by-beplus-master' ),
 			);
 		}
 
 		if ( ! $dir_writable ) {
 			$errors[] = array(
-				'title'  => __( 'Cache directory is not writable', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'Cache directory is not writable', 'site-optimizer-by-beplus-master' ),
 				'detail' => sprintf(
 					/* translators: %s: cache directory path */
-					__( 'Minified CSS/JS files cannot be written to %s. The plugin will silently fall back to the original (un-minified) files. Set the directory to 755.', 'site-optimizer-by-beplus' ),
+					__( 'Minified CSS/JS files cannot be written to %s. The plugin will silently fall back to the original (un-minified) files. Set the directory to 755.', 'site-optimizer-by-beplus-master' ),
 					'<code>' . esc_html( SOB_CACHE_DIR ) . '</code>'
 				),
 			);
@@ -1538,9 +1538,9 @@ class SOB_Admin {
 
 		if ( ! empty( $opts['cache_headers'] ) && ! $ht_writable ) {
 			$errors[] = array(
-				'title'  => __( 'Browser caching is on but .htaccess is not writable', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'The browser cache rules cannot be injected into .htaccess. Make the .htaccess file writable (644) and re-save the Cache Exclusions tab.', 'site-optimizer-by-beplus' ),
-				'action' => $tab_link( 'exclusions', __( 'Open Cache Exclusions', 'site-optimizer-by-beplus' ) ),
+				'title'  => __( 'Browser caching is on but .htaccess is not writable', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'The browser cache rules cannot be injected into .htaccess. Make the .htaccess file writable (644) and re-save the Cache Exclusions tab.', 'site-optimizer-by-beplus-master' ),
+				'action' => $tab_link( 'exclusions', __( 'Open Cache Exclusions', 'site-optimizer-by-beplus-master' ) ),
 			);
 		}
 
@@ -1550,9 +1550,9 @@ class SOB_Admin {
 
 		if ( empty( $opts['cache_enabled'] ) ) {
 			$warnings[] = array(
-				'title'  => __( 'Master cache is OFF', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'All CSS/JS minification, caching, lazy loading, and cleanup features are currently disabled. Turn on the master toggle on the Dashboard to start optimising.', 'site-optimizer-by-beplus' ),
-				'action' => $tab_link( 'dashboard', __( 'Open Dashboard', 'site-optimizer-by-beplus' ) ),
+				'title'  => __( 'Master cache is OFF', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'All CSS/JS minification, caching, lazy loading, and cleanup features are currently disabled. Turn on the master toggle on the Dashboard to start optimising.', 'site-optimizer-by-beplus-master' ),
+				'action' => $tab_link( 'dashboard', __( 'Open Dashboard', 'site-optimizer-by-beplus-master' ) ),
 			);
 		}
 
@@ -1560,38 +1560,38 @@ class SOB_Admin {
 			$warnings[] = array(
 				'title'  => sprintf(
 					/* translators: %s: detected PHP version */
-					__( 'PHP %s is outdated', 'site-optimizer-by-beplus' ),
+					__( 'PHP %s is outdated', 'site-optimizer-by-beplus-master' ),
 					esc_html( $php_ver )
 				),
-				'detail' => __( 'WordPress recommends PHP 7.4 or newer (8.1+ for best performance). Ask your host to upgrade.', 'site-optimizer-by-beplus' ),
+				'detail' => __( 'WordPress recommends PHP 7.4 or newer (8.1+ for best performance). Ask your host to upgrade.', 'site-optimizer-by-beplus-master' ),
 			);
 		}
 
 		if ( -1 !== $mem_bytes && $mem_bytes < 128 * 1024 * 1024 ) {
 			$warnings[] = array(
-				'title'  => __( 'PHP memory_limit is low', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'Minifying many large CSS/JS files can hit the PHP memory limit. Set memory_limit to at least 128M in php.ini or wp-config.php.', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'PHP memory_limit is low', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'Minifying many large CSS/JS files can hit the PHP memory limit. Set memory_limit to at least 128M in php.ini or wp-config.php.', 'site-optimizer-by-beplus-master' ),
 			);
 		}
 
 		if ( $wp_debug ) {
 			$warnings[] = array(
-				'title'  => __( 'WP_DEBUG is on', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'WP_DEBUG should be OFF on production sites. Set WP_DEBUG to false in wp-config.php to avoid surfacing PHP notices to visitors.', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'WP_DEBUG is on', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'WP_DEBUG should be OFF on production sites. Set WP_DEBUG to false in wp-config.php to avoid surfacing PHP notices to visitors.', 'site-optimizer-by-beplus-master' ),
 			);
 		}
 
 		if ( $is_multi ) {
 			$warnings[] = array(
-				'title'  => __( 'WordPress Multisite detected', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'This plugin is not designed for Multisite. The cache directory and .htaccess block are shared across all sub-sites. Install it on individual sub-sites instead of network-activating.', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'WordPress Multisite detected', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'This plugin is not designed for Multisite. The cache directory and .htaccess block are shared across all sub-sites. Install it on individual sub-sites instead of network-activating.', 'site-optimizer-by-beplus-master' ),
 			);
 		}
 
 		if ( ! $has_zlib ) {
 			$warnings[] = array(
-				'title'  => __( 'Zlib extension missing', 'site-optimizer-by-beplus' ),
-				'detail' => __( 'PHP Zlib is not loaded, so gzip compression cannot be applied at the PHP level. Ask your host to enable the zlib extension.', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'Zlib extension missing', 'site-optimizer-by-beplus-master' ),
+				'detail' => __( 'PHP Zlib is not loaded, so gzip compression cannot be applied at the PHP level. Ask your host to enable the zlib extension.', 'site-optimizer-by-beplus-master' ),
 			);
 		}
 
@@ -1601,10 +1601,10 @@ class SOB_Admin {
 				$names[] = $data['Name'];
 			}
 			$warnings[] = array(
-				'title'  => __( 'Another caching/minification plugin is active', 'site-optimizer-by-beplus' ),
+				'title'  => __( 'Another caching/minification plugin is active', 'site-optimizer-by-beplus-master' ),
 				'detail' => sprintf(
 					/* translators: %s: comma-separated list of plugin names */
-					__( 'Running two optimisation plugins can produce double-minified or broken assets. Detected: %s. Deactivate one of them to be safe.', 'site-optimizer-by-beplus' ),
+					__( 'Running two optimisation plugins can produce double-minified or broken assets. Detected: %s. Deactivate one of them to be safe.', 'site-optimizer-by-beplus-master' ),
 					'<em>' . esc_html( implode( ', ', $names ) ) . '</em>'
 				),
 			);
@@ -1620,57 +1620,57 @@ class SOB_Admin {
 
 			if ( empty( $opts['lazy_load'] ) ) {
 				$suggestions[] = array(
-					'title'  => __( 'Enable lazy loading', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'Add loading="lazy" to off-screen images so they only load when scrolled into view — large Core Web Vitals win on image-heavy pages.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Enable lazy loading', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'Add loading="lazy" to off-screen images so they only load when scrolled into view — large Core Web Vitals win on image-heavy pages.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 
 			if ( empty( $opts['minify_css_files'] ) && $dir_writable ) {
 				$suggestions[] = array(
-					'title'  => __( 'Minify CSS files', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'Strip comments and whitespace from every enqueued CSS file and serve the cached version. Typically cuts CSS payload 10–30%.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Minify CSS files', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'Strip comments and whitespace from every enqueued CSS file and serve the cached version. Typically cuts CSS payload 10–30%.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 
 			if ( empty( $opts['minify_js_files'] ) && $dir_writable ) {
 				$suggestions[] = array(
-					'title'  => __( 'Minify JS files', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'Strip comments and whitespace from every enqueued JS file. Saves bytes and improves time-to-interactive.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Minify JS files', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'Strip comments and whitespace from every enqueued JS file. Saves bytes and improves time-to-interactive.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 
 			if ( empty( $opts['js_defer'] ) ) {
 				$suggestions[] = array(
-					'title'  => __( 'Defer non-critical JS', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'Add the defer attribute to scripts so they fetch in parallel and execute after HTML parsing — major boost to First Contentful Paint.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Defer non-critical JS', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'Add the defer attribute to scripts so they fetch in parallel and execute after HTML parsing — major boost to First Contentful Paint.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'cache_files', __( 'Open Cache Files tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 
 			if ( empty( $opts['remove_emoji'] ) ) {
 				$suggestions[] = array(
-					'title'  => __( 'Remove emoji scripts', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'WordPress loads a JS+CSS pair to polyfill emoji on old browsers that no longer exist. Removing it shaves ~10KB and one HTTP request from every page.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Remove emoji scripts', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'WordPress loads a JS+CSS pair to polyfill emoji on old browsers that no longer exist. Removing it shaves ~10KB and one HTTP request from every page.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 
 			if ( empty( $opts['cache_headers'] ) && $ht_writable ) {
 				$suggestions[] = array(
-					'title'  => __( 'Enable browser cache headers', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'Inject 1-year cache headers and gzip/brotli rules into .htaccess so returning visitors load static assets from their local cache.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'exclusions', __( 'Open Cache Exclusions tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Enable browser cache headers', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'Inject 1-year cache headers and gzip/brotli rules into .htaccess so returning visitors load static assets from their local cache.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'exclusions', __( 'Open Cache Exclusions tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 
 			if ( empty( $opts['html_minify'] ) ) {
 				$suggestions[] = array(
-					'title'  => __( 'Minify HTML output', 'site-optimizer-by-beplus' ),
-					'detail' => __( 'Collapse whitespace between HTML tags in the rendered page. Small per-request win that adds up across the whole site.', 'site-optimizer-by-beplus' ),
-					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus' ) ),
+					'title'  => __( 'Minify HTML output', 'site-optimizer-by-beplus-master' ),
+					'detail' => __( 'Collapse whitespace between HTML tags in the rendered page. Small per-request win that adds up across the whole site.', 'site-optimizer-by-beplus-master' ),
+					'action' => $tab_link( 'cleanup', __( 'Open Cleanup tab', 'site-optimizer-by-beplus-master' ) ),
 				);
 			}
 		}
@@ -1682,13 +1682,13 @@ class SOB_Admin {
 		<div class="sob-card sob-recommend-card">
 			<div class="sob-card-header">
 				<h2>
-					<?php esc_html_e( 'Recommendations', 'site-optimizer-by-beplus' ); ?>
+					<?php esc_html_e( 'Recommendations', 'site-optimizer-by-beplus-master' ); ?>
 					<?php if ( $total > 0 ) : ?>
 						<span class="sob-rec-count"><?php echo esc_html( (string) $total ); ?></span>
 					<?php endif; ?>
 				</h2>
 				<p>
-					<?php esc_html_e( 'Targeted fixes and improvements to keep caching healthy and your site fast.', 'site-optimizer-by-beplus' ); ?>
+					<?php esc_html_e( 'Targeted fixes and improvements to keep caching healthy and your site fast.', 'site-optimizer-by-beplus-master' ); ?>
 				</p>
 			</div>
 			<div class="sob-card-body">
@@ -1697,8 +1697,8 @@ class SOB_Admin {
 					<div class="sob-rec-item sob-rec-item--ok">
 						<span class="sob-rec-icon" aria-hidden="true">✅</span>
 						<div class="sob-rec-text">
-							<strong><?php esc_html_e( 'Everything looks good', 'site-optimizer-by-beplus' ); ?></strong>
-							<p><?php esc_html_e( 'No errors, warnings, or pending recommendations were detected on this site.', 'site-optimizer-by-beplus' ); ?></p>
+							<strong><?php esc_html_e( 'Everything looks good', 'site-optimizer-by-beplus-master' ); ?></strong>
+							<p><?php esc_html_e( 'No errors, warnings, or pending recommendations were detected on this site.', 'site-optimizer-by-beplus-master' ); ?></p>
 						</div>
 					</div>
 				<?php else : ?>
@@ -1785,34 +1785,34 @@ class SOB_Admin {
 
 				<div class="sob-ai-icon" aria-hidden="true">🤖</div>
 
-				<h2 class="sob-ai-title"><?php esc_html_e( 'AI Optimizer', 'site-optimizer-by-beplus' ); ?></h2>
-				<p class="sob-ai-subtitle"><?php esc_html_e( 'Intelligent, automatic performance optimization — powered by AI.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2 class="sob-ai-title"><?php esc_html_e( 'AI Optimizer', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p class="sob-ai-subtitle"><?php esc_html_e( 'Intelligent, automatic performance optimization — powered by AI.', 'site-optimizer-by-beplus-master' ); ?></p>
 
 				<hr class="sob-ai-divider">
 
-				<ul class="sob-ai-features" aria-label="<?php esc_attr_e( 'Upcoming features', 'site-optimizer-by-beplus' ); ?>">
+				<ul class="sob-ai-features" aria-label="<?php esc_attr_e( 'Upcoming features', 'site-optimizer-by-beplus-master' ); ?>">
 					<li>
-						<span class="sob-ai-lock" aria-label="<?php esc_attr_e( 'Locked', 'site-optimizer-by-beplus' ); ?>">🔒</span>
-						<span><?php esc_html_e( 'Smart image compression &amp; next-gen format conversion', 'site-optimizer-by-beplus' ); ?></span>
+						<span class="sob-ai-lock" aria-label="<?php esc_attr_e( 'Locked', 'site-optimizer-by-beplus-master' ); ?>">🔒</span>
+						<span><?php esc_html_e( 'Smart image compression &amp; next-gen format conversion', 'site-optimizer-by-beplus-master' ); ?></span>
 					</li>
 					<li>
-						<span class="sob-ai-lock" aria-label="<?php esc_attr_e( 'Locked', 'site-optimizer-by-beplus' ); ?>">🔒</span>
-						<span><?php esc_html_e( 'AI-powered critical CSS extraction', 'site-optimizer-by-beplus' ); ?></span>
+						<span class="sob-ai-lock" aria-label="<?php esc_attr_e( 'Locked', 'site-optimizer-by-beplus-master' ); ?>">🔒</span>
+						<span><?php esc_html_e( 'AI-powered critical CSS extraction', 'site-optimizer-by-beplus-master' ); ?></span>
 					</li>
 					<li>
-						<span class="sob-ai-lock" aria-label="<?php esc_attr_e( 'Locked', 'site-optimizer-by-beplus' ); ?>">🔒</span>
-						<span><?php esc_html_e( 'Automated performance scoring &amp; fix suggestions', 'site-optimizer-by-beplus' ); ?></span>
+						<span class="sob-ai-lock" aria-label="<?php esc_attr_e( 'Locked', 'site-optimizer-by-beplus-master' ); ?>">🔒</span>
+						<span><?php esc_html_e( 'Automated performance scoring &amp; fix suggestions', 'site-optimizer-by-beplus-master' ); ?></span>
 					</li>
 				</ul>
 
 				<hr class="sob-ai-divider">
 
 				<div class="notice notice-info inline sob-ai-notice">
-					<p><?php esc_html_e( 'This feature is currently in development and will be available in a future release of BePlus Optimizer. Stay tuned for updates!', 'site-optimizer-by-beplus' ); ?></p>
+					<p><?php esc_html_e( 'This feature is currently in development and will be available in a future release of BePlus Optimizer. Stay tuned for updates!', 'site-optimizer-by-beplus-master' ); ?></p>
 				</div>
 
 				<div class="sob-ai-version-badge">
-					<?php esc_html_e( 'Coming in v2.0', 'site-optimizer-by-beplus' ); ?>
+					<?php esc_html_e( 'Coming in v2.0', 'site-optimizer-by-beplus-master' ); ?>
 				</div>
 
 			</div>
@@ -1832,23 +1832,23 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'Page Exclusions', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Fine-tune which pages bypass caching and optimization. Use URL patterns here for global rules, or the per-post meta box for individual pages.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'Page Exclusions', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Fine-tune which pages bypass caching and optimization. Use URL patterns here for global rules, or the per-post meta box for individual pages.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_cache_exclude_pages"><?php esc_html_e( 'Exclude Pages from Cache', 'site-optimizer-by-beplus' ); ?></label>
-						<p class="sob-row-desc"><?php esc_html_e( 'One URL or path per line.', 'site-optimizer-by-beplus' ); ?></p>
+						<label for="sob_cache_exclude_pages"><?php esc_html_e( 'Exclude Pages from Cache', 'site-optimizer-by-beplus-master' ); ?></label>
+						<p class="sob-row-desc"><?php esc_html_e( 'One URL or path per line.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 					<div class="sob-form-row-field">
 						<textarea id="sob_cache_exclude_pages"
 							name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[cache_exclude_pages]"
 							rows="6" class="large-text code"><?php echo esc_textarea( $opts['cache_exclude_pages'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'Pages whose URL contains any of these strings will be served original (un-cached) CSS/JS files.', 'site-optimizer-by-beplus' ); ?><br>
-							<?php esc_html_e( 'Examples:', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'Pages whose URL contains any of these strings will be served original (un-cached) CSS/JS files.', 'site-optimizer-by-beplus-master' ); ?><br>
+							<?php esc_html_e( 'Examples:', 'site-optimizer-by-beplus-master' ); ?>
 							<code>/checkout/</code> &nbsp; <code>/my-account/</code> &nbsp; <code>/cart/</code>
 						</p>
 					</div>
@@ -1862,24 +1862,24 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'User-Based Exclusions', 'site-optimizer-by-beplus' ); ?></h2>
-				<p><?php esc_html_e( 'Control whether optimized CSS and JS files are served to logged-in users, or bypassed to ensure user-specific pages render correctly.', 'site-optimizer-by-beplus' ); ?></p>
+				<h2><?php esc_html_e( 'User-Based Exclusions', 'site-optimizer-by-beplus-master' ); ?></h2>
+				<p><?php esc_html_e( 'Control whether optimized CSS and JS files are served to logged-in users, or bypassed to ensure user-specific pages render correctly.', 'site-optimizer-by-beplus-master' ); ?></p>
 			</div>
 			<div class="sob-card-body">
 
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_cache_for_logged_in"><?php esc_html_e( 'Enable Cache for Logged-In Users', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_cache_for_logged_in"><?php esc_html_e( 'Enable Cache for Logged-In Users', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
 							<input type="checkbox" id="sob_cache_for_logged_in"
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[cache_for_logged_in]" value="1"
 								<?php checked( $opts['cache_for_logged_in'], 1 ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Serve cached/minified CSS and JS to logged-in users.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Serve cached/minified CSS and JS to logged-in users.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
 						<p class="description">
-							<?php esc_html_e( 'By default, cached CSS/JS is skipped for logged-in users because pages may contain user-specific content. Enable this only if your pages look the same regardless of login state (e.g. a blog with no member-only content).', 'site-optimizer-by-beplus' ); ?>
+							<?php esc_html_e( 'By default, cached CSS/JS is skipped for logged-in users because pages may contain user-specific content. Enable this only if your pages look the same regardless of login state (e.g. a blog with no member-only content).', 'site-optimizer-by-beplus-master' ); ?>
 						</p>
 					</div>
 				</div>
@@ -1898,12 +1898,12 @@ class SOB_Admin {
 		?>
 		<div class="sob-card">
 			<div class="sob-card-header">
-				<h2><?php esc_html_e( 'Browser Cache', 'site-optimizer-by-beplus' ); ?></h2>
+				<h2><?php esc_html_e( 'Browser Cache', 'site-optimizer-by-beplus-master' ); ?></h2>
 				<p>
 					<?php if ( $is_nginx ) : ?>
-						<?php esc_html_e( 'Nginx detected. Copy the configuration block below into your server\'s nginx.conf or site virtual host to add long-lived browser cache headers.', 'site-optimizer-by-beplus' ); ?>
+						<?php esc_html_e( 'Nginx detected. Copy the configuration block below into your server\'s nginx.conf or site virtual host to add long-lived browser cache headers.', 'site-optimizer-by-beplus-master' ); ?>
 					<?php else : ?>
-						<?php esc_html_e( 'Add long-lived browser cache headers and gzip/brotli compression to your .htaccess file, so returning visitors load your site faster from their local cache.', 'site-optimizer-by-beplus' ); ?>
+						<?php esc_html_e( 'Add long-lived browser cache headers and gzip/brotli compression to your .htaccess file, so returning visitors load your site faster from their local cache.', 'site-optimizer-by-beplus-master' ); ?>
 					<?php endif; ?>
 				</p>
 			</div>
@@ -1911,7 +1911,7 @@ class SOB_Admin {
 
 				<?php if ( $is_nginx ) : ?>
 				<div class="notice notice-info sob-notice-warning inline">
-					<p><strong><?php esc_html_e( 'Nginx server detected.', 'site-optimizer-by-beplus' ); ?></strong> <?php esc_html_e( 'The .htaccess option below has no effect on Nginx. Ask your hosting provider or server administrator to add the following block to your nginx.conf or site configuration:', 'site-optimizer-by-beplus' ); ?></p>
+					<p><strong><?php esc_html_e( 'Nginx server detected.', 'site-optimizer-by-beplus-master' ); ?></strong> <?php esc_html_e( 'The .htaccess option below has no effect on Nginx. Ask your hosting provider or server administrator to add the following block to your nginx.conf or site configuration:', 'site-optimizer-by-beplus-master' ); ?></p>
 				</div>
 				<pre style="background:#f6f7f7;border:1px solid #dcdcde;padding:12px 16px;overflow-x:auto;font-size:12px;margin:12px 0;border-radius:4px;"><?php echo esc_html(
 '# Browser cache — static assets (1 year)
@@ -1940,13 +1940,13 @@ gzip_min_length 1024;'
 
 				<?php if ( ! $htaccess_writable ) : ?>
 				<div class="notice notice-warning sob-notice-warning inline">
-					<p><?php esc_html_e( 'Your .htaccess file is not writable. Browser caching rules cannot be injected automatically. Set the file to 644 permissions (or ask your host) and try again, or add the rules manually.', 'site-optimizer-by-beplus' ); ?></p>
+					<p><?php esc_html_e( 'Your .htaccess file is not writable. Browser caching rules cannot be injected automatically. Set the file to 644 permissions (or ask your host) and try again, or add the rules manually.', 'site-optimizer-by-beplus-master' ); ?></p>
 				</div>
 				<?php endif; ?>
 
 				<div class="sob-form-row">
 					<div class="sob-form-row-label">
-						<label for="sob_cache_headers"><?php esc_html_e( 'Enable Browser Caching', 'site-optimizer-by-beplus' ); ?></label>
+						<label for="sob_cache_headers"><?php esc_html_e( 'Enable Browser Caching', 'site-optimizer-by-beplus-master' ); ?></label>
 					</div>
 					<div class="sob-form-row-field">
 						<label class="sob-check-label">
@@ -1954,9 +1954,9 @@ gzip_min_length 1024;'
 								name="<?php echo esc_attr( SOB_OPTIONS_KEY ); ?>[cache_headers]" value="1"
 								<?php checked( $opts['cache_headers'], 1 ); ?>
 								<?php disabled( ! $htaccess_writable, true ); ?>>
-							<span class="sob-check-text"><?php esc_html_e( 'Inject browser caching rules and gzip/brotli compression directives into .htaccess. Rules are wrapped in a clearly labelled block and are never duplicated.', 'site-optimizer-by-beplus' ); ?></span>
+							<span class="sob-check-text"><?php esc_html_e( 'Inject browser caching rules and gzip/brotli compression directives into .htaccess. Rules are wrapped in a clearly labelled block and are never duplicated.', 'site-optimizer-by-beplus-master' ); ?></span>
 						</label>
-						<p class="description"><?php esc_html_e( 'Requires Apache with mod_expires, mod_headers, mod_deflate. Disabling this option removes the injected rules automatically.', 'site-optimizer-by-beplus' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Requires Apache with mod_expires, mod_headers, mod_deflate. Disabling this option removes the injected rules automatically.', 'site-optimizer-by-beplus-master' ); ?></p>
 					</div>
 				</div>
 
@@ -1998,8 +1998,8 @@ gzip_min_length 1024;'
 			array(
 				'id'    => 'sob-cache',
 				'title' => '<span class="sob-ab-dot" aria-hidden="true" style="background:' . esc_attr( $dot_color ) . '"></span>'
-					. esc_html__( 'BePlus Optimizer', 'site-optimizer-by-beplus' ),
-				'href'  => admin_url( 'options-general.php?page=site-optimizer-by-beplus' ),
+					. esc_html__( 'BePlus Optimizer', 'site-optimizer-by-beplus-master' ),
+				'href'  => admin_url( 'options-general.php?page=site-optimizer-by-beplus-master' ),
 				'meta'  => array( 'class' => 'sob-adminbar-root' ),
 			)
 		);
@@ -2094,7 +2094,7 @@ gzip_min_length 1024;'
 		$html .= '<div class="sob-ab-header">'
 			. '<span class="sob-ab-header-dot" aria-hidden="true" style="background:' . esc_attr( $dot_color ) . '"></span>'
 			. '<span class="sob-ab-header-text">'
-			. esc_html__( 'CSS / JS Cache Info', 'site-optimizer-by-beplus' )
+			. esc_html__( 'CSS / JS Cache Info', 'site-optimizer-by-beplus-master' )
 			. '</span>'
 			. '</div>';
 
@@ -2103,11 +2103,11 @@ gzip_min_length 1024;'
 		$html .= '<div class="sob-ab-ring-wrap">' . $svg . '</div>';
 		$html .= '<div class="sob-ab-stats">';
 		$html .= '<p class="sob-ab-stat-row">'
-			. '<span class="sob-ab-stat-label">' . esc_html__( 'Size:', 'site-optimizer-by-beplus' ) . '</span>'
+			. '<span class="sob-ab-stat-label">' . esc_html__( 'Size:', 'site-optimizer-by-beplus-master' ) . '</span>'
 			. '<span class="sob-ab-stat-size">' . $size_label . '</span>'
 			. '</p>';
 		$html .= '<p class="sob-ab-stat-row">'
-			. '<span class="sob-ab-stat-label">' . esc_html__( 'Files:', 'site-optimizer-by-beplus' ) . '</span>'
+			. '<span class="sob-ab-stat-label">' . esc_html__( 'Files:', 'site-optimizer-by-beplus-master' ) . '</span>'
 			. '<span class="sob-ab-stat-files">' . esc_html( $file_count ) . '</span>'
 			. '</p>';
 		$html .= '</div>'; // .sob-ab-stats
@@ -2120,7 +2120,7 @@ gzip_min_length 1024;'
 
 		// Full-width flush clear button.
 		$html .= '<a href="' . esc_url( $clear_cache_url ) . '" class="sob-ab-clear-btn">'
-			. esc_html__( 'Clear CSS / JS Cache', 'site-optimizer-by-beplus' )
+			. esc_html__( 'Clear CSS / JS Cache', 'site-optimizer-by-beplus-master' )
 			. '</a>';
 
 		$html .= '</div>'; // .sob-ab-panel
@@ -2148,7 +2148,7 @@ gzip_min_length 1024;'
 	 */
 	public static function handle_quick_enable() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to perform this action.', 'site-optimizer-by-beplus' ) );
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'site-optimizer-by-beplus-master' ) );
 		}
 
 		$option = isset( $_POST['sob_option'] ) ? sanitize_key( wp_unslash( $_POST['sob_option'] ) ) : '';
@@ -2156,7 +2156,7 @@ gzip_min_length 1024;'
 		// Validate that this is an allowed option key.
 		$allowed = array( 'lazy_load', 'minify_css_files', 'minify_js_files', 'js_defer', 'remove_emoji', 'css_minify', 'cache_headers' );
 		if ( ! in_array( $option, $allowed, true ) ) {
-			wp_die( esc_html__( 'Invalid option key.', 'site-optimizer-by-beplus' ) );
+			wp_die( esc_html__( 'Invalid option key.', 'site-optimizer-by-beplus-master' ) );
 		}
 
 		check_admin_referer( 'sob_quick_enable_' . $option, 'sob_quick_enable_nonce' );
@@ -2180,7 +2180,7 @@ gzip_min_length 1024;'
 
 		$redirect = add_query_arg(
 			array(
-				'page'              => 'site-optimizer-by-beplus',
+				'page'              => 'site-optimizer-by-beplus-master',
 				'sob_quick_enabled' => $option,
 			),
 			admin_url( 'options-general.php' )
@@ -2245,7 +2245,7 @@ gzip_min_length 1024;'
 		check_admin_referer( 'sob_clear_cache' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to perform this action.', 'site-optimizer-by-beplus' ) );
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'site-optimizer-by-beplus-master' ) );
 		}
 
 		$count = SOB_Minify::clear_cache();
@@ -2257,7 +2257,7 @@ gzip_min_length 1024;'
 
 		$referrer = wp_get_referer();
 		if ( ! $referrer ) {
-			$referrer = admin_url( 'options-general.php?page=site-optimizer-by-beplus' );
+			$referrer = admin_url( 'options-general.php?page=site-optimizer-by-beplus-master' );
 		}
 
 		wp_safe_redirect( remove_query_arg( 'sob_cache_cleared', $referrer ) );
@@ -2293,7 +2293,7 @@ gzip_min_length 1024;'
 						'BePlus Optimizer: %d cached file cleared successfully.',
 						'BePlus Optimizer: %d cached files cleared successfully.',
 						$count,
-						'site-optimizer-by-beplus'
+						'site-optimizer-by-beplus-master'
 					) ),
 					absint( $count )
 				);
@@ -2318,7 +2318,7 @@ gzip_min_length 1024;'
 		foreach ( array( 'post', 'page' ) as $post_type ) {
 			add_meta_box(
 				'sob-page-settings',
-				__( 'BePlus Optimizer', 'site-optimizer-by-beplus' ),
+				__( 'BePlus Optimizer', 'site-optimizer-by-beplus-master' ),
 				array( __CLASS__, 'render_meta_box' ),
 				$post_type,
 				'side',
@@ -2341,11 +2341,11 @@ gzip_min_length 1024;'
 			<label>
 				<input type="checkbox" name="sob_disable_cache" value="1"
 					<?php checked( $is_disabled ); ?>>
-				<?php esc_html_e( 'Disable CSS/JS cache optimizations for this page/post.', 'site-optimizer-by-beplus' ); ?>
+				<?php esc_html_e( 'Disable CSS/JS cache optimizations for this page/post.', 'site-optimizer-by-beplus-master' ); ?>
 			</label>
 		</p>
 		<p class="description" style="font-size:11px;margin-top:4px;">
-			<?php esc_html_e( 'When checked, minified files are not served for this page. Useful for debugging or if a specific page has conflicts.', 'site-optimizer-by-beplus' ); ?>
+			<?php esc_html_e( 'When checked, minified files are not served for this page. Useful for debugging or if a specific page has conflicts.', 'site-optimizer-by-beplus-master' ); ?>
 		</p>
 		<?php
 	}

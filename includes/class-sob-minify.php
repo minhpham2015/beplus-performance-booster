@@ -60,6 +60,16 @@ class SOB_Minify {
 	private static $page_cache_disabled = null;
 
 	/**
+	 * Per-request cache for the page-exclusion-only check (no user login check).
+	 * Used by file minification so cache files are always written to disk even
+	 * when the current user is logged in — the cached URL is withheld from
+	 * logged-in users separately, not the file creation itself.
+	 *
+	 * @var bool|null  null = not yet checked.
+	 */
+	private static $page_excluded = null;
+
+	/**
 	 * Cached public URL for the cache directory.
 	 * Populated on first call to cache_url().
 	 *
@@ -106,8 +116,9 @@ class SOB_Minify {
 			return;
 		}
 
-		// Reset per-request flag.
+		// Reset per-request flags.
 		self::$page_cache_disabled = null;
+		self::$page_excluded       = null;
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 			$css_on = $opts['minify_css_files'] ? 'ON' : 'OFF';
@@ -136,7 +147,10 @@ class SOB_Minify {
 	 * @return string Possibly replaced URL pointing to the cached/minified file.
 	 */
 	public static function maybe_minify_css( $src, $handle ) {
-		if ( self::is_cache_disabled_for_page() ) {
+		// Hard bail: page is excluded via per-page meta or URL pattern.
+		// Does NOT check login status — we always write the cache file to disk
+		// so guest visitors benefit even when admins browse the site first.
+		if ( self::is_page_excluded() ) {
 			return $src;
 		}
 
@@ -197,6 +211,14 @@ class SOB_Minify {
 			}
 		}
 
+		// Soft bail: serve the original URL to logged-in users unless the
+		// "Cache for Logged-In Users" option is explicitly enabled.
+		// The cache file was still written above so guest visitors benefit.
+		$opts = sob_get_options();
+		if ( empty( $opts['cache_for_logged_in'] ) && is_user_logged_in() ) {
+			return $src;
+		}
+
 		// Preserve the original ?ver= query string for WordPress's own cache-busting.
 		$query = wp_parse_url( $src, PHP_URL_QUERY );
 		return $query ? $cache_url . '?' . $query : $cache_url;
@@ -210,7 +232,8 @@ class SOB_Minify {
 	 * @return string Possibly replaced URL pointing to the cached/minified file.
 	 */
 	public static function maybe_minify_js( $src, $handle ) {
-		if ( self::is_cache_disabled_for_page() ) {
+		// Hard bail: page is excluded via per-page meta or URL pattern.
+		if ( self::is_page_excluded() ) {
 			return $src;
 		}
 
@@ -273,6 +296,12 @@ class SOB_Minify {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[SOB] JS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
 			}
+		}
+
+		// Soft bail: serve original URL to logged-in users unless explicitly enabled.
+		$opts = sob_get_options();
+		if ( empty( $opts['cache_for_logged_in'] ) && is_user_logged_in() ) {
+			return $src;
 		}
 
 		$query = wp_parse_url( $src, PHP_URL_QUERY );
@@ -347,6 +376,60 @@ class SOB_Minify {
 		}
 
 		self::$page_cache_disabled = false;
+		return false;
+	}
+
+	/**
+	 * Return true if the current page is excluded from caching via per-page meta
+	 * or URL pattern — WITHOUT checking login status.
+	 *
+	 * Used by file minification (maybe_minify_css / maybe_minify_js) so that
+	 * cache files are always written to disk even when an admin is browsing.
+	 * The decision of whether to SERVE the cached URL to the current user is
+	 * handled separately at the end of each filter callback.
+	 *
+	 * @return bool
+	 */
+	private static function is_page_excluded() {
+		if ( null !== self::$page_excluded ) {
+			return self::$page_excluded;
+		}
+
+		$opts = sob_get_options();
+
+		// Check 1: per-post meta flag (_sob_disable_cache).
+		$post_id = get_queried_object_id();
+		if ( $post_id ) {
+			$meta = get_post_meta( $post_id, '_sob_disable_cache', true );
+			if ( ! empty( $meta ) ) {
+				self::$page_excluded = true;
+				return true;
+			}
+		}
+
+		// Check 2: global URL pattern list (cache_exclude_pages).
+		$patterns = sob_parse_exclude_list( $opts['cache_exclude_pages'] );
+		if ( ! empty( $patterns ) ) {
+			$current_url = isset( $_SERVER['REQUEST_URI'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+				? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+				: '';
+			$full_url = home_url( $current_url );
+
+			foreach ( $patterns as $pattern ) {
+				if ( empty( $pattern ) ) {
+					continue;
+				}
+				if (
+					false !== strpos( $current_url, $pattern ) ||
+					false !== strpos( $full_url, $pattern )
+				) {
+					self::$page_excluded = true;
+					return true;
+				}
+			}
+		}
+
+		self::$page_excluded = false;
 		return false;
 	}
 
