@@ -1,0 +1,1288 @@
+﻿/**
+ * BePlus Optimizer — Admin settings page styles.
+ *
+ * @package Performance_Optimizer_BePlus
+ */
+
+/* ---- Wrap & tagline -------------------------------------------------------- */
+
+.pobp-settings-wrap h1 {
+	margin-bottom: 4px;
+}
+
+.pobp-settings-wrap .pobp-tagline {
+	color: #646970;
+	margin-top: 4px;
+	margin-bottom: 0;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+/* ---- Tab navigation (underline style) -------------------------------------- */
+
+.pobp-tabs-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	margin: 16px 0 0;
+	border-bottom: 2px solid #dcdcde;
+}
+
+.pobp-tab-btn {
+	background: none;
+	border: none;
+	border-bottom: 2px solid transparent;
+	padding: 10px 16px;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 500;
+	color: #50575e;
+	margin-bottom: -2px;
+	transition: color 0.15s, border-color 0.15s;
+	line-height: 1.4;
+}
+
+.pobp-tab-btn:hover {
+	color: #2271b1;
+	border-bottom-color: #2271b1;
+}
+
+.pobp-tab-btn.active {
+	color: #2271b1;
+	border-bottom-color: #2271b1;
+	font-weight: 600;
+}
+
+/* ---- Tab panels ------------------------------------------------------------ */
+
+.pobp-tab-panel {
+	display: none;
+}
+
+.pobp-tab-panel.active {
+	display: block;
+}
+
+/* ---- Cards ----------------------------------------------------------------- */
+
+.pobp-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	margin-top: 18px;
+	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.04 );
+}
+
+.pobp-card-header {
+	padding: 16px 22px;
+	border-bottom: 1px solid #eef0f1;
+	background: linear-gradient( to bottom, #fcfcfd, #fafafa );
+	border-radius: 6px 6px 0 0;
+}
+
+.pobp-card-header h2 {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	border: none;
+	letter-spacing: -0.005em;
+}
+
+.pobp-card-header p {
+	margin: 4px 0 0;
+	color: #646970;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.pobp-card-body {
+	padding: 8px 22px 12px;
+}
+
+/* ---- Form rows (two-column) ------------------------------------------------ */
+
+.pobp-form-row {
+	display: flex;
+	padding: 16px 0;
+	border-bottom: 1px solid #f0f0f0;
+	align-items: flex-start;
+	gap: 20px;
+}
+
+.pobp-form-row:last-child {
+	border-bottom: none;
+}
+
+.pobp-form-row-label {
+	flex: 0 0 35%;
+	max-width: 35%;
+	padding-top: 3px;
+}
+
+.pobp-form-row-label > label {
+	font-weight: 600;
+	font-size: 13px;
+	color: #1d2327;
+	display: block;
+}
+
+.pobp-form-row-label .pobp-row-desc {
+	color: #646970;
+	font-size: 12px;
+	margin-top: 4px;
+	line-height: 1.4;
+}
+
+.pobp-form-row-field {
+	flex: 1;
+	min-width: 0;
+}
+
+.pobp-form-row-field .description {
+	color: #646970;
+	font-size: 12px;
+	margin-top: 6px;
+	line-height: 1.5;
+}
+
+.pobp-form-row-field .pobp-warn {
+	color: #b32d2e;
+	font-size: 12px;
+	margin-top: 4px;
+}
+
+.pobp-form-row-field textarea.large-text {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* ---- Checkbox label inline ------------------------------------------------- */
+
+.pobp-check-label {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	cursor: pointer;
+}
+
+.pobp-check-label input[type="checkbox"] {
+	margin-top: 2px;
+	flex-shrink: 0;
+}
+
+.pobp-check-label .pobp-check-text {
+	font-size: 13px;
+	color: #1d2327;
+	line-height: 1.5;
+}
+
+/* ---- Inline warning notices ----------------------------------------------- */
+
+.pobp-notice-warning {
+	border-left-color: #dba617;
+	padding: 8px 12px;
+	margin: 12px 0;
+}
+
+/* ---- Save bar ------------------------------------------------------------- */
+
+.pobp-save-bar {
+	padding: 18px 0 10px;
+	margin-top: 8px;
+	border-top: 1px solid #e3e5e7;
+}
+
+/* ---- Dashboard: recommended settings table --------------------------------- */
+
+.pobp-rec-table th {
+	font-size: 12px;
+	color: #50575e;
+}
+
+/* =============================================================================
+   Admin Bar — BePlus Optimizer panel (dark Autoptimize-style)
+   ============================================================================= */
+
+/* Green filled dot before the parent label */
+#wpadminbar #wp-admin-bar-pobp-cache .pobp-ab-dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	background: #00a32a;
+	border-radius: 50%;
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-top: -1px;
+	flex-shrink: 0;
+}
+
+/* Parent node link */
+#wpadminbar #wp-admin-bar-pobp-cache > .ab-item {
+	color: #eee;
+}
+
+#wpadminbar #wp-admin-bar-pobp-cache:hover > .ab-item,
+#wpadminbar #wp-admin-bar-pobp-cache.hover > .ab-item {
+	background: #32373c;
+	color: #fff;
+}
+
+/* ---- Panel list item: strip all default WP submenu styles ----------------- */
+
+#wpadminbar #wp-admin-bar-pobp-cache-panel {
+	width: 240px;
+	padding: 0;
+	background: transparent !important;
+}
+
+#wpadminbar #wp-admin-bar-pobp-cache-panel > .ab-item,
+#wpadminbar #wp-admin-bar-pobp-cache-panel > a.ab-item {
+	display: block !important;
+	padding: 0 !important;
+	height: auto !important;
+	min-height: 0 !important;
+	line-height: 1 !important;
+	background: transparent !important;
+	color: inherit !important;
+	cursor: default !important;
+}
+
+#wpadminbar #wp-admin-bar-pobp-cache-panel > .ab-item:hover,
+#wpadminbar #wp-admin-bar-pobp-cache-panel > .ab-item:focus,
+#wpadminbar #wp-admin-bar-pobp-cache-panel > a.ab-item:hover,
+#wpadminbar #wp-admin-bar-pobp-cache-panel > a.ab-item:focus {
+	background: transparent !important;
+	color: inherit !important;
+}
+
+/* ---- Dark panel ----------------------------------------------------------- */
+
+.pobp-ab-panel {
+	background: #1d2327;
+	width: 240px;
+	box-sizing: border-box;
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Padded info area (header + ring/stats row) */
+.pobp-ab-info {
+	padding: 14px 16px;
+}
+
+/* ---- Header row: green dot + uppercase label ------------------------------ */
+
+.pobp-ab-header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 12px;
+}
+
+.pobp-ab-header-dot {
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	background: #00a32a;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.pobp-ab-header-text {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: #a7aaad;
+	font-weight: 600;
+	line-height: 1;
+}
+
+/* ---- Main content: ring left, stats right --------------------------------- */
+
+.pobp-ab-content {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.pobp-ab-ring-wrap {
+	flex-shrink: 0;
+}
+
+/* SVG donut ring: 52 × 52px display, viewBox 36 × 36 → scale ≈ 1.44× */
+.pobp-ring-svg {
+	width: 52px;
+	height: 52px;
+	display: block;
+}
+
+/* Percentage text: 7 SVG units × 1.44 scale ≈ 10px rendered, white bold */
+.pobp-ring-pct {
+	font-size: 7px;
+	font-weight: 700;
+	fill: #fff;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Stats column */
+.pobp-ab-stats {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.pobp-ab-stat-row {
+	display: flex;
+	align-items: baseline;
+	gap: 4px;
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
+.pobp-ab-stat-label {
+	color: #a7aaad;
+	font-weight: 400;
+}
+
+/* Size value: green */
+.pobp-ab-stat-size {
+	color: #00a32a;
+	font-weight: 700;
+}
+
+/* Files value: white */
+.pobp-ab-stat-files {
+	color: #fff;
+	font-weight: 700;
+}
+
+/* ---- Separator ------------------------------------------------------------ */
+
+.pobp-ab-sep {
+	height: 1px;
+	background: #3c434a;
+}
+
+/* ---- Clear button: full-width, flush, no border-radius -------------------- */
+
+.pobp-ab-clear-btn {
+	display: flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	background: #2c3338 !important;
+	color: #fff !important;
+	padding: 10px 16px !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	text-decoration: none !important;
+	line-height: 1.4 !important;
+	transition: background 0.15s !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif !important;
+}
+
+.pobp-ab-clear-btn:hover,
+.pobp-ab-clear-btn:focus {
+	background: #32373c !important;
+	color: #fff !important;
+	text-decoration: none !important;
+}
+
+
+/* ---- Meta box (per-page cache disable) ------------------------------------ */
+
+#pobp-page-settings .inside {
+	padding: 8px 12px;
+}
+
+#pobp-page-settings label {
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
+	cursor: pointer;
+}
+
+#pobp-page-settings input[type="checkbox"] {
+	margin-top: 2px;
+	flex-shrink: 0;
+}
+
+/* ---- Responsive ----------------------------------------------------------- */
+
+@media ( max-width: 782px ) {
+	.pobp-form-row {
+		flex-direction: column;
+		gap: 8px;
+	}
+	.pobp-form-row-label {
+		flex: none;
+		max-width: 100%;
+	}
+}
+
+/* =============================================================================
+   Dashboard — Stat cards (Row 1)
+   ============================================================================= */
+
+.pobp-stat-grid {
+	display: grid;
+	grid-template-columns: repeat( 4, 1fr );
+	gap: 14px;
+	margin: 18px 0 0;
+}
+
+.pobp-stat-card {
+	background: #fff;
+	border: 1px solid #e3e5e7;
+	border-left-width: 3px;
+	border-radius: 6px;
+	padding: 16px 18px;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.04 );
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pobp-stat-card:hover {
+	transform: translateY( -1px );
+	box-shadow: 0 4px 8px rgba( 16, 24, 40, 0.06 );
+}
+
+/* Accent colours */
+.pobp-stat-card--blue   { border-left-color: #2271b1; }
+.pobp-stat-card--green  { border-left-color: #00a32a; }
+.pobp-stat-card--grey   { border-left-color: #8c8f94; }
+.pobp-stat-card--teal   { border-left-color: #007cba; }
+.pobp-stat-card--orange { border-left-color: #d63638; }
+
+.pobp-stat-icon {
+	font-size: 24px;
+	line-height: 1;
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	background: #f6f7f7;
+}
+
+.pobp-stat-card--blue   .pobp-stat-icon { color: #2271b1; background: #eaf2f9; }
+.pobp-stat-card--green  .pobp-stat-icon { color: #00a32a; background: #ecf8ef; }
+.pobp-stat-card--grey   .pobp-stat-icon { color: #6c7378; background: #f1f2f3; }
+.pobp-stat-card--teal   .pobp-stat-icon { color: #007cba; background: #e6f3fa; }
+.pobp-stat-card--orange .pobp-stat-icon { color: #d63638; background: #fcebec; }
+
+.pobp-stat-body {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+
+.pobp-stat-value {
+	font-size: 24px;
+	font-weight: 700;
+	color: #1d2327;
+	line-height: 1.1;
+	white-space: nowrap;
+	letter-spacing: -0.02em;
+}
+
+.pobp-stat-value--sm {
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 0;
+}
+
+.pobp-stat-label {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #6c7378;
+	white-space: nowrap;
+}
+
+/* =============================================================================
+   Dashboard — Two-column row (Row 2)
+   ============================================================================= */
+
+.pobp-two-col {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 14px;
+	margin-top: 14px;
+}
+
+/* =============================================================================
+   Dashboard — Cache Actions card
+   ============================================================================= */
+
+.pobp-actions-card .pobp-card-body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* Full-width red-toned clear button */
+.pobp-clear-btn {
+	display: flex !important;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	justify-content: center;
+	padding: 9px 16px !important;
+	font-size: 13px !important;
+	font-weight: 600 !important;
+	background: #d63638 !important;
+	border-color: #d63638 !important;
+	color: #fff !important;
+	border-radius: 3px;
+	text-decoration: none;
+	box-sizing: border-box;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.pobp-clear-btn:hover,
+.pobp-clear-btn:focus {
+	background: #b32d2e !important;
+	border-color: #b32d2e !important;
+	color: #fff !important;
+}
+
+.pobp-clear-btn.pobp-clear-btn--empty {
+	background: #8c8f94 !important;
+	border-color: #8c8f94 !important;
+	pointer-events: none;
+	opacity: 0.7;
+}
+
+
+.pobp-cache-summary {
+	margin: 10px 0 0;
+	font-size: 12px;
+	color: #646970;
+	text-align: center;
+}
+
+.pobp-refresh-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	margin-top: 10px;
+	font-size: 12px;
+	color: #2271b1;
+	text-decoration: none;
+}
+
+.pobp-refresh-link:hover {
+	text-decoration: underline;
+}
+
+.pobp-refresh-link .dashicons {
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
+	line-height: 1;
+}
+
+/* =============================================================================
+   Dashboard — Recommended Settings table
+   ============================================================================= */
+
+.pobp-card-body--flush {
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+}
+
+.pobp-rec-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.pobp-rec-table th,
+.pobp-rec-table td {
+	padding: 11px 18px;
+	text-align: left;
+	border-bottom: 1px solid #f0f0f1;
+	vertical-align: middle;
+}
+
+.pobp-rec-table thead th {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #6c7378;
+	font-weight: 600;
+	background: #fafbfc;
+}
+
+.pobp-rec-table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.pobp-rec-table tbody tr {
+	transition: background-color 0.12s ease;
+}
+
+.pobp-rec-table tbody tr:hover {
+	background: #fafbfc;
+}
+
+.pobp-rec-table td:first-child {
+	font-weight: 500;
+	color: #1d2327;
+}
+
+/* Status badges — canonical definition used across the whole settings page */
+.pobp-status-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	border-radius: 10px;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1.5;
+	white-space: nowrap;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	flex-shrink: 0;
+}
+
+.pobp-status-badge.active {
+	background: #ecf8ef;
+	color: #007a1a;
+	border: 1px solid #b8e0bf;
+}
+
+.pobp-status-badge.inactive {
+	background: #f6f7f7;
+	color: #6c7378;
+	border: 1px solid #dcdcde;
+}
+
+.pobp-status-check {
+	color: #00a32a;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	line-height: 1;
+}
+
+/* Quick-enable button (compact) */
+.pobp-quick-enable-btn {
+	font-size: 12px !important;
+	padding: 3px 12px !important;
+	height: auto !important;
+	line-height: 1.6 !important;
+	font-weight: 500 !important;
+	border-radius: 4px !important;
+}
+
+/* =============================================================================
+   Dashboard — Plugin Info strip (Row 3)
+   ============================================================================= */
+
+.pobp-info-strip {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 18px;
+	padding: 14px 18px;
+	background: linear-gradient( to right, #fafbfc, #f6f7f7 );
+	border: 1px solid #e3e5e7;
+	border-radius: 6px;
+	font-size: 12px;
+	color: #646970;
+	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.03 );
+}
+
+.pobp-info-strip-left {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.pobp-info-strip-left strong {
+	color: #1d2327;
+}
+
+.pobp-info-version {
+	background: #dcdcde;
+	color: #50575e;
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.pobp-info-sep {
+	color: #c3c4c7;
+}
+
+.pobp-info-strip-links {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.pobp-info-strip-links a {
+	color: #2271b1;
+	text-decoration: none;
+}
+
+.pobp-info-strip-links a:hover {
+	text-decoration: underline;
+}
+
+/* =============================================================================
+   Dashboard — Responsive
+   ============================================================================= */
+
+@media ( max-width: 1200px ) {
+	.pobp-stat-grid {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+}
+
+@media ( max-width: 782px ) {
+	.pobp-stat-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.pobp-two-col {
+		grid-template-columns: 1fr;
+	}
+	.pobp-info-strip {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+/* =============================================================================
+   Master Cache Toggle
+   ============================================================================= */
+
+.pobp-toggle-section {
+	margin-bottom: 16px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.pobp-toggle-wrap {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 6px;
+}
+
+/* The pill/label wrapper */
+.pobp-toggle {
+	position: relative;
+	display: inline-block;
+	width: 48px;
+	height: 26px;
+	flex-shrink: 0;
+}
+
+.pobp-toggle input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+	position: absolute;
+}
+
+.pobp-toggle-slider {
+	position: absolute;
+	inset: 0;
+	background: #c3c4c7;
+	border-radius: 26px;
+	transition: background 0.25s;
+	cursor: pointer;
+}
+
+.pobp-toggle-slider::before {
+	content: '';
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	left: 3px;
+	bottom: 3px;
+	background: #fff;
+	border-radius: 50%;
+	transition: transform 0.25s;
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.25 );
+}
+
+.pobp-toggle input:checked + .pobp-toggle-slider {
+	background: #00a32a;
+}
+
+.pobp-toggle input:checked + .pobp-toggle-slider::before {
+	transform: translateX( 22px );
+}
+
+.pobp-toggle input:focus-visible + .pobp-toggle-slider {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+/* Labels beside the toggle */
+.pobp-toggle-labels {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+.pobp-toggle-title {
+	font-weight: 600;
+	font-size: 13px;
+	color: #1d2327;
+}
+
+.pobp-toggle-status {
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	padding: 2px 8px;
+	border-radius: 10px;
+	line-height: 1.5;
+	margin-top: 2px;
+	align-self: flex-start;
+}
+
+.pobp-toggle-status--on {
+	color: #007a1a;
+	background: #ecf8ef;
+	border: 1px solid #b8e0bf;
+}
+
+.pobp-toggle-status--off {
+	color: #6c7378;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+}
+
+.pobp-toggle-desc {
+	margin: 0;
+	font-size: 12px;
+	color: #646970;
+}
+
+/* Warning notice when cache is disabled */
+.pobp-cache-disabled-notice {
+	margin: 0 0 14px !important;
+	font-size: 13px;
+}
+
+/* Clear button row */
+.pobp-cache-actions-row {
+	margin-bottom: 10px;
+}
+
+/* Disabled clear button state */
+.pobp-clear-btn[aria-disabled="true"] {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+/* =============================================================================
+   AI Optimizer Tab
+   ============================================================================= */
+
+.pobp-ai-card {
+	max-width: 640px;
+	margin: 24px auto 0;
+}
+
+.pobp-ai-body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 40px 48px !important;
+}
+
+.pobp-ai-icon {
+	font-size: 52px;
+	line-height: 1;
+	margin-bottom: 16px;
+}
+
+.pobp-ai-title {
+	font-size: 22px;
+	font-weight: 700;
+	color: #1d2327;
+	margin: 0 0 8px;
+}
+
+.pobp-ai-subtitle {
+	font-size: 14px;
+	color: #646970;
+	margin: 0;
+}
+
+.pobp-ai-divider {
+	width: 100%;
+	border: none;
+	border-top: 1px solid #f0f0f1;
+	margin: 24px 0;
+}
+
+.pobp-ai-features {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	text-align: left;
+}
+
+.pobp-ai-features li {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 16px;
+	background: #f6f7f7;
+	border-radius: 6px;
+	margin-bottom: 8px;
+	font-size: 13px;
+	color: #50575e;
+}
+
+.pobp-ai-features li:last-child {
+	margin-bottom: 0;
+}
+
+.pobp-ai-lock {
+	font-size: 16px;
+	flex-shrink: 0;
+	opacity: 0.6;
+}
+
+.pobp-ai-notice {
+	width: 100%;
+	text-align: left;
+	margin: 0 !important;
+	box-sizing: border-box;
+}
+
+.pobp-ai-notice p {
+	margin: 0.5em 0;
+	font-size: 13px;
+}
+
+.pobp-ai-version-badge {
+	margin-top: 20px;
+	display: inline-block;
+	background: #f0f0f1;
+	color: #50575e;
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 12px;
+	border-radius: 20px;
+	letter-spacing: 0.3px;
+	text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Status Tab
+   ========================================================================== */
+
+.pobp-status-tab-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 18px 0 6px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #e3e5e7;
+}
+
+.pobp-status-tab-header h2 {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 600;
+	color: #1d2327;
+	letter-spacing: -0.01em;
+}
+
+/* ---- Recommendations panel (Status tab) ---- */
+
+.pobp-recommend-card {
+	margin-bottom: 18px;
+}
+
+.pobp-rec-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 22px;
+	height: 22px;
+	padding: 0 8px;
+	margin-left: 10px;
+	border-radius: 11px;
+	background: #2271b1;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	vertical-align: middle;
+	letter-spacing: 0;
+}
+
+.pobp-rec-item {
+	display: flex;
+	gap: 14px;
+	align-items: flex-start;
+	padding: 14px 16px;
+	margin-bottom: 10px;
+	border: 1px solid transparent;
+	border-left-width: 3px;
+	background: #f6f7f7;
+	border-radius: 5px;
+	transition: box-shadow 0.15s ease;
+}
+
+.pobp-rec-item:hover {
+	box-shadow: 0 1px 3px rgba( 16, 24, 40, 0.06 );
+}
+
+.pobp-rec-item:last-child {
+	margin-bottom: 0;
+}
+
+.pobp-rec-item--error {
+	border-color: #f3c5c6;
+	border-left-color: #d63638;
+	background: #fdf2f3;
+}
+
+.pobp-rec-item--warn {
+	border-color: #f0dca7;
+	border-left-color: #dba617;
+	background: #fefbf0;
+}
+
+.pobp-rec-item--tip {
+	border-color: #c5dcf2;
+	border-left-color: #2271b1;
+	background: #f4f8fc;
+}
+
+.pobp-rec-item--ok {
+	border-color: #b8e0bf;
+	border-left-color: #00a32a;
+	background: #f3fbf5;
+}
+
+.pobp-rec-icon {
+	flex: 0 0 auto;
+	font-size: 18px;
+	line-height: 1.4;
+}
+
+.pobp-rec-text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.pobp-rec-text strong {
+	display: block;
+	font-size: 13px;
+	color: #1d2327;
+	margin-bottom: 3px;
+	letter-spacing: -0.005em;
+}
+
+.pobp-rec-text p {
+	margin: 0 0 6px;
+	color: #50575e;
+	font-size: 13px;
+	line-height: 1.55;
+}
+
+.pobp-rec-text code {
+	background: rgba( 0, 0, 0, 0.05 );
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-family: Consolas, Monaco, monospace;
+}
+
+.pobp-rec-link {
+	display: inline-block;
+	margin-top: 2px;
+	font-size: 12px;
+	font-weight: 500;
+	color: #2271b1;
+	text-decoration: none;
+}
+
+.pobp-rec-link:hover {
+	text-decoration: underline;
+}
+
+/* Two-column grid — collapses to single column on narrow screens */
+.pobp-status-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 18px;
+	align-items: start;
+}
+
+@media ( max-width: 782px ) {
+	.pobp-status-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Remove default card-body padding when the body IS the status table */
+.pobp-card-body.pobp-status-table {
+	padding: 0;
+}
+
+/* ---- Status rows ---- */
+
+.pobp-status-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 18px;
+	border-bottom: 1px solid #f0f0f1;
+	font-size: 13px;
+	line-height: 1.5;
+	transition: background-color 0.1s ease;
+}
+
+.pobp-status-row:hover {
+	background: #fafbfc;
+}
+
+.pobp-status-row:last-child {
+	border-bottom: none;
+}
+
+.pobp-status-label {
+	color: #50575e;
+	flex-shrink: 0;
+	min-width: 140px;
+	font-weight: 500;
+}
+
+.pobp-status-value {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	text-align: right;
+	word-break: break-all;
+	color: #1d2327;
+}
+
+/* ---- Status badge colour variants ---- */
+
+.pobp-status-ok {
+	background: #edfaef;
+	color: #00a32a;
+}
+
+.pobp-status-warn {
+	background: #fcf9e8;
+	color: #996800;
+}
+
+.pobp-status-error {
+	background: #fce8e8;
+	color: #d63638;
+}
+
+.pobp-status-info {
+	background: #e5f5fa;
+	color: #0072ae;
+}
+
+/* ---- Active Plugins panel ---- */
+
+.pobp-plugins-flagged {
+	margin-bottom: 8px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.pobp-plugin-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 6px 16px;
+	border-bottom: 1px solid #f0f0f1;
+	font-size: 13px;
+}
+
+.pobp-plugins-flagged .pobp-plugin-row {
+	border-bottom: none;
+	padding: 6px 0 6px 16px;
+}
+
+.pobp-plugin-row:last-child {
+	border-bottom: none;
+}
+
+.pobp-plugin-row--flagged {
+	flex-wrap: wrap;
+	row-gap: 4px;
+}
+
+.pobp-plugin-info {
+	display: flex;
+	align-items: baseline;
+	gap: 5px;
+	flex-shrink: 0;
+}
+
+.pobp-plugin-ver {
+	color: #787c82;
+	font-size: 11px;
+}
+
+.pobp-all-plugins {
+	margin-top: 8px;
+}
+
+.pobp-all-plugins summary {
+	cursor: pointer;
+	color: #2271b1;
+	font-size: 13px;
+	padding: 6px 16px;
+	user-select: none;
+	list-style: disclosure-closed;
+}
+
+.pobp-all-plugins[open] summary {
+	list-style: disclosure-open;
+}
+
+.pobp-all-plugins summary:hover {
+	color: #135e96;
+}
+
+.pobp-plugins-all {
+	margin-top: 4px;
+}
