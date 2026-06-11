@@ -1,4 +1,4 @@
-=== Performance Optimizer by BePlus ===
+﻿=== Performance Optimizer by BePlus ===
 Contributors: beplusthemes, bearsthemes
 Tags: performance, lazy load, cache, minify, optimization
 Requires at least: 5.0

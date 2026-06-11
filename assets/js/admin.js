@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BePlus Optimizer — Admin settings page: tab navigation + cache toggle AJAX.
  *
  * Extracted from the inline <script> block in class-pobp-admin.php (CQ-3)
