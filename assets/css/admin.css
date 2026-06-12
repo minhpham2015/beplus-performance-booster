@@ -1,16 +1,16 @@
-﻿/**
- * BePlus Optimizer — Admin settings page styles.
+/**
+ * Beplus Performance Booster — Admin settings page styles.
  *
  * @package Performance_Optimizer_BePlus
  */
 
 /* ---- Wrap & tagline -------------------------------------------------------- */
 
-.pobp-settings-wrap h1 {
+.bepluspb-settings-wrap h1 {
 	margin-bottom: 4px;
 }
 
-.pobp-settings-wrap .pobp-tagline {
+.bepluspb-settings-wrap .bepluspb-tagline {
 	color: #646970;
 	margin-top: 4px;
 	margin-bottom: 0;
@@ -20,7 +20,7 @@
 
 /* ---- Tab navigation (underline style) -------------------------------------- */
 
-.pobp-tabs-nav {
+.bepluspb-tabs-nav {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0;
@@ -28,7 +28,7 @@
 	border-bottom: 2px solid #dcdcde;
 }
 
-.pobp-tab-btn {
+.bepluspb-tab-btn {
 	background: none;
 	border: none;
 	border-bottom: 2px solid transparent;
@@ -42,12 +42,12 @@
 	line-height: 1.4;
 }
 
-.pobp-tab-btn:hover {
+.bepluspb-tab-btn:hover {
 	color: #2271b1;
 	border-bottom-color: #2271b1;
 }
 
-.pobp-tab-btn.active {
+.bepluspb-tab-btn.active {
 	color: #2271b1;
 	border-bottom-color: #2271b1;
 	font-weight: 600;
@@ -55,17 +55,17 @@
 
 /* ---- Tab panels ------------------------------------------------------------ */
 
-.pobp-tab-panel {
+.bepluspb-tab-panel {
 	display: none;
 }
 
-.pobp-tab-panel.active {
+.bepluspb-tab-panel.active {
 	display: block;
 }
 
 /* ---- Cards ----------------------------------------------------------------- */
 
-.pobp-card {
+.bepluspb-card {
 	background: #fff;
 	border: 1px solid #dcdcde;
 	border-radius: 6px;
@@ -73,14 +73,14 @@
 	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.04 );
 }
 
-.pobp-card-header {
+.bepluspb-card-header {
 	padding: 16px 22px;
 	border-bottom: 1px solid #eef0f1;
 	background: linear-gradient( to bottom, #fcfcfd, #fafafa );
 	border-radius: 6px 6px 0 0;
 }
 
-.pobp-card-header h2 {
+.bepluspb-card-header h2 {
 	margin: 0;
 	padding: 0;
 	font-size: 14px;
@@ -90,20 +90,20 @@
 	letter-spacing: -0.005em;
 }
 
-.pobp-card-header p {
+.bepluspb-card-header p {
 	margin: 4px 0 0;
 	color: #646970;
 	font-size: 12px;
 	line-height: 1.5;
 }
 
-.pobp-card-body {
+.bepluspb-card-body {
 	padding: 8px 22px 12px;
 }
 
 /* ---- Form rows (two-column) ------------------------------------------------ */
 
-.pobp-form-row {
+.bepluspb-form-row {
 	display: flex;
 	padding: 16px 0;
 	border-bottom: 1px solid #f0f0f0;
@@ -111,68 +111,68 @@
 	gap: 20px;
 }
 
-.pobp-form-row:last-child {
+.bepluspb-form-row:last-child {
 	border-bottom: none;
 }
 
-.pobp-form-row-label {
+.bepluspb-form-row-label {
 	flex: 0 0 35%;
 	max-width: 35%;
 	padding-top: 3px;
 }
 
-.pobp-form-row-label > label {
+.bepluspb-form-row-label > label {
 	font-weight: 600;
 	font-size: 13px;
 	color: #1d2327;
 	display: block;
 }
 
-.pobp-form-row-label .pobp-row-desc {
+.bepluspb-form-row-label .bepluspb-row-desc {
 	color: #646970;
 	font-size: 12px;
 	margin-top: 4px;
 	line-height: 1.4;
 }
 
-.pobp-form-row-field {
+.bepluspb-form-row-field {
 	flex: 1;
 	min-width: 0;
 }
 
-.pobp-form-row-field .description {
+.bepluspb-form-row-field .description {
 	color: #646970;
 	font-size: 12px;
 	margin-top: 6px;
 	line-height: 1.5;
 }
 
-.pobp-form-row-field .pobp-warn {
+.bepluspb-form-row-field .bepluspb-warn {
 	color: #b32d2e;
 	font-size: 12px;
 	margin-top: 4px;
 }
 
-.pobp-form-row-field textarea.large-text {
+.bepluspb-form-row-field textarea.large-text {
 	width: 100%;
 	box-sizing: border-box;
 }
 
 /* ---- Checkbox label inline ------------------------------------------------- */
 
-.pobp-check-label {
+.bepluspb-check-label {
 	display: flex;
 	align-items: flex-start;
 	gap: 8px;
 	cursor: pointer;
 }
 
-.pobp-check-label input[type="checkbox"] {
+.bepluspb-check-label input[type="checkbox"] {
 	margin-top: 2px;
 	flex-shrink: 0;
 }
 
-.pobp-check-label .pobp-check-text {
+.bepluspb-check-label .bepluspb-check-text {
 	font-size: 13px;
 	color: #1d2327;
 	line-height: 1.5;
@@ -180,7 +180,7 @@
 
 /* ---- Inline warning notices ----------------------------------------------- */
 
-.pobp-notice-warning {
+.bepluspb-notice-warning {
 	border-left-color: #dba617;
 	padding: 8px 12px;
 	margin: 12px 0;
@@ -188,7 +188,7 @@
 
 /* ---- Save bar ------------------------------------------------------------- */
 
-.pobp-save-bar {
+.bepluspb-save-bar {
 	padding: 18px 0 10px;
 	margin-top: 8px;
 	border-top: 1px solid #e3e5e7;
@@ -196,17 +196,17 @@
 
 /* ---- Dashboard: recommended settings table --------------------------------- */
 
-.pobp-rec-table th {
+.bepluspb-rec-table th {
 	font-size: 12px;
 	color: #50575e;
 }
 
 /* =============================================================================
-   Admin Bar — BePlus Optimizer panel (dark Autoptimize-style)
+   Admin Bar — Beplus Performance Booster panel (dark Autoptimize-style)
    ============================================================================= */
 
 /* Green filled dot before the parent label */
-#wpadminbar #wp-admin-bar-pobp-cache .pobp-ab-dot {
+#wpadminbar #wp-admin-bar-bepluspb-cache .bepluspb-ab-dot {
 	display: inline-block;
 	width: 8px;
 	height: 8px;
@@ -219,26 +219,26 @@
 }
 
 /* Parent node link */
-#wpadminbar #wp-admin-bar-pobp-cache > .ab-item {
+#wpadminbar #wp-admin-bar-bepluspb-cache > .ab-item {
 	color: #eee;
 }
 
-#wpadminbar #wp-admin-bar-pobp-cache:hover > .ab-item,
-#wpadminbar #wp-admin-bar-pobp-cache.hover > .ab-item {
+#wpadminbar #wp-admin-bar-bepluspb-cache:hover > .ab-item,
+#wpadminbar #wp-admin-bar-bepluspb-cache.hover > .ab-item {
 	background: #32373c;
 	color: #fff;
 }
 
 /* ---- Panel list item: strip all default WP submenu styles ----------------- */
 
-#wpadminbar #wp-admin-bar-pobp-cache-panel {
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel {
 	width: 240px;
 	padding: 0;
 	background: transparent !important;
 }
 
-#wpadminbar #wp-admin-bar-pobp-cache-panel > .ab-item,
-#wpadminbar #wp-admin-bar-pobp-cache-panel > a.ab-item {
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel > .ab-item,
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel > a.ab-item {
 	display: block !important;
 	padding: 0 !important;
 	height: auto !important;
@@ -249,17 +249,17 @@
 	cursor: default !important;
 }
 
-#wpadminbar #wp-admin-bar-pobp-cache-panel > .ab-item:hover,
-#wpadminbar #wp-admin-bar-pobp-cache-panel > .ab-item:focus,
-#wpadminbar #wp-admin-bar-pobp-cache-panel > a.ab-item:hover,
-#wpadminbar #wp-admin-bar-pobp-cache-panel > a.ab-item:focus {
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel > .ab-item:hover,
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel > .ab-item:focus,
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel > a.ab-item:hover,
+#wpadminbar #wp-admin-bar-bepluspb-cache-panel > a.ab-item:focus {
 	background: transparent !important;
 	color: inherit !important;
 }
 
 /* ---- Dark panel ----------------------------------------------------------- */
 
-.pobp-ab-panel {
+.bepluspb-ab-panel {
 	background: #1d2327;
 	width: 240px;
 	box-sizing: border-box;
@@ -268,20 +268,20 @@
 }
 
 /* Padded info area (header + ring/stats row) */
-.pobp-ab-info {
+.bepluspb-ab-info {
 	padding: 14px 16px;
 }
 
 /* ---- Header row: green dot + uppercase label ------------------------------ */
 
-.pobp-ab-header {
+.bepluspb-ab-header {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 	margin-bottom: 12px;
 }
 
-.pobp-ab-header-dot {
+.bepluspb-ab-header-dot {
 	display: inline-block;
 	width: 6px;
 	height: 6px;
@@ -290,7 +290,7 @@
 	flex-shrink: 0;
 }
 
-.pobp-ab-header-text {
+.bepluspb-ab-header-text {
 	font-size: 11px;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
@@ -301,25 +301,25 @@
 
 /* ---- Main content: ring left, stats right --------------------------------- */
 
-.pobp-ab-content {
+.bepluspb-ab-content {
 	display: flex;
 	align-items: center;
 	gap: 12px;
 }
 
-.pobp-ab-ring-wrap {
+.bepluspb-ab-ring-wrap {
 	flex-shrink: 0;
 }
 
 /* SVG donut ring: 52 × 52px display, viewBox 36 × 36 → scale ≈ 1.44× */
-.pobp-ring-svg {
+.bepluspb-ring-svg {
 	width: 52px;
 	height: 52px;
 	display: block;
 }
 
 /* Percentage text: 7 SVG units × 1.44 scale ≈ 10px rendered, white bold */
-.pobp-ring-pct {
+.bepluspb-ring-pct {
 	font-size: 7px;
 	font-weight: 700;
 	fill: #fff;
@@ -327,14 +327,14 @@
 }
 
 /* Stats column */
-.pobp-ab-stats {
+.bepluspb-ab-stats {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
 	min-width: 0;
 }
 
-.pobp-ab-stat-row {
+.bepluspb-ab-stat-row {
 	display: flex;
 	align-items: baseline;
 	gap: 4px;
@@ -344,33 +344,33 @@
 	white-space: nowrap;
 }
 
-.pobp-ab-stat-label {
+.bepluspb-ab-stat-label {
 	color: #a7aaad;
 	font-weight: 400;
 }
 
 /* Size value: green */
-.pobp-ab-stat-size {
+.bepluspb-ab-stat-size {
 	color: #00a32a;
 	font-weight: 700;
 }
 
 /* Files value: white */
-.pobp-ab-stat-files {
+.bepluspb-ab-stat-files {
 	color: #fff;
 	font-weight: 700;
 }
 
 /* ---- Separator ------------------------------------------------------------ */
 
-.pobp-ab-sep {
+.bepluspb-ab-sep {
 	height: 1px;
 	background: #3c434a;
 }
 
 /* ---- Clear button: full-width, flush, no border-radius -------------------- */
 
-.pobp-ab-clear-btn {
+.bepluspb-ab-clear-btn {
 	display: flex !important;
 	align-items: center !important;
 	gap: 6px !important;
@@ -387,8 +387,8 @@
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif !important;
 }
 
-.pobp-ab-clear-btn:hover,
-.pobp-ab-clear-btn:focus {
+.bepluspb-ab-clear-btn:hover,
+.bepluspb-ab-clear-btn:focus {
 	background: #32373c !important;
 	color: #fff !important;
 	text-decoration: none !important;
@@ -397,18 +397,18 @@
 
 /* ---- Meta box (per-page cache disable) ------------------------------------ */
 
-#pobp-page-settings .inside {
+#bepluspb-page-settings .inside {
 	padding: 8px 12px;
 }
 
-#pobp-page-settings label {
+#bepluspb-page-settings label {
 	display: flex;
 	align-items: flex-start;
 	gap: 6px;
 	cursor: pointer;
 }
 
-#pobp-page-settings input[type="checkbox"] {
+#bepluspb-page-settings input[type="checkbox"] {
 	margin-top: 2px;
 	flex-shrink: 0;
 }
@@ -416,11 +416,11 @@
 /* ---- Responsive ----------------------------------------------------------- */
 
 @media ( max-width: 782px ) {
-	.pobp-form-row {
+	.bepluspb-form-row {
 		flex-direction: column;
 		gap: 8px;
 	}
-	.pobp-form-row-label {
+	.bepluspb-form-row-label {
 		flex: none;
 		max-width: 100%;
 	}
@@ -430,14 +430,14 @@
    Dashboard — Stat cards (Row 1)
    ============================================================================= */
 
-.pobp-stat-grid {
+.bepluspb-stat-grid {
 	display: grid;
 	grid-template-columns: repeat( 4, 1fr );
 	gap: 14px;
 	margin: 18px 0 0;
 }
 
-.pobp-stat-card {
+.bepluspb-stat-card {
 	background: #fff;
 	border: 1px solid #e3e5e7;
 	border-left-width: 3px;
@@ -450,19 +450,19 @@
 	transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.pobp-stat-card:hover {
+.bepluspb-stat-card:hover {
 	transform: translateY( -1px );
 	box-shadow: 0 4px 8px rgba( 16, 24, 40, 0.06 );
 }
 
 /* Accent colours */
-.pobp-stat-card--blue   { border-left-color: #2271b1; }
-.pobp-stat-card--green  { border-left-color: #00a32a; }
-.pobp-stat-card--grey   { border-left-color: #8c8f94; }
-.pobp-stat-card--teal   { border-left-color: #007cba; }
-.pobp-stat-card--orange { border-left-color: #d63638; }
+.bepluspb-stat-card--blue   { border-left-color: #2271b1; }
+.bepluspb-stat-card--green  { border-left-color: #00a32a; }
+.bepluspb-stat-card--grey   { border-left-color: #8c8f94; }
+.bepluspb-stat-card--teal   { border-left-color: #007cba; }
+.bepluspb-stat-card--orange { border-left-color: #d63638; }
 
-.pobp-stat-icon {
+.bepluspb-stat-icon {
 	font-size: 24px;
 	line-height: 1;
 	flex-shrink: 0;
@@ -475,20 +475,20 @@
 	background: #f6f7f7;
 }
 
-.pobp-stat-card--blue   .pobp-stat-icon { color: #2271b1; background: #eaf2f9; }
-.pobp-stat-card--green  .pobp-stat-icon { color: #00a32a; background: #ecf8ef; }
-.pobp-stat-card--grey   .pobp-stat-icon { color: #6c7378; background: #f1f2f3; }
-.pobp-stat-card--teal   .pobp-stat-icon { color: #007cba; background: #e6f3fa; }
-.pobp-stat-card--orange .pobp-stat-icon { color: #d63638; background: #fcebec; }
+.bepluspb-stat-card--blue   .bepluspb-stat-icon { color: #2271b1; background: #eaf2f9; }
+.bepluspb-stat-card--green  .bepluspb-stat-icon { color: #00a32a; background: #ecf8ef; }
+.bepluspb-stat-card--grey   .bepluspb-stat-icon { color: #6c7378; background: #f1f2f3; }
+.bepluspb-stat-card--teal   .bepluspb-stat-icon { color: #007cba; background: #e6f3fa; }
+.bepluspb-stat-card--orange .bepluspb-stat-icon { color: #d63638; background: #fcebec; }
 
-.pobp-stat-body {
+.bepluspb-stat-body {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
 	min-width: 0;
 }
 
-.pobp-stat-value {
+.bepluspb-stat-value {
 	font-size: 24px;
 	font-weight: 700;
 	color: #1d2327;
@@ -497,13 +497,13 @@
 	letter-spacing: -0.02em;
 }
 
-.pobp-stat-value--sm {
+.bepluspb-stat-value--sm {
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: 0;
 }
 
-.pobp-stat-label {
+.bepluspb-stat-label {
 	font-size: 11px;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -515,7 +515,7 @@
    Dashboard — Two-column row (Row 2)
    ============================================================================= */
 
-.pobp-two-col {
+.bepluspb-two-col {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
 	gap: 14px;
@@ -526,13 +526,13 @@
    Dashboard — Cache Actions card
    ============================================================================= */
 
-.pobp-actions-card .pobp-card-body {
+.bepluspb-actions-card .bepluspb-card-body {
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
 
 /* Full-width red-toned clear button */
-.pobp-clear-btn {
+.bepluspb-clear-btn {
 	display: flex !important;
 	align-items: center;
 	gap: 6px;
@@ -550,14 +550,14 @@
 	transition: background 0.15s, border-color 0.15s;
 }
 
-.pobp-clear-btn:hover,
-.pobp-clear-btn:focus {
+.bepluspb-clear-btn:hover,
+.bepluspb-clear-btn:focus {
 	background: #b32d2e !important;
 	border-color: #b32d2e !important;
 	color: #fff !important;
 }
 
-.pobp-clear-btn.pobp-clear-btn--empty {
+.bepluspb-clear-btn.bepluspb-clear-btn--empty {
 	background: #8c8f94 !important;
 	border-color: #8c8f94 !important;
 	pointer-events: none;
@@ -565,14 +565,14 @@
 }
 
 
-.pobp-cache-summary {
+.bepluspb-cache-summary {
 	margin: 10px 0 0;
 	font-size: 12px;
 	color: #646970;
 	text-align: center;
 }
 
-.pobp-refresh-link {
+.bepluspb-refresh-link {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -583,11 +583,11 @@
 	text-decoration: none;
 }
 
-.pobp-refresh-link:hover {
+.bepluspb-refresh-link:hover {
 	text-decoration: underline;
 }
 
-.pobp-refresh-link .dashicons {
+.bepluspb-refresh-link .dashicons {
 	font-size: 14px;
 	width: 14px;
 	height: 14px;
@@ -598,27 +598,27 @@
    Dashboard — Recommended Settings table
    ============================================================================= */
 
-.pobp-card-body--flush {
+.bepluspb-card-body--flush {
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
 }
 
-.pobp-rec-table {
+.bepluspb-rec-table {
 	width: 100%;
 	border-collapse: collapse;
 	font-size: 13px;
 }
 
-.pobp-rec-table th,
-.pobp-rec-table td {
+.bepluspb-rec-table th,
+.bepluspb-rec-table td {
 	padding: 11px 18px;
 	text-align: left;
 	border-bottom: 1px solid #f0f0f1;
 	vertical-align: middle;
 }
 
-.pobp-rec-table thead th {
+.bepluspb-rec-table thead th {
 	font-size: 11px;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -627,25 +627,25 @@
 	background: #fafbfc;
 }
 
-.pobp-rec-table tbody tr:last-child td {
+.bepluspb-rec-table tbody tr:last-child td {
 	border-bottom: none;
 }
 
-.pobp-rec-table tbody tr {
+.bepluspb-rec-table tbody tr {
 	transition: background-color 0.12s ease;
 }
 
-.pobp-rec-table tbody tr:hover {
+.bepluspb-rec-table tbody tr:hover {
 	background: #fafbfc;
 }
 
-.pobp-rec-table td:first-child {
+.bepluspb-rec-table td:first-child {
 	font-weight: 500;
 	color: #1d2327;
 }
 
 /* Status badges — canonical definition used across the whole settings page */
-.pobp-status-badge {
+.bepluspb-status-badge {
 	display: inline-flex;
 	align-items: center;
 	padding: 2px 8px;
@@ -659,19 +659,19 @@
 	flex-shrink: 0;
 }
 
-.pobp-status-badge.active {
+.bepluspb-status-badge.active {
 	background: #ecf8ef;
 	color: #007a1a;
 	border: 1px solid #b8e0bf;
 }
 
-.pobp-status-badge.inactive {
+.bepluspb-status-badge.inactive {
 	background: #f6f7f7;
 	color: #6c7378;
 	border: 1px solid #dcdcde;
 }
 
-.pobp-status-check {
+.bepluspb-status-check {
 	color: #00a32a;
 	font-size: 18px;
 	width: 18px;
@@ -680,7 +680,7 @@
 }
 
 /* Quick-enable button (compact) */
-.pobp-quick-enable-btn {
+.bepluspb-quick-enable-btn {
 	font-size: 12px !important;
 	padding: 3px 12px !important;
 	height: auto !important;
@@ -693,7 +693,7 @@
    Dashboard — Plugin Info strip (Row 3)
    ============================================================================= */
 
-.pobp-info-strip {
+.bepluspb-info-strip {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -709,18 +709,18 @@
 	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.03 );
 }
 
-.pobp-info-strip-left {
+.bepluspb-info-strip-left {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 	flex-wrap: wrap;
 }
 
-.pobp-info-strip-left strong {
+.bepluspb-info-strip-left strong {
 	color: #1d2327;
 }
 
-.pobp-info-version {
+.bepluspb-info-version {
 	background: #dcdcde;
 	color: #50575e;
 	padding: 1px 6px;
@@ -729,23 +729,23 @@
 	font-weight: 600;
 }
 
-.pobp-info-sep {
+.bepluspb-info-sep {
 	color: #c3c4c7;
 }
 
-.pobp-info-strip-links {
+.bepluspb-info-strip-links {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 	flex-wrap: wrap;
 }
 
-.pobp-info-strip-links a {
+.bepluspb-info-strip-links a {
 	color: #2271b1;
 	text-decoration: none;
 }
 
-.pobp-info-strip-links a:hover {
+.bepluspb-info-strip-links a:hover {
 	text-decoration: underline;
 }
 
@@ -754,19 +754,19 @@
    ============================================================================= */
 
 @media ( max-width: 1200px ) {
-	.pobp-stat-grid {
+	.bepluspb-stat-grid {
 		grid-template-columns: repeat( 2, 1fr );
 	}
 }
 
 @media ( max-width: 782px ) {
-	.pobp-stat-grid {
+	.bepluspb-stat-grid {
 		grid-template-columns: 1fr 1fr;
 	}
-	.pobp-two-col {
+	.bepluspb-two-col {
 		grid-template-columns: 1fr;
 	}
-	.pobp-info-strip {
+	.bepluspb-info-strip {
 		flex-direction: column;
 		align-items: flex-start;
 	}
@@ -776,13 +776,13 @@
    Master Cache Toggle
    ============================================================================= */
 
-.pobp-toggle-section {
+.bepluspb-toggle-section {
 	margin-bottom: 16px;
 	padding-bottom: 16px;
 	border-bottom: 1px solid #f0f0f1;
 }
 
-.pobp-toggle-wrap {
+.bepluspb-toggle-wrap {
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -790,7 +790,7 @@
 }
 
 /* The pill/label wrapper */
-.pobp-toggle {
+.bepluspb-toggle {
 	position: relative;
 	display: inline-block;
 	width: 48px;
@@ -798,14 +798,14 @@
 	flex-shrink: 0;
 }
 
-.pobp-toggle input {
+.bepluspb-toggle input {
 	opacity: 0;
 	width: 0;
 	height: 0;
 	position: absolute;
 }
 
-.pobp-toggle-slider {
+.bepluspb-toggle-slider {
 	position: absolute;
 	inset: 0;
 	background: #c3c4c7;
@@ -814,7 +814,7 @@
 	cursor: pointer;
 }
 
-.pobp-toggle-slider::before {
+.bepluspb-toggle-slider::before {
 	content: '';
 	position: absolute;
 	height: 20px;
@@ -827,33 +827,33 @@
 	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.25 );
 }
 
-.pobp-toggle input:checked + .pobp-toggle-slider {
+.bepluspb-toggle input:checked + .bepluspb-toggle-slider {
 	background: #00a32a;
 }
 
-.pobp-toggle input:checked + .pobp-toggle-slider::before {
+.bepluspb-toggle input:checked + .bepluspb-toggle-slider::before {
 	transform: translateX( 22px );
 }
 
-.pobp-toggle input:focus-visible + .pobp-toggle-slider {
+.bepluspb-toggle input:focus-visible + .bepluspb-toggle-slider {
 	outline: 2px solid #2271b1;
 	outline-offset: 2px;
 }
 
 /* Labels beside the toggle */
-.pobp-toggle-labels {
+.bepluspb-toggle-labels {
 	display: flex;
 	flex-direction: column;
 	gap: 1px;
 }
 
-.pobp-toggle-title {
+.bepluspb-toggle-title {
 	font-weight: 600;
 	font-size: 13px;
 	color: #1d2327;
 }
 
-.pobp-toggle-status {
+.bepluspb-toggle-status {
 	display: inline-block;
 	font-size: 10px;
 	font-weight: 700;
@@ -866,37 +866,37 @@
 	align-self: flex-start;
 }
 
-.pobp-toggle-status--on {
+.bepluspb-toggle-status--on {
 	color: #007a1a;
 	background: #ecf8ef;
 	border: 1px solid #b8e0bf;
 }
 
-.pobp-toggle-status--off {
+.bepluspb-toggle-status--off {
 	color: #6c7378;
 	background: #f6f7f7;
 	border: 1px solid #dcdcde;
 }
 
-.pobp-toggle-desc {
+.bepluspb-toggle-desc {
 	margin: 0;
 	font-size: 12px;
 	color: #646970;
 }
 
 /* Warning notice when cache is disabled */
-.pobp-cache-disabled-notice {
+.bepluspb-cache-disabled-notice {
 	margin: 0 0 14px !important;
 	font-size: 13px;
 }
 
 /* Clear button row */
-.pobp-cache-actions-row {
+.bepluspb-cache-actions-row {
 	margin-bottom: 10px;
 }
 
 /* Disabled clear button state */
-.pobp-clear-btn[aria-disabled="true"] {
+.bepluspb-clear-btn[aria-disabled="true"] {
 	opacity: 0.5;
 	cursor: not-allowed;
 	pointer-events: none;
@@ -906,12 +906,12 @@
    AI Optimizer Tab
    ============================================================================= */
 
-.pobp-ai-card {
+.bepluspb-ai-card {
 	max-width: 640px;
 	margin: 24px auto 0;
 }
 
-.pobp-ai-body {
+.bepluspb-ai-body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -919,33 +919,33 @@
 	padding: 40px 48px !important;
 }
 
-.pobp-ai-icon {
+.bepluspb-ai-icon {
 	font-size: 52px;
 	line-height: 1;
 	margin-bottom: 16px;
 }
 
-.pobp-ai-title {
+.bepluspb-ai-title {
 	font-size: 22px;
 	font-weight: 700;
 	color: #1d2327;
 	margin: 0 0 8px;
 }
 
-.pobp-ai-subtitle {
+.bepluspb-ai-subtitle {
 	font-size: 14px;
 	color: #646970;
 	margin: 0;
 }
 
-.pobp-ai-divider {
+.bepluspb-ai-divider {
 	width: 100%;
 	border: none;
 	border-top: 1px solid #f0f0f1;
 	margin: 24px 0;
 }
 
-.pobp-ai-features {
+.bepluspb-ai-features {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -953,7 +953,7 @@
 	text-align: left;
 }
 
-.pobp-ai-features li {
+.bepluspb-ai-features li {
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -965,29 +965,29 @@
 	color: #50575e;
 }
 
-.pobp-ai-features li:last-child {
+.bepluspb-ai-features li:last-child {
 	margin-bottom: 0;
 }
 
-.pobp-ai-lock {
+.bepluspb-ai-lock {
 	font-size: 16px;
 	flex-shrink: 0;
 	opacity: 0.6;
 }
 
-.pobp-ai-notice {
+.bepluspb-ai-notice {
 	width: 100%;
 	text-align: left;
 	margin: 0 !important;
 	box-sizing: border-box;
 }
 
-.pobp-ai-notice p {
+.bepluspb-ai-notice p {
 	margin: 0.5em 0;
 	font-size: 13px;
 }
 
-.pobp-ai-version-badge {
+.bepluspb-ai-version-badge {
 	margin-top: 20px;
 	display: inline-block;
 	background: #f0f0f1;
@@ -1004,7 +1004,7 @@
    Status Tab
    ========================================================================== */
 
-.pobp-status-tab-header {
+.bepluspb-status-tab-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -1013,7 +1013,7 @@
 	border-bottom: 1px solid #e3e5e7;
 }
 
-.pobp-status-tab-header h2 {
+.bepluspb-status-tab-header h2 {
 	margin: 0;
 	font-size: 17px;
 	font-weight: 600;
@@ -1023,11 +1023,11 @@
 
 /* ---- Recommendations panel (Status tab) ---- */
 
-.pobp-recommend-card {
+.bepluspb-recommend-card {
 	margin-bottom: 18px;
 }
 
-.pobp-rec-count {
+.bepluspb-rec-count {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -1045,7 +1045,7 @@
 	letter-spacing: 0;
 }
 
-.pobp-rec-item {
+.bepluspb-rec-item {
 	display: flex;
 	gap: 14px;
 	align-items: flex-start;
@@ -1058,50 +1058,50 @@
 	transition: box-shadow 0.15s ease;
 }
 
-.pobp-rec-item:hover {
+.bepluspb-rec-item:hover {
 	box-shadow: 0 1px 3px rgba( 16, 24, 40, 0.06 );
 }
 
-.pobp-rec-item:last-child {
+.bepluspb-rec-item:last-child {
 	margin-bottom: 0;
 }
 
-.pobp-rec-item--error {
+.bepluspb-rec-item--error {
 	border-color: #f3c5c6;
 	border-left-color: #d63638;
 	background: #fdf2f3;
 }
 
-.pobp-rec-item--warn {
+.bepluspb-rec-item--warn {
 	border-color: #f0dca7;
 	border-left-color: #dba617;
 	background: #fefbf0;
 }
 
-.pobp-rec-item--tip {
+.bepluspb-rec-item--tip {
 	border-color: #c5dcf2;
 	border-left-color: #2271b1;
 	background: #f4f8fc;
 }
 
-.pobp-rec-item--ok {
+.bepluspb-rec-item--ok {
 	border-color: #b8e0bf;
 	border-left-color: #00a32a;
 	background: #f3fbf5;
 }
 
-.pobp-rec-icon {
+.bepluspb-rec-icon {
 	flex: 0 0 auto;
 	font-size: 18px;
 	line-height: 1.4;
 }
 
-.pobp-rec-text {
+.bepluspb-rec-text {
 	flex: 1 1 auto;
 	min-width: 0;
 }
 
-.pobp-rec-text strong {
+.bepluspb-rec-text strong {
 	display: block;
 	font-size: 13px;
 	color: #1d2327;
@@ -1109,14 +1109,14 @@
 	letter-spacing: -0.005em;
 }
 
-.pobp-rec-text p {
+.bepluspb-rec-text p {
 	margin: 0 0 6px;
 	color: #50575e;
 	font-size: 13px;
 	line-height: 1.55;
 }
 
-.pobp-rec-text code {
+.bepluspb-rec-text code {
 	background: rgba( 0, 0, 0, 0.05 );
 	padding: 1px 6px;
 	border-radius: 3px;
@@ -1124,7 +1124,7 @@
 	font-family: Consolas, Monaco, monospace;
 }
 
-.pobp-rec-link {
+.bepluspb-rec-link {
 	display: inline-block;
 	margin-top: 2px;
 	font-size: 12px;
@@ -1133,12 +1133,12 @@
 	text-decoration: none;
 }
 
-.pobp-rec-link:hover {
+.bepluspb-rec-link:hover {
 	text-decoration: underline;
 }
 
 /* Two-column grid — collapses to single column on narrow screens */
-.pobp-status-grid {
+.bepluspb-status-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 18px;
@@ -1146,19 +1146,19 @@
 }
 
 @media ( max-width: 782px ) {
-	.pobp-status-grid {
+	.bepluspb-status-grid {
 		grid-template-columns: 1fr;
 	}
 }
 
 /* Remove default card-body padding when the body IS the status table */
-.pobp-card-body.pobp-status-table {
+.bepluspb-card-body.bepluspb-status-table {
 	padding: 0;
 }
 
 /* ---- Status rows ---- */
 
-.pobp-status-row {
+.bepluspb-status-row {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -1170,22 +1170,22 @@
 	transition: background-color 0.1s ease;
 }
 
-.pobp-status-row:hover {
+.bepluspb-status-row:hover {
 	background: #fafbfc;
 }
 
-.pobp-status-row:last-child {
+.bepluspb-status-row:last-child {
 	border-bottom: none;
 }
 
-.pobp-status-label {
+.bepluspb-status-label {
 	color: #50575e;
 	flex-shrink: 0;
 	min-width: 140px;
 	font-weight: 500;
 }
 
-.pobp-status-value {
+.bepluspb-status-value {
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -1198,35 +1198,35 @@
 
 /* ---- Status badge colour variants ---- */
 
-.pobp-status-ok {
+.bepluspb-status-ok {
 	background: #edfaef;
 	color: #00a32a;
 }
 
-.pobp-status-warn {
+.bepluspb-status-warn {
 	background: #fcf9e8;
 	color: #996800;
 }
 
-.pobp-status-error {
+.bepluspb-status-error {
 	background: #fce8e8;
 	color: #d63638;
 }
 
-.pobp-status-info {
+.bepluspb-status-info {
 	background: #e5f5fa;
 	color: #0072ae;
 }
 
 /* ---- Active Plugins panel ---- */
 
-.pobp-plugins-flagged {
+.bepluspb-plugins-flagged {
 	margin-bottom: 8px;
 	padding-bottom: 8px;
 	border-bottom: 1px solid #f0f0f1;
 }
 
-.pobp-plugin-row {
+.bepluspb-plugin-row {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -1236,37 +1236,37 @@
 	font-size: 13px;
 }
 
-.pobp-plugins-flagged .pobp-plugin-row {
+.bepluspb-plugins-flagged .bepluspb-plugin-row {
 	border-bottom: none;
 	padding: 6px 0 6px 16px;
 }
 
-.pobp-plugin-row:last-child {
+.bepluspb-plugin-row:last-child {
 	border-bottom: none;
 }
 
-.pobp-plugin-row--flagged {
+.bepluspb-plugin-row--flagged {
 	flex-wrap: wrap;
 	row-gap: 4px;
 }
 
-.pobp-plugin-info {
+.bepluspb-plugin-info {
 	display: flex;
 	align-items: baseline;
 	gap: 5px;
 	flex-shrink: 0;
 }
 
-.pobp-plugin-ver {
+.bepluspb-plugin-ver {
 	color: #787c82;
 	font-size: 11px;
 }
 
-.pobp-all-plugins {
+.bepluspb-all-plugins {
 	margin-top: 8px;
 }
 
-.pobp-all-plugins summary {
+.bepluspb-all-plugins summary {
 	cursor: pointer;
 	color: #2271b1;
 	font-size: 13px;
@@ -1275,14 +1275,14 @@
 	list-style: disclosure-closed;
 }
 
-.pobp-all-plugins[open] summary {
+.bepluspb-all-plugins[open] summary {
 	list-style: disclosure-open;
 }
 
-.pobp-all-plugins summary:hover {
+.bepluspb-all-plugins summary:hover {
 	color: #135e96;
 }
 
-.pobp-plugins-all {
+.bepluspb-plugins-all {
 	margin-top: 4px;
 }

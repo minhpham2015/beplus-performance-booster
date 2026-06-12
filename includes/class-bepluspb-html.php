@@ -2,7 +2,7 @@
 /**
  * HTML output optimization: whitespace minification and comment removal.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_HTML
+ * Class BEPLUSPB_HTML
  *
  * Buffers the entire page output (template_redirect → shutdown) and applies
  * one or more of the following transformations before sending to the browser:
@@ -20,23 +20,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  *  3. Strip HTML comments       — removes <!-- ... --> from the markup.
  *  4. Minify HTML whitespace    — collapses redundant spaces/newlines between tags.
  */
-class POBP_HTML {
+class BEPLUSPB_HTML {
 
 	/**
-	 * Whether buffer_start() successfully called ob_start().
+	 * The ob_get_level() value recorded immediately before we call ob_start().
 	 *
-	 * Tracks whether we actually started a buffer so that buffer_end() does
-	 * not accidentally clean a buffer opened by another plugin in cases where
-	 * buffer_start() returned early (REST_REQUEST, JSON response, etc.).
+	 * Stored so buffer_end() can verify it is consuming only the buffer it
+	 * opened. We compare against self::$buffer_level + 1 (the exact level of
+	 * our buffer) rather than just > self::$buffer_level to avoid accidentally
+	 * cleaning a buffer opened by another plugin on top of ours.
 	 *
-	 * @var bool
+	 * @var int|null
 	 */
-	private static $buffer_started = false;
+	private static $buffer_level = null;
 
 	/**
 	 * Register a full-page output buffer when at least one HTML feature is active.
 	 *
-	 * @param array $opts Result of pobp_get_options().
+	 * @param array $opts Result of bepluspb_get_options().
 	 */
 	public static function init( $opts ) {
 		$any_active = $opts['html_minify']
@@ -57,11 +58,11 @@ class POBP_HTML {
 	 *
 	 * Bails early for REST API and JSON requests — wrapping their responses in
 	 * an HTML output buffer would corrupt the JSON payload.
-	 * Sets self::$buffer_started to true only when ob_start() is actually called
-	 * so that buffer_end() knows whether it has a buffer to clean.
+	 * Records ob_get_level() before calling ob_start() so buffer_end() can
+	 * verify it is closing exactly the buffer it opened.
 	 */
 	public static function buffer_start() {
-		self::$buffer_started = false;
+		self::$buffer_level = null;
 
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			return;
@@ -71,31 +72,29 @@ class POBP_HTML {
 			return;
 		}
 
+		self::$buffer_level = ob_get_level();
 		ob_start();
-		self::$buffer_started = true;
 	}
 
 	/**
 	 * Close the buffer, apply transforms in order, and echo the final HTML.
 	 */
 	public static function buffer_end() {
-		// Only close the buffer if we actually opened one in buffer_start().
-		if ( ! self::$buffer_started ) {
-			return;
-		}
-
-		if ( ob_get_level() === 0 ) {
+		// Only close the exact buffer level we opened (level + 1).
+		// Using !== instead of <= prevents us from accidentally closing a buffer
+		// opened by another plugin on top of ours.
+		if ( null === self::$buffer_level || ob_get_level() !== self::$buffer_level + 1 ) {
 			return;
 		}
 
 		$html = ob_get_clean();
-		self::$buffer_started = false;
+		self::$buffer_level = null;
 
 		if ( empty( $html ) ) {
 			return;
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 
 		if ( $opts['html_remove_js_comments'] ) {
 			$html = self::strip_inline_js_comments( $html );
@@ -134,7 +133,7 @@ class POBP_HTML {
 		$html = preg_replace_callback(
 			'/<(script|style)[^>]*>[\s\S]*?<\/\1>/i',
 			function ( $m ) use ( &$placeholders, &$index ) {
-				$token                  = 'POBPHC' . $index . 'END';
+				$token                  = 'BEPLUSPBHC' . $index . 'END';
 				$placeholders[ $token ] = $m[0];
 				$index++;
 				return $token;
@@ -185,7 +184,7 @@ class POBP_HTML {
 	 * @return string JS with comments removed.
 	 */
 	private static function remove_js_comments( $js ) {
-		return POBP_Utils::strip_js_comments( $js, true );
+		return BEPLUSPB_Utils::strip_js_comments( $js, true );
 	}
 
 	// -------------------------------------------------------------------------
@@ -228,7 +227,7 @@ class POBP_HTML {
 		$html = preg_replace_callback(
 			'/<(' . $protect_tags . ')([^>]*)>([\s\S]*?)<\/\1>/i',
 			function ( $m ) use ( &$protected, &$index ) {
-				$token               = 'POBPWS' . $index . 'END';
+				$token               = 'BEPLUSPBWS' . $index . 'END';
 				$protected[ $token ] = $m[0];
 				$index++;
 				return $token;

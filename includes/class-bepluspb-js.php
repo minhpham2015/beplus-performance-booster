@@ -2,7 +2,7 @@
 /**
  * JavaScript optimization: defer attribute and interaction-based delay.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,19 +10,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_JS
+ * Class BEPLUSPB_JS
  *
  * Handles two JS performance strategies:
  *  1. defer  — adds the `defer` attribute to non-critical script tags.
  *  2. delay  — delays all script execution until the first user interaction
  *              with a 5-second fallback.
  */
-class POBP_JS {
+class BEPLUSPB_JS {
 
 	/**
 	 * Register front-end hooks based on current settings.
 	 *
-	 * @param array $opts Result of pobp_get_options().
+	 * @param array $opts Result of bepluspb_get_options().
 	 */
 	public static function init( $opts ) {
 		if ( $opts['js_defer'] ) {
@@ -47,8 +47,8 @@ class POBP_JS {
 	 * Dequeue and deregister JS handles listed in the remove_js_handles option.
 	 */
 	public static function dequeue_js_handles() {
-		$opts    = pobp_get_options();
-		$handles = pobp_parse_exclude_list( $opts['remove_js_handles'] );
+		$opts    = bepluspb_get_options();
+		$handles = bepluspb_parse_exclude_list( $opts['remove_js_handles'] );
 
 		foreach ( $handles as $handle ) {
 			if ( ! empty( $handle ) ) {
@@ -76,8 +76,8 @@ class POBP_JS {
 			return $tag;
 		}
 
-		$opts    = pobp_get_options();
-		$exclude = pobp_parse_exclude_list( $opts['js_exclude'] );
+		$opts    = bepluspb_get_options();
+		$exclude = bepluspb_parse_exclude_list( $opts['js_exclude'] );
 		foreach ( $exclude as $keyword ) {
 			if ( ! empty( $keyword ) && false !== strpos( $src, $keyword ) ) {
 				return $tag;
@@ -113,12 +113,12 @@ class POBP_JS {
 			return $tag;
 		}
 
-		if ( false !== strpos( $tag, 'data-pobp-delay' ) ) {
+		if ( false !== strpos( $tag, 'data-bepluspb-delay' ) ) {
 			return $tag;
 		}
 
-		$opts    = pobp_get_options();
-		$exclude = pobp_parse_exclude_list( $opts['js_exclude'] );
+		$opts    = bepluspb_get_options();
+		$exclude = bepluspb_parse_exclude_list( $opts['js_exclude'] );
 		foreach ( $exclude as $keyword ) {
 			if ( ! empty( $keyword ) && false !== strpos( $src, $keyword ) ) {
 				return $tag;
@@ -138,9 +138,9 @@ class POBP_JS {
 
 				return '<script' . $before . $after
 					. ' type="text/plain"'
-					. ' data-pobp-delay="1"'
-					. ' data-pobp-handle="' . esc_attr( $handle ) . '"'
-					. ' data-pobp-src="' . esc_url( $src ) . '"'
+					. ' data-bepluspb-delay="1"'
+					. ' data-bepluspb-handle="' . esc_attr( $handle ) . '"'
+					. ' data-bepluspb-src="' . esc_url( $src ) . '"'
 					. '>';
 			},
 			$tag
@@ -157,36 +157,36 @@ class POBP_JS {
 	 * Output the inline JS delay snippet into wp_footer (priority 1).
 	 */
 	public static function output_delay_script() {
-		$opts         = pobp_get_options();
-		$exclude      = pobp_parse_exclude_list( $opts['js_exclude'] );
+		$opts         = bepluspb_get_options();
+		$exclude      = bepluspb_parse_exclude_list( $opts['js_exclude'] );
 		$exclude_json = wp_json_encode( array_values( $exclude ) );
 
 		if ( false === $exclude_json ) {
 			$exclude_json = '[]';
 		}
 		?>
-<script id="pobp-delay-js">
+<script id="bepluspb-delay-js">
 (function () {
 	'use strict';
 
-	var _pobpExclude = <?php echo $exclude_json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- value is JSON-encoded via wp_json_encode() ?>;
-	var _pobpLoaded  = false;
+	var _bepluspbExclude = <?php echo $exclude_json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- value is JSON-encoded via wp_json_encode() ?>;
+	var _bepluspbLoaded  = false;
 
-	function _pobpIsExcluded(src) {
-		for (var i = 0; i < _pobpExclude.length; i++) {
-			if (_pobpExclude[i] && src.indexOf(_pobpExclude[i]) !== -1) return true;
+	function _bepluspbIsExcluded(src) {
+		for (var i = 0; i < _bepluspbExclude.length; i++) {
+			if (_bepluspbExclude[i] && src.indexOf(_bepluspbExclude[i]) !== -1) return true;
 		}
 		return false;
 	}
 
-	function _pobpLoadAll() {
-		if (_pobpLoaded) return;
-		_pobpLoaded = true;
+	function _bepluspbLoadAll() {
+		if (_bepluspbLoaded) return;
+		_bepluspbLoaded = true;
 
-		var delayed = document.querySelectorAll('script[data-pobp-delay="1"]');
+		var delayed = document.querySelectorAll('script[data-bepluspb-delay="1"]');
 		delayed.forEach(function (placeholder) {
-			var src = placeholder.getAttribute('data-pobp-src') || '';
-			if (src && !_pobpIsExcluded(src)) {
+			var src = placeholder.getAttribute('data-bepluspb-src') || '';
+			if (src && !_bepluspbIsExcluded(src)) {
 				var s   = document.createElement('script');
 				s.src   = src;
 				s.async = false;
@@ -198,7 +198,7 @@ class POBP_JS {
 		});
 	}
 
-	var _pobpEvents = [
+	var _bepluspbEvents = [
 		'mousemove', 'mousedown',
 		'keydown',
 		'scroll', 'wheel',
@@ -206,18 +206,18 @@ class POBP_JS {
 		'click'
 	];
 
-	function _pobpOnInteraction() {
-		_pobpLoadAll();
-		_pobpEvents.forEach(function (e) {
-			document.removeEventListener(e, _pobpOnInteraction, {passive: true});
+	function _bepluspbOnInteraction() {
+		_bepluspbLoadAll();
+		_bepluspbEvents.forEach(function (e) {
+			document.removeEventListener(e, _bepluspbOnInteraction, {passive: true});
 		});
 	}
 
-	_pobpEvents.forEach(function (e) {
-		document.addEventListener(e, _pobpOnInteraction, {once: true, passive: true});
+	_bepluspbEvents.forEach(function (e) {
+		document.addEventListener(e, _bepluspbOnInteraction, {once: true, passive: true});
 	});
 
-	setTimeout(_pobpLoadAll, 5000);
+	setTimeout(_bepluspbLoadAll, 5000);
 })();
 </script>
 		<?php

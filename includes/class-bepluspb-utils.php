@@ -1,8 +1,8 @@
 <?php
 /**
- * Shared utility helpers for Performance Optimizer by BePlus.
+ * Shared utility helpers for Beplus Performance Booster.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,11 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_Utils
+ * Class BEPLUSPB_Utils
  *
  * Static utility methods shared across the plugin's feature classes.
  */
-class POBP_Utils {
+class BEPLUSPB_Utils {
 
 	// -------------------------------------------------------------------------
 	// JavaScript comment stripping

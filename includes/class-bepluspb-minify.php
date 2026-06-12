@@ -2,7 +2,7 @@
 /**
  * CSS and JS file minification with disk caching.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_Minify
+ * Class BEPLUSPB_Minify
  *
  * Intercepts every enqueued CSS and JS file via WordPress's
  * `style_loader_src` and `script_loader_src` filters, minifies the content
@@ -19,14 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Cache strategy
  * --------------
- * - Cache directory : wp-content/uploads/pobp-cache/
+ * - Cache directory : wp-content/uploads/bepluspb-cache/
  * - Cache filename  : {handle}-{md5_12}.{ext}
  * - Already-minified files (*.min.css, *.min.js) are skipped.
  * - External URLs (CDN, Google Fonts, etc.) are skipped.
  * - If the cache directory is not writable the original URL is returned
  *   unchanged — the feature degrades gracefully.
  */
-class POBP_Minify {
+class BEPLUSPB_Minify {
 
 	/**
 	 * Per-request cache for the "is page cache disabled?" lookup.
@@ -57,14 +57,14 @@ class POBP_Minify {
 	 * Return the public URL of the cache directory, with trailing slash.
 	 *
 	 * Uses wp_upload_dir() to resolve the URL so it is always in sync with
-	 * POBP_CACHE_DIR regardless of WordPress installation layout.
+	 * BEPLUSPB_CACHE_DIR regardless of WordPress installation layout.
 	 *
-	 * @return string e.g. http://example.com/wp-content/uploads/pobp-cache/
+	 * @return string e.g. http://example.com/wp-content/uploads/bepluspb-cache/
 	 */
 	public static function cache_url() {
 		if ( null === self::$cache_url ) {
 			$upload_dir      = wp_upload_dir();
-			self::$cache_url = trailingslashit( $upload_dir['baseurl'] . '/pobp-cache' );
+			self::$cache_url = trailingslashit( $upload_dir['baseurl'] . '/bepluspb-cache' );
 		}
 		return self::$cache_url;
 	}
@@ -76,7 +76,7 @@ class POBP_Minify {
 	/**
 	 * Register style/script src filters when minification is enabled.
 	 *
-	 * @param array $opts Result of pobp_get_options().
+	 * @param array $opts Result of bepluspb_get_options().
 	 */
 	public static function init( $opts ) {
 		if ( empty( $opts['cache_enabled'] ) ) {
@@ -89,7 +89,7 @@ class POBP_Minify {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 			$css_on = $opts['minify_css_files'] ? 'ON' : 'OFF';
 			$js_on  = $opts['minify_js_files']  ? 'ON' : 'OFF';
-			error_log( "[POBP] Minify::init() -- CSS:{$css_on} JS:{$js_on} CACHE_DIR:" . POBP_CACHE_DIR ); // phpcs:ignore
+			error_log( "[BEPLUSPB] Minify::init() -- CSS:{$css_on} JS:{$js_on} CACHE_DIR:" . BEPLUSPB_CACHE_DIR ); // phpcs:ignore
 		}
 
 		if ( $opts['minify_css_files'] ) {
@@ -119,7 +119,7 @@ class POBP_Minify {
 
 		if ( false !== strpos( $src, '.min.css' ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] CSS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] CSS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
 		}
@@ -127,7 +127,7 @@ class POBP_Minify {
 		$file_path = self::url_to_path( $src );
 		if ( ! $file_path ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] CSS skip (url_to_path failed): {$handle} -> {$src}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] CSS skip (url_to_path failed): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
 		}
@@ -136,20 +136,20 @@ class POBP_Minify {
 		$content = @file_get_contents( $file_path );
 		if ( false === $content || '' === trim( $content ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] CSS skip (unreadable): {$handle} -> {$file_path}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] CSS skip (unreadable): {$handle} -> {$file_path}" ); // phpcs:ignore
 			}
 			return $src;
 		}
 
 		$hash       = substr( md5( $content ), 0, 12 );
 		$cache_name = sanitize_file_name( $handle ) . '-' . $hash . '.css';
-		$cache_file = POBP_CACHE_DIR . $cache_name;
+		$cache_file = BEPLUSPB_CACHE_DIR . $cache_name;
 		$cache_url  = self::cache_url() . $cache_name;
 
 		if ( ! file_exists( $cache_file ) ) {
 			if ( ! self::ensure_cache_dir() ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-					error_log( "[POBP] CSS skip (cache dir not writable): " . POBP_CACHE_DIR ); // phpcs:ignore
+					error_log( "[BEPLUSPB] CSS skip (cache dir not writable): " . BEPLUSPB_CACHE_DIR ); // phpcs:ignore
 				}
 				return $src;
 			}
@@ -158,20 +158,20 @@ class POBP_Minify {
 			$written = @file_put_contents( $cache_file, $minified );
 			if ( false === $written ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-					error_log( "[POBP] CSS WRITE FAILED: {$cache_file}" ); // phpcs:ignore
+					error_log( "[BEPLUSPB] CSS WRITE FAILED: {$cache_file}" ); // phpcs:ignore
 				}
 				return $src;
 			}
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] CSS cached: {$handle} -> {$cache_file} ({$written} bytes)" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] CSS cached: {$handle} -> {$cache_file} ({$written} bytes)" ); // phpcs:ignore
 			}
 		} else {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] CSS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] CSS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
 			}
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 		if ( empty( $opts['cache_for_logged_in'] ) && is_user_logged_in() ) {
 			return $src;
 		}
@@ -194,19 +194,19 @@ class POBP_Minify {
 
 		if ( false !== strpos( $src, '.min.js' ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] JS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] JS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
 		}
 
-		if ( in_array( $handle, array( 'pobp-lazy-fallback', 'pobp-delay-js' ), true ) ) {
+		if ( in_array( $handle, array( 'bepluspb-lazy-fallback', 'bepluspb-delay-js' ), true ) ) {
 			return $src;
 		}
 
 		$file_path = self::url_to_path( $src );
 		if ( ! $file_path ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] JS skip (url_to_path failed): {$handle} -> {$src}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] JS skip (url_to_path failed): {$handle} -> {$src}" ); // phpcs:ignore
 			}
 			return $src;
 		}
@@ -215,20 +215,20 @@ class POBP_Minify {
 		$content = @file_get_contents( $file_path );
 		if ( false === $content || '' === trim( $content ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] JS skip (unreadable): {$handle} -> {$file_path}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] JS skip (unreadable): {$handle} -> {$file_path}" ); // phpcs:ignore
 			}
 			return $src;
 		}
 
 		$hash       = substr( md5( $content ), 0, 12 );
 		$cache_name = sanitize_file_name( $handle ) . '-' . $hash . '.js';
-		$cache_file = POBP_CACHE_DIR . $cache_name;
+		$cache_file = BEPLUSPB_CACHE_DIR . $cache_name;
 		$cache_url  = self::cache_url() . $cache_name;
 
 		if ( ! file_exists( $cache_file ) ) {
 			if ( ! self::ensure_cache_dir() ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-					error_log( "[POBP] JS skip (cache dir not writable): " . POBP_CACHE_DIR ); // phpcs:ignore
+					error_log( "[BEPLUSPB] JS skip (cache dir not writable): " . BEPLUSPB_CACHE_DIR ); // phpcs:ignore
 				}
 				return $src;
 			}
@@ -237,20 +237,20 @@ class POBP_Minify {
 			$written = @file_put_contents( $cache_file, $minified );
 			if ( false === $written ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-					error_log( "[POBP] JS WRITE FAILED: {$cache_file}" ); // phpcs:ignore
+					error_log( "[BEPLUSPB] JS WRITE FAILED: {$cache_file}" ); // phpcs:ignore
 				}
 				return $src;
 			}
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] JS cached: {$handle} -> {$cache_file} ({$written} bytes)" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] JS cached: {$handle} -> {$cache_file} ({$written} bytes)" ); // phpcs:ignore
 			}
 		} else {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( "[POBP] JS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
+				error_log( "[BEPLUSPB] JS cache hit: {$handle} -> {$cache_name}" ); // phpcs:ignore
 			}
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 		if ( empty( $opts['cache_for_logged_in'] ) && is_user_logged_in() ) {
 			return $src;
 		}
@@ -273,7 +273,7 @@ class POBP_Minify {
 			return self::$page_cache_disabled;
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 
 		if ( empty( $opts['cache_for_logged_in'] ) && is_user_logged_in() ) {
 			self::$page_cache_disabled = true;
@@ -282,14 +282,14 @@ class POBP_Minify {
 
 		$post_id = get_queried_object_id();
 		if ( $post_id ) {
-			$meta = get_post_meta( $post_id, '_pobp_disable_cache', true );
+			$meta = get_post_meta( $post_id, '_bepluspb_disable_cache', true );
 			if ( ! empty( $meta ) ) {
 				self::$page_cache_disabled = true;
 				return true;
 			}
 		}
 
-		$patterns = pobp_parse_exclude_list( $opts['cache_exclude_pages'] );
+		$patterns = bepluspb_parse_exclude_list( $opts['cache_exclude_pages'] );
 		if ( ! empty( $patterns ) ) {
 			$current_url = isset( $_SERVER['REQUEST_URI'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 				? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) )
@@ -325,18 +325,18 @@ class POBP_Minify {
 			return self::$page_excluded;
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 
 		$post_id = get_queried_object_id();
 		if ( $post_id ) {
-			$meta = get_post_meta( $post_id, '_pobp_disable_cache', true );
+			$meta = get_post_meta( $post_id, '_bepluspb_disable_cache', true );
 			if ( ! empty( $meta ) ) {
 				self::$page_excluded = true;
 				return true;
 			}
 		}
 
-		$patterns = pobp_parse_exclude_list( $opts['cache_exclude_pages'] );
+		$patterns = bepluspb_parse_exclude_list( $opts['cache_exclude_pages'] );
 		if ( ! empty( $patterns ) ) {
 			$current_url = isset( $_SERVER['REQUEST_URI'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 				? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) )
@@ -422,7 +422,7 @@ class POBP_Minify {
 		$css = preg_replace_callback(
 			'/\/\*![\s\S]*?\*\//',
 			function ( $m ) use ( &$license_tokens, &$lic_idx ) {
-				$token                    = 'POBPLIC' . $lic_idx . 'END';
+				$token                    = 'BEPLUSPBLIC' . $lic_idx . 'END';
 				$license_tokens[ $token ] = $m[0];
 				$lic_idx++;
 				return $token;
@@ -468,7 +468,7 @@ class POBP_Minify {
 	 * @return string JS with comments stripped.
 	 */
 	private static function strip_js_comments( $js ) {
-		return POBP_Utils::strip_js_comments( $js, true );
+		return BEPLUSPB_Utils::strip_js_comments( $js, true );
 	}
 
 	// -------------------------------------------------------------------------
@@ -481,7 +481,7 @@ class POBP_Minify {
 	 * @return bool True if the directory exists and is writable after the call.
 	 */
 	public static function ensure_cache_dir() {
-		$dir = POBP_CACHE_DIR;
+		$dir = BEPLUSPB_CACHE_DIR;
 
 		if ( ! file_exists( $dir ) ) {
 			if ( ! wp_mkdir_p( $dir ) ) {
@@ -507,7 +507,7 @@ class POBP_Minify {
 	 * @return int Number of files deleted.
 	 */
 	public static function clear_cache() {
-		$dir = POBP_CACHE_DIR;
+		$dir = BEPLUSPB_CACHE_DIR;
 
 		if ( ! file_exists( $dir ) || ! is_dir( $dir ) ) {
 			return 0;
@@ -527,7 +527,7 @@ class POBP_Minify {
 			}
 		}
 
-		delete_transient( 'pobp_cache_stats' );
+		delete_transient( 'bepluspb_cache_stats' );
 
 		return $count;
 	}
@@ -538,15 +538,15 @@ class POBP_Minify {
 	 * @return array
 	 */
 	public static function get_cache_stats() {
-		$cached = get_transient( 'pobp_cache_stats' );
+		$cached = get_transient( 'bepluspb_cache_stats' );
 		if ( is_array( $cached ) ) {
-			$dir             = POBP_CACHE_DIR;
+			$dir             = BEPLUSPB_CACHE_DIR;
 			$cached['exists']   = file_exists( $dir ) && is_dir( $dir );
 			$cached['writable'] = ( $cached['exists'] && wp_is_writable( $dir ) );
 			return $cached;
 		}
 
-		$dir = POBP_CACHE_DIR;
+		$dir = BEPLUSPB_CACHE_DIR;
 
 		$stats = array(
 			'count'    => 0,
@@ -564,7 +564,7 @@ class POBP_Minify {
 
 		$files = glob( $dir . '*.{css,js}', GLOB_BRACE );
 		if ( ! is_array( $files ) || empty( $files ) ) {
-			set_transient( 'pobp_cache_stats', $stats, 60 );
+			set_transient( 'bepluspb_cache_stats', $stats, 60 );
 			return $stats;
 		}
 
@@ -592,7 +592,7 @@ class POBP_Minify {
 		$stats['oldest'] = ( PHP_INT_MAX !== $oldest ) ? $oldest : false;
 		$stats['newest'] = ( 0 !== $newest ) ? $newest : false;
 
-		set_transient( 'pobp_cache_stats', $stats, 60 );
+		set_transient( 'bepluspb_cache_stats', $stats, 60 );
 
 		return $stats;
 	}

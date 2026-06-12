@@ -3,7 +3,7 @@
  * CSS optimization: non-render-blocking preload swap, inline style minification,
  * font preloading, inline-all-CSS, and per-handle CSS removal.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_CSS
+ * Class BEPLUSPB_CSS
  *
  * Uses a wp_head output buffer to transform stylesheet links and
  * minify inline <style> blocks without touching external .css files.
  */
-class POBP_CSS {
+class BEPLUSPB_CSS {
 
 	/**
 	 * The ob_get_level() value recorded immediately before we call ob_start().
@@ -33,7 +33,7 @@ class POBP_CSS {
 	/**
 	 * Register wp_head output-buffer hooks when at least one CSS feature is enabled.
 	 *
-	 * @param array $opts Result of pobp_get_options().
+	 * @param array $opts Result of bepluspb_get_options().
 	 */
 	public static function init( $opts ) {
 		if ( ! empty( $opts['font_preload'] ) ) {
@@ -58,8 +58,8 @@ class POBP_CSS {
 	 * Output <link rel="preload" as="font"> tags for each URL in font_preload.
 	 */
 	public static function output_font_preload() {
-		$opts  = pobp_get_options();
-		$fonts = pobp_parse_exclude_list( $opts['font_preload'] );
+		$opts  = bepluspb_get_options();
+		$fonts = bepluspb_parse_exclude_list( $opts['font_preload'] );
 
 		foreach ( $fonts as $font_url ) {
 			if ( empty( $font_url ) ) {
@@ -92,8 +92,8 @@ class POBP_CSS {
 	 * Dequeue and deregister CSS handles listed in the css_remove_handles option.
 	 */
 	public static function remove_css_handles() {
-		$opts    = pobp_get_options();
-		$handles = pobp_parse_exclude_list( $opts['css_remove_handles'] );
+		$opts    = bepluspb_get_options();
+		$handles = bepluspb_parse_exclude_list( $opts['css_remove_handles'] );
 
 		foreach ( $handles as $handle ) {
 			if ( ! empty( $handle ) ) {
@@ -137,15 +137,15 @@ class POBP_CSS {
 			return;
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 
 		if ( $opts['css_inline_all'] ) {
-			$exclude = pobp_parse_exclude_list( $opts['css_exclude'] );
+			$exclude = bepluspb_parse_exclude_list( $opts['css_exclude'] );
 			$html    = self::inline_all_css( $html, $exclude );
 		}
 
 		if ( $opts['css_non_blocking'] ) {
-			$exclude = pobp_parse_exclude_list( $opts['css_exclude'] );
+			$exclude = bepluspb_parse_exclude_list( $opts['css_exclude'] );
 			$html    = self::make_non_blocking( $html, $exclude );
 		}
 
@@ -186,7 +186,7 @@ class POBP_CSS {
 				}
 				$href = $href_m[1];
 
-				$path = POBP_Minify::url_to_path( $href );
+				$path = BEPLUSPB_Minify::url_to_path( $href );
 				if ( ! $path ) {
 					return $tag;
 				}
@@ -198,7 +198,7 @@ class POBP_CSS {
 				}
 
 				$content  = self::rewrite_relative_urls( $content, $href );
-				$minified = POBP_Minify::minify_css( $content );
+				$minified = BEPLUSPB_Minify::minify_css( $content );
 
 				$media = '';
 				if ( preg_match( '/\bmedia=[\'"]([^\'"]*)[\'"]/', $tag, $media_m ) ) {
@@ -309,7 +309,7 @@ class POBP_CSS {
 			'/<style([^>]*)>(.*?)<\/style>/is',
 			function ( $matches ) {
 				$attrs = $matches[1];
-				$css   = POBP_Minify::minify_css( $matches[2] );
+				$css   = BEPLUSPB_Minify::minify_css( $matches[2] );
 				return '<style' . $attrs . '>' . $css . '</style>';
 			},
 			$html

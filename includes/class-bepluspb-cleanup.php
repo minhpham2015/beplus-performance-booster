@@ -2,7 +2,7 @@
 /**
  * Asset cleanup: emoji scripts, wp-embed, Gutenberg block CSS, WooCommerce on non-shop pages.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,16 +10,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_Cleanup
+ * Class BEPLUSPB_Cleanup
  *
  * Removes unnecessary WordPress default assets from the front-end.
  */
-class POBP_Cleanup {
+class BEPLUSPB_Cleanup {
 
 	/**
 	 * Register cleanup hooks based on current settings.
 	 *
-	 * @param array $opts Result of pobp_get_options().
+	 * @param array $opts Result of bepluspb_get_options().
 	 */
 	public static function init( $opts ) {
 		if ( $opts['remove_emoji'] ) {

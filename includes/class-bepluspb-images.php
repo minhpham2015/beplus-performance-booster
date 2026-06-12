@@ -2,7 +2,7 @@
 /**
  * Lazy load images: native loading="lazy" attribute + IntersectionObserver fallback.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,12 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_Images
+ * Class BEPLUSPB_Images
  *
  * Applies native lazy loading to images across the page with fine-grained
  * control over which images are affected.
  */
-class POBP_Images {
+class BEPLUSPB_Images {
 
 	/**
 	 * Running count of <img> tags processed in this HTTP request.
@@ -31,7 +31,7 @@ class POBP_Images {
 	/**
 	 * Register all lazy-load hooks when the feature is enabled.
 	 *
-	 * @param array $opts Result of pobp_get_options().
+	 * @param array $opts Result of bepluspb_get_options().
 	 */
 	public static function init( $opts ) {
 		if ( ! $opts['lazy_load'] ) {
@@ -68,7 +68,7 @@ class POBP_Images {
 			return $content;
 		}
 
-		$opts          = pobp_get_options();
+		$opts          = bepluspb_get_options();
 		$skip_n        = absint( $opts['lazy_skip_first_n'] );
 		$exc_classes   = self::parse_comma_list( $opts['lazy_exclude_class'] );
 		$exc_ids       = self::parse_comma_list( $opts['lazy_exclude_id'] );
@@ -79,7 +79,7 @@ class POBP_Images {
 		$content = preg_replace_callback(
 			'/<picture[^>]*>[\s\S]*?<\/picture>/i',
 			function ( $m ) use ( &$picture_blocks, &$pic_idx ) {
-				$token                    = 'POBPPIC' . $pic_idx . 'END';
+				$token                    = 'BEPLUSPBPIC' . $pic_idx . 'END';
 				$picture_blocks[ $token ] = $m[0];
 				$pic_idx++;
 				return $token;
@@ -194,7 +194,7 @@ class POBP_Images {
 	 */
 	public static function output_fallback_script() {
 		?>
-<script id="pobp-lazy-fallback">
+<script id="bepluspb-lazy-fallback">
 (function () {
 	'use strict';
 

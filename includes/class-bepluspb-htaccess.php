@@ -2,7 +2,7 @@
 /**
  * .htaccess browser-cache and compression rules manager.
  *
- * @package Performance_Optimizer_BePlus
+ * @package Beplus_Performance_Booster
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,20 +10,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class POBP_Htaccess
+ * Class BEPLUSPB_Htaccess
  *
  * Safely inserts and removes browser-caching and Gzip/Brotli compression
  * directives from the root .htaccess file using WordPress's built-in
  * insert_with_markers() helper.
  */
-class POBP_Htaccess {
+class BEPLUSPB_Htaccess {
 
 	/**
 	 * Unique marker string used by insert_with_markers() to identify our block.
 	 *
 	 * @var string
 	 */
-	const MARKER = 'Performance Optimizer by BePlus';
+	const MARKER = 'Beplus Performance Booster';
 
 	// -------------------------------------------------------------------------
 	// Public API

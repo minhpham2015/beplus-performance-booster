@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: Performance Optimizer by BePlus
+ * Plugin Name: Beplus Performance Booster
  * Description: Smart caching, JS/CSS minification, lazy loading, and site cleanup in one lightweight plugin — frontend performance without touching the admin.
  * Version: 1.0.0 
  * Author:      Minh BePlus
  * Author URI:  https://beplusthemes.com/
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: performance-optimizer-by-beplus
+ * Text Domain: beplus-performance-booster
  * Domain Path: /languages
  * Requires at least: 5.0
  * Requires PHP: 7.4
@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 // CONSTANTS
 // ---------------------------------------------------------------------------
 
-define( 'POBP_VERSION',     '1.0.0' );
-define( 'POBP_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
-define( 'POBP_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
-define( 'POBP_OPTIONS_KEY', 'pobp_settings' );
+define( 'BEPLUSPB_VERSION',     '1.0.0' );
+define( 'BEPLUSPB_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
+define( 'BEPLUSPB_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
+define( 'BEPLUSPB_OPTIONS_KEY', 'bepluspb_settings' );
 
 /**
  * Filesystem path to the CSS/JS minification cache directory.
@@ -33,17 +33,17 @@ define( 'POBP_OPTIONS_KEY', 'pobp_settings' );
  * Stored inside wp-content/uploads/ so that managed hosting environments
  * (WP Engine, Kinsta, Pantheon, etc.) which only guarantee the uploads
  * directory is writable can still use the cache. The matching public URL is
- * returned by POBP_Minify::cache_url() — computed lazily to guarantee
+ * returned by BEPLUSPB_Minify::cache_url() — computed lazily to guarantee
  * wp_upload_dir() is called after WordPress has fully initialised.
  */
-define( 'POBP_CACHE_DIR', wp_upload_dir()['basedir'] . '/pobp-cache/' );
+define( 'BEPLUSPB_CACHE_DIR', wp_upload_dir()['basedir'] . '/bepluspb-cache/' );
 
 /**
  * Multisite compatibility note:
  *
- * This plugin is not designed for WordPress Multisite. The POBP_OPTIONS_KEY
+ * This plugin is not designed for WordPress Multisite. The BEPLUSPB_OPTIONS_KEY
  * option is stored in the sub-site options table, but the single shared
- * POBP_CACHE_DIR path and a single .htaccess block mean that settings from
+ * BEPLUSPB_CACHE_DIR path and a single .htaccess block mean that settings from
  * one sub-site affect all others. Network activation is therefore NOT
  * recommended. Install this plugin on individual sub-sites only.
  */
@@ -59,7 +59,7 @@ define( 'POBP_CACHE_DIR', wp_upload_dir()['basedir'] . '/pobp-cache/' );
  *
  * @return array
  */
-function pobp_default_options() {
+function bepluspb_default_options() {
 	return array(
 		// --- JavaScript Optimization ---
 		'js_delay'               => 0,
@@ -126,24 +126,24 @@ function pobp_default_options() {
  *
  * @return array
  */
-function pobp_get_options() {
-	global $pobp_options_cache;
-	if ( isset( $pobp_options_cache ) && is_array( $pobp_options_cache ) ) {
-		return $pobp_options_cache;
+function bepluspb_get_options() {
+	global $bepluspb_options_cache;
+	if ( isset( $bepluspb_options_cache ) && is_array( $bepluspb_options_cache ) ) {
+		return $bepluspb_options_cache;
 	}
-	$saved              = get_option( POBP_OPTIONS_KEY, array() );
-	$pobp_options_cache = wp_parse_args( $saved, pobp_default_options() );
-	return $pobp_options_cache;
+	$saved              = get_option( BEPLUSPB_OPTIONS_KEY, array() );
+	$bepluspb_options_cache = wp_parse_args( $saved, bepluspb_default_options() );
+	return $bepluspb_options_cache;
 }
 
 /**
- * Invalidate the pobp_get_options() cache so the next call re-reads from the DB.
+ * Invalidate the bepluspb_get_options() cache so the next call re-reads from the DB.
  */
-function pobp_flush_options_cache() {
-	global $pobp_options_cache;
-	$pobp_options_cache = null;
+function bepluspb_flush_options_cache() {
+	global $bepluspb_options_cache;
+	$bepluspb_options_cache = null;
 }
-add_action( 'update_option_' . POBP_OPTIONS_KEY, 'pobp_flush_options_cache' );
+add_action( 'update_option_' . BEPLUSPB_OPTIONS_KEY, 'bepluspb_flush_options_cache' );
 
 /**
  * Parse a newline-separated textarea value into a trimmed, filtered array.
@@ -151,7 +151,7 @@ add_action( 'update_option_' . POBP_OPTIONS_KEY, 'pobp_flush_options_cache' );
  * @param  string $textarea Raw textarea value from settings.
  * @return array
  */
-function pobp_parse_exclude_list( $textarea ) {
+function bepluspb_parse_exclude_list( $textarea ) {
 	if ( empty( $textarea ) ) {
 		return array();
 	}
@@ -164,15 +164,15 @@ function pobp_parse_exclude_list( $textarea ) {
 // LOAD CLASS FILES
 // ---------------------------------------------------------------------------
 
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-utils.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-admin.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-htaccess.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-cleanup.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-css.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-js.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-images.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-html.php';
-require_once POBP_PLUGIN_DIR . 'includes/class-pobp-minify.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-utils.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-admin.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-htaccess.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-cleanup.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-css.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-js.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-images.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-html.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-minify.php';
 
 // ---------------------------------------------------------------------------
 // ACTIVATION / DEACTIVATION HOOKS
@@ -182,14 +182,14 @@ require_once POBP_PLUGIN_DIR . 'includes/class-pobp-minify.php';
 register_activation_hook(
 	__FILE__,
 	function () {
-		$existing = get_option( POBP_OPTIONS_KEY, null );
+		$existing = get_option( BEPLUSPB_OPTIONS_KEY, null );
 		if ( null === $existing ) {
-			add_option( POBP_OPTIONS_KEY, pobp_default_options() );
+			add_option( BEPLUSPB_OPTIONS_KEY, bepluspb_default_options() );
 		}
 
-		$opts = pobp_get_options();
+		$opts = bepluspb_get_options();
 		if ( $opts['cache_headers'] ) {
-			POBP_Htaccess::add_rules();
+			BEPLUSPB_Htaccess::add_rules();
 		}
 	}
 );
@@ -197,7 +197,7 @@ register_activation_hook(
 register_deactivation_hook(
 	__FILE__,
 	function () {
-		POBP_Htaccess::remove_rules();
+		BEPLUSPB_Htaccess::remove_rules();
 	}
 );
 
@@ -205,7 +205,7 @@ register_deactivation_hook(
 // BOOT
 // ---------------------------------------------------------------------------
 
-add_action( 'plugins_loaded', array( 'POBP_Admin', 'init' ) );
+add_action( 'plugins_loaded', array( 'BEPLUSPB_Admin', 'init' ) );
 
 /**
  * Auto-clear the CSS/JS cache whenever a plugin or theme update completes.
@@ -218,7 +218,7 @@ add_action(
 	function ( $upgrader, $hook_extra ) {
 		$type = isset( $hook_extra['type'] ) ? $hook_extra['type'] : '';
 		if ( in_array( $type, array( 'plugin', 'theme' ), true ) ) {
-			POBP_Minify::clear_cache();
+			BEPLUSPB_Minify::clear_cache();
 		}
 	},
 	10,
@@ -228,43 +228,43 @@ add_action(
 /**
  * Early cleanup: remove oEmbed REST route and discovery links.
  */
-add_action( 'plugins_loaded', 'pobp_early_embed_cleanup', 20 );
+add_action( 'plugins_loaded', 'bepluspb_early_embed_cleanup', 20 );
 
-function pobp_early_embed_cleanup() {
-	$opts = pobp_get_options();
+function bepluspb_early_embed_cleanup() {
+	$opts = bepluspb_get_options();
 	if ( ! empty( $opts['remove_embed'] ) ) {
-		POBP_Cleanup::remove_embed_early();
+		BEPLUSPB_Cleanup::remove_embed_early();
 	}
 }
 
 /**
  * Initialise all front-end modules on the 'wp' action.
  */
-add_action( 'wp', 'pobp_boot_frontend' );
+add_action( 'wp', 'bepluspb_boot_frontend' );
 
 /**
  * Safety-gate for front-end optimisations.
  */
-function pobp_boot_frontend() {
+function bepluspb_boot_frontend() {
 	if ( is_admin() ) {
 		return;
 	}
 
-	$opts = pobp_get_options();
+	$opts = bepluspb_get_options();
 
 	if ( empty( $opts['cache_enabled'] ) ) {
 		return;
 	}
 
-	POBP_Minify::init( $opts );
+	BEPLUSPB_Minify::init( $opts );
 
 	if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
-	POBP_Cleanup::init( $opts );
-	POBP_CSS::init( $opts );
-	POBP_JS::init( $opts );
-	POBP_Images::init( $opts );
-	POBP_HTML::init( $opts );
+	BEPLUSPB_Cleanup::init( $opts );
+	BEPLUSPB_CSS::init( $opts );
+	BEPLUSPB_JS::init( $opts );
+	BEPLUSPB_Images::init( $opts );
+	BEPLUSPB_HTML::init( $opts );
 }
