@@ -406,7 +406,7 @@ class BEPLUSPB_Admin {
 				<span class="bepluspb-stat-icon dashicons dashicons-clock"></span>
 				<div class="bepluspb-stat-body">
 					<span class="bepluspb-stat-value bepluspb-stat-value--sm">
-						<?php echo $stats['newest'] ? esc_html( wp_date( get_option( 'date_format' ), $stats['newest'] ) ) : '—'; ?>
+						<?php echo $stats['newest'] ? esc_html( date_i18n( get_option( 'date_format' ), $stats['newest'] ) ) : '—'; ?>
 					</span>
 					<span class="bepluspb-stat-label"><?php esc_html_e( 'Last Cached', 'beplus-performance-booster' ); ?></span>
 				</div>
