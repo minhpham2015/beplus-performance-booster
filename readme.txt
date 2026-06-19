@@ -1,5 +1,5 @@
 === Beplus Performance Booster ===
-Contributors: minhphamit
+Contributors: bearsthemes, minhphamit
 Tags: performance, lazy load, cache, minify, optimization
 Requires at least: 5.0
 Tested up to: 7.0
