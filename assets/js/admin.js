@@ -80,6 +80,24 @@
 	}
 
 	// -------------------------------------------------------------------------
+	// Delay JS sub-options visibility
+	// -------------------------------------------------------------------------
+
+	var jsDelayCheckbox  = document.getElementById('bepluspb_js_delay');
+	var delayModeRow     = document.getElementById('bepluspb-delay-mode-row');
+	var rdelayRow        = document.getElementById('bepluspb-rdelay-row');
+
+	function toggleDelaySubRows() {
+		var show = jsDelayCheckbox && jsDelayCheckbox.checked;
+		if (delayModeRow) { delayModeRow.style.display = show ? '' : 'none'; }
+		if (rdelayRow)    { rdelayRow.style.display    = show ? '' : 'none'; }
+	}
+
+	if (jsDelayCheckbox) {
+		jsDelayCheckbox.addEventListener('change', toggleDelaySubRows);
+	}
+
+	// -------------------------------------------------------------------------
 	// Master cache toggle — AJAX save
 	// -------------------------------------------------------------------------
 

@@ -259,6 +259,7 @@ function bepluspb_boot_frontend() {
 	}
 
 	BEPLUSPB_Minify::init( $opts );
+	BEPLUSPB_JS::init( $opts );
 
 	if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
 		return;
@@ -266,7 +267,6 @@ function bepluspb_boot_frontend() {
 
 	BEPLUSPB_Cleanup::init( $opts );
 	BEPLUSPB_CSS::init( $opts );
-	BEPLUSPB_JS::init( $opts );
 	BEPLUSPB_Images::init( $opts );
 	BEPLUSPB_HTML::init( $opts );
 }

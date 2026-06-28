@@ -652,13 +652,13 @@ class BEPLUSPB_Admin {
 							<input type="checkbox" id="bepluspb_js_delay"
 								name="<?php echo esc_attr( BEPLUSPB_OPTIONS_KEY ); ?>[js_delay]" value="1"
 								<?php checked( $opts['js_delay'], 1 ); ?>>
-							<span class="bepluspb-check-text"><?php esc_html_e( 'Delay all non-excluded scripts until the first user interaction (mousemove, click, scroll, keydown, touch). Falls back automatically after 5 seconds.', 'beplus-performance-booster' ); ?></span>
+							<span class="bepluspb-check-text"><?php esc_html_e( 'Delay all non-excluded scripts until the first user interaction (mousemove, click, scroll, keydown, touch) or JS Release Delay (ms)', 'beplus-performance-booster' ); ?></span>
 						</label>
 					</div>
 				</div>
 
 				<!-- Delay Mode -->
-				<div class="bepluspb-form-row" id="bepluspb-delay-mode-row">
+				<div class="bepluspb-form-row" id="bepluspb-delay-mode-row" style="<?php echo $opts['js_delay'] ? '' : 'display:none;'; ?>">
 					<div class="bepluspb-form-row-label">
 						<label><?php esc_html_e( 'Delay Mode', 'beplus-performance-booster' ); ?></label>
 						<p class="bepluspb-row-desc"><?php esc_html_e( 'Only applies when Delay JS is enabled.', 'beplus-performance-booster' ); ?></p>
@@ -693,10 +693,10 @@ class BEPLUSPB_Admin {
 					</div>
 				</div>
 
-				<!-- Image-Load Wait (rdelay) — Advanced mode only -->
-				<div class="bepluspb-form-row" id="bepluspb-rdelay-row">
+				<!-- JS Release Delay (rdelay) — Advanced mode only -->
+				<div class="bepluspb-form-row" id="bepluspb-rdelay-row" style="<?php echo $opts['js_delay'] ? '' : 'display:none;'; ?>">
 					<div class="bepluspb-form-row-label">
-						<label for="bepluspb_js_delay_rdelay"><?php esc_html_e( 'Image-Load Wait (ms)', 'beplus-performance-booster' ); ?></label>
+						<label for="bepluspb_js_delay_rdelay"><?php esc_html_e( 'JS Release Delay (ms)', 'beplus-performance-booster' ); ?></label>
 						<p class="bepluspb-row-desc"><?php esc_html_e( 'Advanced mode only.', 'beplus-performance-booster' ); ?></p>
 					</div>
 					<div class="bepluspb-form-row-field">
@@ -705,7 +705,7 @@ class BEPLUSPB_Admin {
 							value="<?php echo esc_attr( isset( $opts['js_delay_rdelay'] ) ? $opts['js_delay_rdelay'] : 0 ); ?>"
 							min="0" max="10000" step="100" class="small-text">
 						<p class="description">
-							<?php esc_html_e( 'Additional milliseconds to wait after above-fold images finish loading before unblocking scripts. 0 = start unblocking on DOMContentLoaded (no image wait).', 'beplus-performance-booster' ); ?>
+							<?php esc_html_e( 'Fallback timer (ms) that releases delayed scripts after above-fold images and fonts finish loading, without requiring user interaction. 0 = disabled — only user interaction releases delayed scripts.', 'beplus-performance-booster' ); ?>
 						</p>
 					</div>
 				</div>
