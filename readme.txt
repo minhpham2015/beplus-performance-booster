@@ -3,7 +3,7 @@ Contributors: bearsthemes, minhphamit
 Tags: performance, lazy load, cache, minify, optimization
 Requires at least: 5.0
 Tested up to: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,8 @@ accidentally break the admin panel or your own editing experience.
 
 **Feature summary:**
 
-* JavaScript delay and defer with per-script exclude list
+* JavaScript delay (Simple / Advanced mode) and defer with per-script exclude list
+* JS Release Delay: image-load fallback timer for releasing delayed scripts
 * CSS file and inline minification with cache
 * Non-render-blocking stylesheet loading
 * Lazy load images with IntersectionObserver fallback
@@ -42,9 +43,21 @@ Navigate to **Settings > Beplus Performance Booster** to configure the plugin.
 Default: off
 
 Delays all non-excluded front-end scripts until the first user interaction (click,
-scroll, keydown, or touchstart). After 5 seconds without interaction the scripts
-load automatically as a safety fallback. Best for scripts that are not needed until
-the user actually engages with the page (e.g. chat widgets, marketing pixels).
+scroll, keydown, or touchstart), or until the JS Release Delay timer fires —
+whichever comes first.
+
+*Delay Mode* — choose how scripts are intercepted:
+
+* **Simple** — converts WordPress-enqueued external scripts to `text/plain`
+  placeholders and replays them on first interaction. Low risk, no event-queue replay.
+* **Advanced** — output-buffer approach that intercepts every `<script>` tag on the
+  page (including hardcoded theme scripts and dynamically injected ones) via
+  MutationObserver. Replays `DOMContentLoaded` and `window.load` event queues in
+  correct order. Test thoroughly before enabling on production.
+
+*JS Release Delay (ms)* — fallback timer (ms) that releases delayed scripts after
+above-fold images and fonts finish loading, without requiring user interaction.
+`0` = disabled — only user interaction releases delayed scripts.
 
 **Defer Non-Critical JS**
 Default: off
@@ -312,9 +325,16 @@ injected `.htaccess` rules, every file in `uploads/bepluspb-cache/`, and the
 
 == Changelog ==
 
+= 1.0.1 =
+* Added Delay Mode option (Simple / Advanced) for JS delay.
+* Added JS Release Delay (ms): fallback timer that releases delayed scripts after above-fold images and fonts load; 0 = user interaction only.
+* JS delay now applies to all users including logged-in administrators.
+* Renamed "Image-Load Wait" setting to "JS Release Delay (ms)" for accuracy.
+
 = 1.0.0 =
 * Initial release.
-* JavaScript delay and defer with per-script exclude list.
+* JavaScript delay (Simple / Advanced mode) and defer with per-script exclude list.
+* JS Release Delay: fallback timer that releases delayed scripts after above-fold images and fonts load; `0` = user interaction only.
 * CSS inline minification and non-render-blocking preload swap.
 * CSS file minification with content-hash disk cache.
 * JS file minification with safe comment stripper (respects string literals, ASI).
@@ -329,6 +349,9 @@ injected `.htaccess` rules, every file in `uploads/bepluspb-cache/`, and the
 * Uninstall script cleans up all options, rules, cache files, and post meta.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+New JS delay options: Delay Mode (Simple/Advanced) and JS Release Delay (ms). No upgrade steps required.
 
 = 1.0.0 =
 Initial release — no upgrade steps required.
