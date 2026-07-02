@@ -24,6 +24,7 @@ accidentally break the admin panel or your own editing experience.
 * JavaScript delay (Simple / Advanced mode) and defer with per-script exclude list
 * JS Release Delay: image-load fallback timer for releasing delayed scripts
 * CSS file and inline minification with cache
+* Remove Unused CSS: per-URL cached stripping of unused CSS rules
 * Non-render-blocking stylesheet loading
 * Lazy load images with IntersectionObserver fallback
 * Remove emoji, wp-embed, Gutenberg CSS, WooCommerce assets on non-shop pages
@@ -114,7 +115,36 @@ URL keyword to the Exclude CSS Files list.
 Default: empty
 
 One URL keyword per line. Stylesheets whose `href` contains a listed keyword are
-left completely untouched by both the Non-Blocking and Minify CSS Files features.
+left completely untouched by the Non-Blocking, Inline All CSS, Minify CSS Files,
+and Remove Unused CSS features.
+
+**Remove Unused CSS**
+Default: off
+Requires: wp-content/uploads/bepluspb-cache/ directory to be writable
+
+Scans the fully rendered page and strips CSS rules whose selectors never appear
+in that page's HTML, caching the trimmed stylesheet per URL. This is a static
+text match (not a real browser render): the first visit to a URL generates the
+trimmed file in the background while still serving the original CSS; later
+visits to the same URL load the trimmed version. Classes added dynamically by
+JavaScript after page load will not be detected as "used" — add them to the
+Unused CSS Selector Safelist below.
+
+**Unused CSS Selector Safelist**
+Default: empty
+
+One selector or keyword per line (trailing `*` wildcard supported). Rules
+matching these are always kept regardless of whether they were detected as
+used. Use this for JS-toggled classes (menus, modals, tabs, accordions) and
+plugin/page-builder dynamic states.
+
+Example: `.active`, `.is-open*`, `.woocommerce-*`
+
+**Unused CSS URL Excludes**
+Default: empty
+
+One URL keyword per line. Matching pages never have unused CSS removed.
+Recommended for checkout/cart and other heavily dynamic pages.
 
 ---
 

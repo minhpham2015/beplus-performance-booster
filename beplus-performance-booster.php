@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Beplus Performance Booster
  * Description: Smart caching, JS/CSS minification, lazy loading, and site cleanup in one lightweight plugin — frontend performance without touching the admin.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author:      Minh BePlus
  * Author URI:  https://beplusthemes.com/
  * License:     GPLv2 or later
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // CONSTANTS
 // ---------------------------------------------------------------------------
 
-define( 'BEPLUSPB_VERSION',     '1.0.1' );
+define( 'BEPLUSPB_VERSION',     '1.0.2' );
 define( 'BEPLUSPB_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'BEPLUSPB_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
 define( 'BEPLUSPB_OPTIONS_KEY', 'bepluspb_settings' );
@@ -72,6 +72,11 @@ function bepluspb_default_options() {
 		'css_minify'             => 0,
 		'css_non_blocking'       => 0,
 		'css_exclude'            => '',
+
+		// --- Remove Unused CSS ---
+		'css_remove_unused'      => 0,   // Strip CSS rules unused on the current page
+		'css_unused_safelist'    => '',  // Selectors to always keep (newline-separated, '*' wildcard supported)
+		'css_unused_exclude'     => '',  // URL keywords to skip (newline-separated)
 
 		// --- Lazy Load Images ---
 		'lazy_load'              => 0,
@@ -175,6 +180,7 @@ require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-js.php';
 require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-images.php';
 require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-html.php';
 require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-minify.php';
+require_once BEPLUSPB_PLUGIN_DIR . 'includes/class-bepluspb-ucss.php';
 
 // ---------------------------------------------------------------------------
 // ACTIVATION / DEACTIVATION HOOKS
@@ -267,6 +273,7 @@ function bepluspb_boot_frontend() {
 
 	BEPLUSPB_Cleanup::init( $opts );
 	BEPLUSPB_CSS::init( $opts );
+	BEPLUSPB_UCSS::init( $opts );
 	BEPLUSPB_Images::init( $opts );
 	BEPLUSPB_HTML::init( $opts );
 }

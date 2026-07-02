@@ -172,7 +172,7 @@ class BEPLUSPB_Admin {
 			// JS
 			'js_delay', 'js_defer',
 			// CSS
-			'css_minify', 'css_non_blocking', 'css_inline_all',
+			'css_minify', 'css_non_blocking', 'css_inline_all', 'css_remove_unused',
 			// Lazy load
 			'lazy_load',
 			// Cleanup
@@ -210,6 +210,14 @@ class BEPLUSPB_Admin {
 
 		$sanitized['css_remove_handles'] = isset( $input['css_remove_handles'] )
 			? sanitize_textarea_field( $input['css_remove_handles'] )
+			: '';
+
+		$sanitized['css_unused_safelist'] = isset( $input['css_unused_safelist'] )
+			? sanitize_textarea_field( $input['css_unused_safelist'] )
+			: '';
+
+		$sanitized['css_unused_exclude'] = isset( $input['css_unused_exclude'] )
+			? sanitize_textarea_field( $input['css_unused_exclude'] )
 			: '';
 
 		$sanitized['remove_js_handles'] = isset( $input['remove_js_handles'] )
@@ -835,7 +843,7 @@ class BEPLUSPB_Admin {
 							name="<?php echo esc_attr( BEPLUSPB_OPTIONS_KEY ); ?>[css_exclude]"
 							rows="4" class="large-text code"><?php echo esc_textarea( $opts['css_exclude'] ); ?></textarea>
 						<p class="description">
-							<?php esc_html_e( 'Stylesheets whose href contains any of these strings are excluded from Non-Blocking, Inline All, and Minify CSS Files.', 'beplus-performance-booster' ); ?>
+							<?php esc_html_e( 'Stylesheets whose href contains any of these strings are excluded from Non-Blocking, Inline All, Minify CSS Files, and Remove Unused CSS.', 'beplus-performance-booster' ); ?>
 						</p>
 					</div>
 				</div>
@@ -853,6 +861,59 @@ class BEPLUSPB_Admin {
 						<p class="description">
 							<?php esc_html_e( 'These stylesheets will be completely dequeued on every front-end page.', 'beplus-performance-booster' ); ?><br>
 							<?php esc_html_e( 'Example: wp-block-library, dashicons, woocommerce-layout', 'beplus-performance-booster' ); ?>
+						</p>
+					</div>
+				</div>
+
+				<!-- Remove Unused CSS -->
+				<div class="bepluspb-form-row">
+					<div class="bepluspb-form-row-label">
+						<label for="bepluspb_css_remove_unused"><?php esc_html_e( 'Remove Unused CSS', 'beplus-performance-booster' ); ?></label>
+					</div>
+					<div class="bepluspb-form-row-field">
+						<label class="bepluspb-check-label">
+							<input type="checkbox" id="bepluspb_css_remove_unused"
+								name="<?php echo esc_attr( BEPLUSPB_OPTIONS_KEY ); ?>[css_remove_unused]" value="1"
+								<?php checked( $opts['css_remove_unused'], 1 ); ?>
+								<?php disabled( ! $cache_dir_writable, true ); ?>>
+							<span class="bepluspb-check-text"><?php esc_html_e( 'Scan the rendered page and strip CSS rules whose selectors do not appear anywhere on that page, cached per URL. This is a static text match, not a real browser render — classes added dynamically by JavaScript are not detected, so use the safelist below for those.', 'beplus-performance-booster' ); ?></span>
+						</label>
+						<?php if ( ! $cache_dir_writable ) : ?>
+						<p class="bepluspb-warn"><?php esc_html_e( 'Cache directory is not writable — unused CSS removal disabled.', 'beplus-performance-booster' ); ?></p>
+						<?php endif; ?>
+						<p class="description"><?php esc_html_e( 'The first visit to each URL generates the trimmed stylesheet in the background; that page continues to load the original CSS while it does. Subsequent visits to the same URL serve the trimmed version.', 'beplus-performance-booster' ); ?></p>
+					</div>
+				</div>
+
+				<!-- Unused CSS Selector Safelist -->
+				<div class="bepluspb-form-row">
+					<div class="bepluspb-form-row-label">
+						<label for="bepluspb_css_unused_safelist"><?php esc_html_e( 'Unused CSS Selector Safelist', 'beplus-performance-booster' ); ?></label>
+						<p class="bepluspb-row-desc"><?php esc_html_e( 'One selector or keyword per line. Trailing * wildcard supported.', 'beplus-performance-booster' ); ?></p>
+					</div>
+					<div class="bepluspb-form-row-field">
+						<textarea id="bepluspb_css_unused_safelist"
+							name="<?php echo esc_attr( BEPLUSPB_OPTIONS_KEY ); ?>[css_unused_safelist]"
+							rows="4" class="large-text code"><?php echo esc_textarea( $opts['css_unused_safelist'] ); ?></textarea>
+						<p class="description">
+							<?php esc_html_e( 'Rules matching these selectors are always kept, even if not detected as used. Use this for classes toggled by JavaScript (menus, modals, tabs, accordions, sliders) and page-builder/WooCommerce dynamic states.', 'beplus-performance-booster' ); ?><br>
+							<?php esc_html_e( 'Example: .active, .is-open*, .woocommerce-*', 'beplus-performance-booster' ); ?>
+						</p>
+					</div>
+				</div>
+
+				<!-- Unused CSS URL Excludes -->
+				<div class="bepluspb-form-row">
+					<div class="bepluspb-form-row-label">
+						<label for="bepluspb_css_unused_exclude"><?php esc_html_e( 'Unused CSS URL Excludes', 'beplus-performance-booster' ); ?></label>
+						<p class="bepluspb-row-desc"><?php esc_html_e( 'One URL keyword per line.', 'beplus-performance-booster' ); ?></p>
+					</div>
+					<div class="bepluspb-form-row-field">
+						<textarea id="bepluspb_css_unused_exclude"
+							name="<?php echo esc_attr( BEPLUSPB_OPTIONS_KEY ); ?>[css_unused_exclude]"
+							rows="4" class="large-text code"><?php echo esc_textarea( $opts['css_unused_exclude'] ); ?></textarea>
+						<p class="description">
+							<?php esc_html_e( 'Pages whose URL contains any of these strings will never have unused CSS removed. Recommended for checkout/cart pages and any page with heavy dynamic/JS-driven markup.', 'beplus-performance-booster' ); ?>
 						</p>
 					</div>
 				</div>

@@ -117,6 +117,13 @@ class BEPLUSPB_Minify {
 			return $src;
 		}
 
+		if ( self::is_css_file_excluded( $src ) ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+				error_log( "[BEPLUSPB] CSS skip (excluded): {$handle} -> {$src}" ); // phpcs:ignore
+			}
+			return $src;
+		}
+
 		if ( false !== strpos( $src, '.min.css' ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				error_log( "[BEPLUSPB] CSS skip (pre-minified): {$handle} -> {$src}" ); // phpcs:ignore
@@ -358,6 +365,27 @@ class BEPLUSPB_Minify {
 		}
 
 		self::$page_excluded = false;
+		return false;
+	}
+
+	/**
+	 * Whether $src matches a keyword in the css_exclude ("Exclude CSS Files")
+	 * setting. Shared with BEPLUSPB_UCSS so the same list protects a
+	 * stylesheet from Minify CSS Files and Remove Unused CSS alike.
+	 *
+	 * @param  string $src Stylesheet URL.
+	 * @return bool
+	 */
+	public static function is_css_file_excluded( $src ) {
+		$opts     = bepluspb_get_options();
+		$patterns = bepluspb_parse_exclude_list( $opts['css_exclude'] );
+
+		foreach ( $patterns as $pattern ) {
+			if ( '' !== $pattern && false !== strpos( $src, $pattern ) ) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
